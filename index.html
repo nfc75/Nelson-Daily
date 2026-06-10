@@ -6,7 +6,11 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0E1117">
-<title>Nelson Protocol</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="app-version" content="30">
+<title>Nelson Protocol v30</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -1226,7 +1230,7 @@ input[type=range].sym-inline::-webkit-slider-thumb{
           <div class="set-row">
             <div class="set-row-info">
               <p class="set-row-label">Nelson Protocol</p>
-              <p class="set-row-sub">Version 2.0 · Built June 2026</p>
+              <p class="set-row-sub">Version 30 · Built June 2026</p>
             </div>
           </div>
           <div class="set-row">
@@ -3782,6 +3786,70 @@ function renderProgContent(){
         return items.join('');
       }).join('')}
     </div>`;
+  }
+  // Gym sessions for the week
+  const workouts=DB.get('workouts')||[];
+  const gymSessions=dates.map(d=>{
+    const sessionDone=DB.get('sessionDone:'+d);
+    if(!sessionDone||!sessionDone.workoutId) return null;
+    const wid=sessionDone.workoutId;
+    const GYM_IDS=['w1','w2','w6'];
+    if(!GYM_IDS.includes(wid)) return null;
+    const w=workouts.find(x=>x.id===wid);
+    const hevyData=DB.get(`hevy:${d}:${wid}`);
+    const sessNotes=DB.get(`sessnotes:${d}:${wid}`)||'';
+    return{date:d,w,hevyData,sessNotes};
+  }).filter(Boolean);
+
+  if(gymSessions.length){
+    html+=`<div class="slabel">Gym Sessions</div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      ${gymSessions.map(s=>`
+        <div class="sym-summary" style="padding:10px 14px">
+          <p style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px">${s.w?s.w.icon+' '+s.w.name:'Session'} — ${new Date(s.date).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'})}</p>
+          ${s.sessNotes?`<p style="font-size:11px;color:var(--muted);font-style:italic;margin-bottom:6px">${s.sessNotes}</p>`:''}
+          ${s.hevyData?`
+            <p style="font-size:11px;font-family:var(--fm);text-transform:uppercase;letter-spacing:.08em;color:var(--t-green);margin-bottom:6px">✓ Hevy synced · ${(s.hevyData.exercises||[]).length} exercises</p>
+            ${(s.hevyData.exercises||[]).map(ex=>`
+              <div style="margin-bottom:8px">
+                <p style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px">${ex.title}</p>
+                ${(ex.sets||[]).map((set,i)=>`<span style="font-size:11px;color:var(--muted);margin-right:12px">S${i+1}: ${set.weight_kg?set.weight_kg+'kg':'BW'}×${set.reps||'—'}${set.rpe?' @${set.rpe}':''}</span>`).join('')}
+              </div>`).join('')}
+          `:`<p style="font-size:11px;color:var(--muted);font-style:italic">Session done — no Hevy data</p>`}
+        </div>`).join('')}
+    </div>`;
+  }
+
+  // GTG for the week
+  const gtgItems=DB.get('gtgItems')||[];
+  const activeGtg=gtgItems.filter(g=>g.active);
+  if(activeGtg.length){
+    const gtgRows=activeGtg.map(g=>{
+      const weekTotal=dates.reduce((sum,d)=>{
+        const counts=DB.get('gtg:'+d)||{};
+        return sum+(counts[g.id]||0);
+      },0);
+      const target=(g.targetPasses||0)*7;
+      const pct=target>0?Math.min(100,Math.round(weekTotal/target*100)):0;
+      const col=pct>=80?'var(--t-green)':pct>=50?'var(--t-yellow)':'var(--t-red)';
+      return{g,weekTotal,target,pct,col};
+    }).filter(r=>r.weekTotal>0||r.target>0);
+
+    if(gtgRows.length){
+      html+=`<div class="slabel">GTG — Week ${progWeek}</div>
+      <div class="sym-summary" style="padding:10px 14px">
+        ${gtgRows.map(r=>`
+          <div style="margin-bottom:8px">
+            <div class="sym-sum-row">
+              <span class="sym-sum-lbl">${r.g.name}</span>
+              <span style="font-size:13px;font-weight:600;color:${r.col}">${r.weekTotal}<span style="font-size:11px;color:var(--muted);font-weight:400"> / ${r.target} passes</span></span>
+            </div>
+            <div style="height:4px;background:var(--border);border-radius:2px;margin-top:4px">
+              <div style="height:100%;width:${r.pct}%;background:${r.col};border-radius:2px;transition:width .4s"></div>
+            </div>
+          </div>`).join('')}
+      </div>`;
+    }
   }
   html+=`<div class="slabel">Training Completion</div>
   <div class="heatmap">
