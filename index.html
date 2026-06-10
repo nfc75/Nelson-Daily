@@ -831,6 +831,24 @@ input[type=range].sym-inline::-webkit-slider-thumb{
 }
 .reorder-toggle:active{opacity:.7}
 .reorder-toggle.active{color:var(--accent)}
+.weigh-block{
+  background:rgba(232,168,56,.05);border:1px solid rgba(232,168,56,.2);
+  border-radius:var(--r);margin:0;
+}
+.weigh-head{
+  display:flex;align-items:center;gap:12px;padding:12px 14px;cursor:pointer;
+}
+.weigh-ico{width:32px;height:32px;border-radius:8px;background:rgba(232,168,56,.15);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.weigh-info{flex:1}
+.weigh-name{font-size:13px;font-weight:600;color:var(--text)}
+.weigh-meta{font-size:12px;color:var(--muted);margin-top:2px}
+.weigh-body{display:none;padding:12px 14px;border-top:1px solid var(--border)}
+.weigh-block.open .weigh-body{display:block}
+.weigh-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.weigh-feel-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.weigh-feel-lbl{font-size:12px;color:var(--muted);flex-shrink:0;width:100px}
+.ai-review-content{font-size:13px;color:var(--text);line-height:1.65;}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 .lib-group-header{
   display:flex;align-items:center;gap:10px;
   padding:10px 16px 6px;
@@ -1484,18 +1502,18 @@ const SEED={
     {id:'g6',name:'Hip Flexor Lunge',targetPasses:3,instructions:'Rear knee down. Posterior pelvic tilt. 30 seconds per side. Daily pelvic correction.',video1:'https://www.youtube.com/results?search_query=kneeling+hip+flexor+stretch',video2:'',active:true},
   ],
   workouts:[
-    {id:'w1',name:'Upper Strength',icon:'🏋️',rpe:'7–8',duration:'60–65 min',venue:'Gym',
+    {id:'w1',name:'Upper Strength',icon:'🏋️',rpe:'7–8',duration:'45–50 min',venue:'Gym',
      keyLifts:'Chin-Up · Dip · DB Press · Row',
-     description:'Superset A: Chin-Up/Dip · Superset B: DB Press/Row · Superset C: Arms · Hanging Core',
+     description:'Superset A: Chin-Up/Dip · Superset B: DB Press/Row · Superset C: Arms · Face Pull',
      hevyLink:'',active:true,
      exercises:[
-       {name:'A1 — Weighted Chin-Up',type:'ss',sets:'5',reps:'3',load:'BW +0kg',rest:'60s',rpe:'8',notes:'W1–2: BW + 3-sec pause. W3+: add load. Finish with BW max set.'},
-       {name:'A2 — Parallel Bar Dip',type:'ss',sets:'5',reps:'4',load:'BW +5kg',rest:'90s',rpe:'7',notes:'Upright torso. Rest 90s before next A1.'},
-       {name:'B1 — Neutral Grip DB Press',type:'ss',sets:'4',reps:'5',load:'16kg each',rest:'45s',rpe:'8',notes:'Ribs DOWN. Flared ribs = too heavy.'},
-       {name:'B2 — Chest-Supported Row',type:'ss',sets:'4',reps:'8',load:'RPE 7',rest:'90s',rpe:'7',notes:'Pause 1 sec at top. Zero momentum.'},
+       {name:'A1 — Weighted Chin-Up',type:'ss',sets:'3',reps:'3',load:'BW +0kg',rest:'60s',rpe:'8',notes:'W1–2: BW + 3-sec pause. W3+: add load. Finish with BW max set.'},
+       {name:'A2 — Parallel Bar Dip',type:'ss',sets:'3',reps:'4',load:'BW +5kg',rest:'90s',rpe:'7',notes:'Upright torso. Rest 90s before next A1.'},
+       {name:'B1 — Neutral Grip DB Press',type:'ss',sets:'3',reps:'5',load:'16kg each',rest:'45s',rpe:'8',notes:'Ribs DOWN. Flared ribs = too heavy.'},
+       {name:'B2 — Chest-Supported Row',type:'ss',sets:'3',reps:'8',load:'RPE 7',rest:'90s',rpe:'7',notes:'Pause 1 sec at top. Zero momentum.'},
        {name:'C1 — EZ-Bar Curl',type:'ss',sets:'3',reps:'10',load:'12kg',rest:'30s',rpe:'7',notes:'Full supination at top.'},
-       {name:'C2 — Triceps Pushdown',type:'ss',sets:'3',reps:'12',load:'35kg',rest:'30s',rpe:'7',notes:'Elbows pinned. Full extension.'},
-       {name:'C3 — Face Pull',type:'ss',sets:'3',reps:'15',load:'Light',rest:'30s',rpe:'6',notes:'Elbows HIGH. External rotation.'},
+       {name:'C2 — Cable Lateral Raise',type:'ss',sets:'3',reps:'15',load:'8–10kg',rest:'30s',rpe:'7',notes:'Slight forward lean. Lead with elbow, not wrist. Slow eccentric — the negative is the medicine.'},
+       {name:'C3 — Face Pull',type:'ss',sets:'3',reps:'15',load:'Light',rest:'30s',rpe:'6',notes:'Elbows HIGH. External rotation. Non-negotiable for left shoulder.'},
        {name:'C4 — Hammer Curl',type:'ss',sets:'3',reps:'12',load:'10kg',rest:'60s',rpe:'6',notes:'Neutral grip. Rest 60s before next C1.'},
      ]},
     {id:'w2',name:'Lower Strength',icon:'🦵',rpe:'7–8',duration:'55–60 min',venue:'Gym',
@@ -1513,31 +1531,19 @@ const SEED={
      ]},
     {id:'w3',name:'Sprint Session',icon:'⚡',rpe:'9–10',duration:'25–30 min',venue:'Bike or run',
      keyLifts:'6–8 × 15 sec all-out',
-     description:'Warm-up → Sprints → Cool-down',
+     description:'Short warm-up → All-out sprints → Brief cool-down',
      hevyLink:'',active:true,
      exercises:[
-       {name:'Easy bike or jog',type:'main',sets:'1',reps:'5 min',load:'—',rest:'—',rpe:'4',notes:'Nasal breathing. Get blood moving.'},
-       {name:'Leg Swings + Hip Circles',type:'main',sets:'1',reps:'10/side',load:'BW',rest:'—',rpe:'—',notes:'Joint prep.'},
-       {name:'Glute Bridge',type:'main',sets:'2',reps:'15',load:'BW',rest:'20s',rpe:'5',notes:'Wake up the glutes before sprinting.'},
-       {name:'Sprint — All-out effort',type:'main',sets:'6–8',reps:'15 sec',load:'MAX',rest:'90s',rpe:'9–10',notes:'HR below 120 before each rep. Bike: max watts. Run: 90–95%.'},
-       {name:'Easy walk / spin',type:'main',sets:'1',reps:'3 min',load:'—',rest:'—',rpe:'3',notes:'HR back below 100.'},
-       {name:'90/90 Breathing',type:'core',sets:'1',reps:'2 min',load:'BW',rest:'—',rpe:'—',notes:'Parasympathetic reset.'},
+       {name:'Easy bike or jog — Warm-up',type:'main',sets:'1',reps:'5 min',load:'—',rest:'—',rpe:'4',notes:'Nasal breathing. Get blood moving before sprints.'},
+       {name:'Sprint — All-out effort',type:'main',sets:'6–8',reps:'15 sec',load:'MAX',rest:'90s',rpe:'9–10',notes:'HR below 120 before each rep. Bike: max watts. Run: 90–95% effort. Rest is non-negotiable.'},
+       {name:'Easy walk / spin — Cool-down',type:'main',sets:'1',reps:'3 min',load:'—',rest:'—',rpe:'3',notes:'HR back below 100 before finishing.'},
      ]},
     {id:'w4',name:'Zone 2',icon:'🚴',rpe:'5–6',duration:'50–65 min',venue:'Bike or run',
      keyLifts:'120–128 bpm · 100–115W',
-     description:'Pre-activation (5 min) → Zone 2 (35–50 min) → Post-mobility (10 min)',
+     description:'Zone 2 nasal breathing — build toward 60 min by W5',
      hevyLink:'',active:true,
      exercises:[
-       {name:'PRE — Glute Bridge',type:'main',sets:'2',reps:'15',load:'BW',rest:'20s',rpe:'5',notes:'Squeeze 1 sec at top. Lazy glutes feed anterior pelvic tilt. Non-negotiable before Zone 2.'},
-       {name:'PRE — Clamshell',type:'main',sets:'2',reps:'15/side',load:'Light band',rest:'20s',rpe:'5',notes:'Hip abduction. Glute medius. Band just above knees.'},
-       {name:'PRE — Leg Swings + Arm Circles',type:'main',sets:'1',reps:'10/side',load:'BW',rest:'—',rpe:'—',notes:'Joint prep. HR stays low. Front/back + lateral for legs.'},
-       {name:'MAIN — Zone 2 Bike or Run',type:'skill',sets:'1',reps:'35–50 min',load:'100–115W / 120–128bpm',rest:'—',rpe:'5–6',notes:'100% nasal breathing. Conversational pace. Build toward 60 min by W5. This is the highest-leverage session of the week.'},
-       {name:'POST — World\'s Greatest Stretch',type:'main',sets:'1',reps:'4/side',load:'BW',rest:'15s',rpe:'—',notes:'All three spinal zones. Slow and deliberate. Warm tissue absorbs this far better post-cardio.'},
-       {name:'POST — Hip Flexor Stretch (kneeling)',type:'main',sets:'1',reps:'60s/side',load:'BW',rest:'—',rpe:'—',notes:'Posterior pelvic tilt at bottom. Anterior pelvic tilt correction — do this every time after cardio.'},
-       {name:'POST — Thoracic Extension over Roller',type:'main',sets:'1',reps:'60s',load:'Roller',rest:'—',rpe:'—',notes:'Mid-back on roller, hands behind head. Let gravity work. Never roll lumbar.'},
-       {name:'POST — Cervical Retraction (chin tuck)',type:'core',sets:'3',reps:'10',load:'BW',rest:'20s',rpe:'—',notes:'Forward head correction. 2-sec hold at end range. Gentle — never force.'},
-       {name:'POST — Jefferson Curl',type:'main',sets:'2',reps:'5',load:'5kg',rest:'45s',rpe:'—',notes:'W3+ only. Segmental articulation — not a hamstring stretch. Add load only when smooth.'},
-       {name:'POST — 90/90 Breathing',type:'core',sets:'1',reps:'3 min',load:'BW',rest:'—',rpe:'—',notes:'Close every Zone 2 session. The nervous system gets the last word on recovery days.'},
+       {name:'Zone 2 Bike or Run',type:'skill',sets:'1',reps:'35–50 min',load:'100–115W / 120–128bpm',rest:'—',rpe:'5–6',notes:'100% nasal breathing. Conversational pace. If you lose nasal control, slow down. This is the highest-leverage session of the week.'},
      ]},
     {id:'w5',name:'Home Power',icon:'💪',rpe:'6–7',duration:'45–50 min',venue:'Home',
      keyLifts:'Broad Jump · KB Swing · Correctives',
@@ -1568,13 +1574,14 @@ const SEED={
        {name:'B2 — Landmine Press',type:'ss',sets:'3',reps:'10/side',load:'20kg',rest:'60s',rpe:'7',notes:'Arc pattern. Scapular upward rotation.'},
        {name:'C1 — Bench Press (ribs-down)',type:'ss',sets:'3',reps:'8',load:'30kg',rest:'30s',rpe:'6',notes:'Feet up. Ribs STAY DOWN.'},
        {name:'C2 — Pallof Press',type:'ss',sets:'3',reps:'10/side',load:'25kg',rest:'45s',rpe:'6',notes:'Exhale and brace. Anti-rotation.'},
+       {name:'C3 — Cable Lateral Raise',type:'main',sets:'2',reps:'15',load:'8–10kg',rest:'30s',rpe:'6',notes:'Same cue as Upper Strength. Consistent lateral loading both upper days.'},
        {name:'Muscle-Up Transition (rings)',type:'skill',sets:'3',reps:'3 attempts',load:'BW/band',rest:'60s',rpe:'—',notes:'W1–4: banded. W5–6: full attempt.'},
        {name:'Ring Support Hold',type:'skill',sets:'3',reps:'15s',load:'BW',rest:'45s',rpe:'—',notes:'Lock out, turn out, straight body.'},
      ]},
   ]
 };
 
-const APP_SCHEMA_VERSION=27; // bump this when library seed data changes
+const APP_SCHEMA_VERSION=30; // bump this when library seed data changes
 
 function seedIfEmpty(){
   const storedVersion=DB.get('schemaVersion')||0;
@@ -1703,7 +1710,7 @@ function getDirectivesForBlock(blockId){
 const TPL={
   0:{label:'Lower Strength',sub:'Gym · 55–60 min',
     morning:['__practices__morning','__directives__morning','__supps__morning'],
-    training:['__corrgroup__Pre-Lower Gym','__workout__','__corrgroup__Post-Gym Reset','__corrgroup__Post-Session Correctives'],
+    training:['__corrgroup__Pre-Lower Gym','__workout__','__corrgroup__Post-Gym Reset'],
     afternoon:['__supps__afternoon','__practices__afternoon','__directives__afternoon'],
     evening:['__supps__evening','__directives__evening','__practices__evening',WINDDOWN_TOKEN]},
   1:{label:'Home Power + Mobility',sub:'Home · 45–50 min',
@@ -1718,22 +1725,22 @@ const TPL={
     evening:['__supps__evening','__directives__evening','__practices__evening',WINDDOWN_TOKEN]},
   3:{label:'Zone 2 + Mobility',sub:'Home · 55–65 min',
     morning:['__practices__morning','__directives__morning','__supps__morning'],
-    training:['__corrgroup__Pre-Zone2 Correctives','__workout__','__corrgroup__Post-Zone2 Correctives'],
+    training:['__workout__'],
     afternoon:['__supps__afternoon','__practices__afternoon','__directives__afternoon'],
     evening:['__supps__evening','__directives__evening','__practices__evening',WINDDOWN_TOKEN]},
   4:{label:'Upper Skill + Strength',sub:'Gym · 60–65 min',
     morning:['__practices__morning','__directives__morning','__supps__morning'],
-    training:['__corrgroup__Pre-Upper Gym','__workout__','__corrgroup__Post-Gym Reset','__corrgroup__Post-Session Correctives'],
+    training:['__corrgroup__Pre-Upper Gym','__workout__','__corrgroup__Post-Gym Reset'],
     afternoon:['__supps__afternoon','__practices__afternoon','__directives__afternoon'],
     evening:['__supps__evening','__directives__evening','__practices__evening',WINDDOWN_TOKEN]},
   5:{label:'Zone 2 + Power',sub:'Home · 55–65 min',
     morning:['__practices__morning','__directives__morning','__supps__morning'],
-    training:['__corrgroup__Pre-Zone2 Correctives','__workout__','__corrgroup__Post-Zone2 Correctives'],
+    training:['__workout__'],
     afternoon:['__supps__afternoon','__practices__afternoon','__directives__afternoon'],
     evening:['__supps__evening','__directives__evening','__practices__evening',WINDDOWN_TOKEN]},
   6:{label:'Upper Strength',sub:'Gym · 60–65 min',
     morning:['__practices__morning','__directives__morning','__supps__morning'],
-    training:['__corrgroup__Pre-Upper Gym','__workout__','__corrgroup__Post-Gym Reset','__corrgroup__Post-Session Correctives'],
+    training:['__corrgroup__Pre-Upper Gym','__workout__','__corrgroup__Post-Gym Reset'],
     afternoon:['__supps__afternoon','__practices__afternoon','__directives__afternoon'],
     evening:['__supps__evening','__directives__evening','__practices__evening',WINDDOWN_TOKEN]}
 };
@@ -2016,6 +2023,111 @@ function setViewDate(date){
   renderDatePicker();
   initToday();
 }
+// ── WEIGH-IN (Sunday only) ────────────────────────────────
+function renderWeighIn(){
+  const saved=getLog(viewDate).weighin||{};
+  const hasData=!!(saved.weight||saved.bodyfat||saved.waist);
+  const feelLabels=['Poor','Below avg','Average','Good','Excellent'];
+  return`<div class="weigh-block${hasData?' open':''}" id="weighBlock">
+    <div class="weigh-head" onclick="toggleWeighIn()">
+      <div class="weigh-ico">⚖️</div>
+      <div class="weigh-info">
+        <p class="weigh-name">Weekly Weigh-In</p>
+        <p class="weigh-meta">${hasData
+          ? `${saved.weight?saved.weight+'kg · ':''}${saved.bodyfat?saved.bodyfat+'% BF · ':''}${saved.waist?saved.waist+'cm waist':''}`.replace(/ · $/,'')
+          : 'Tap to log — fasted, same time each week'}</p>
+      </div>
+      <span style="font-size:13px;color:var(--muted)">${hasData?'✓':'+'}</span>
+    </div>
+    <div class="weigh-body">
+      <div class="weigh-fields">
+        <div class="sleep-time-card">
+          <p class="sleep-time-lbl">Weight</p>
+          <div class="bi-inp-row">
+            <input class="bi-inp" id="wi_weight" type="number" step="0.1" placeholder="82.5" value="${saved.weight||''}" oninput="updateLeanMass()">
+            <span class="bi-unit">kg</span>
+          </div>
+        </div>
+        <div class="sleep-time-card">
+          <p class="sleep-time-lbl">Body fat %</p>
+          <div class="bi-inp-row">
+            <input class="bi-inp" id="wi_bodyfat" type="number" step="0.1" placeholder="18.0" value="${saved.bodyfat||''}" oninput="updateLeanMass()">
+            <span class="bi-unit">%</span>
+          </div>
+        </div>
+        <div class="sleep-time-card">
+          <p class="sleep-time-lbl">Waist</p>
+          <div class="bi-inp-row">
+            <input class="bi-inp" id="wi_waist" type="number" step="0.5" placeholder="88" value="${saved.waist||''}">
+            <span class="bi-unit">cm</span>
+          </div>
+        </div>
+        <div class="sleep-time-card">
+          <p class="sleep-time-lbl">Lean mass*</p>
+          <div class="bi-inp-row">
+            <span class="bi-inp" style="font-size:18px;font-weight:600;color:var(--accent)" id="wi_lean">
+              ${saved.weight&&saved.bodyfat?Math.round(saved.weight*(1-saved.bodyfat/100)*10)/10+'kg':'—'}
+            </span>
+          </div>
+          <p style="font-size:10px;color:var(--muted);margin-top:2px">*calculated</p>
+        </div>
+      </div>
+      <div class="weigh-feel-row">
+        <span class="weigh-feel-lbl">Physical feel</span>
+        <div class="feel-btns">
+          ${feelLabels.map((l,i)=>`<button class="feel-btn ${saved.feel===i+1?'sel':''}" onclick="selectWeighFeel(${i+1})">${l}</button>`).join('')}
+        </div>
+      </div>
+      <div class="note-area" style="margin-bottom:10px">
+        <p class="note-lbl">Notes</p>
+        <textarea id="wi_notes" rows="2" placeholder="Bloating, inflammation, sleep quality this week…">${saved.notes||''}</textarea>
+      </div>
+      <button class="sym-save-btn" onclick="saveWeighIn()">Save Weigh-In</button>
+    </div>
+  </div>`;
+}
+
+function toggleWeighIn(){
+  const el=document.getElementById('weighBlock');
+  if(el) el.classList.toggle('open');
+}
+
+let weighFeelState=null;
+function selectWeighFeel(val){
+  weighFeelState=val;
+  document.querySelectorAll('#weighBlock .feel-btn').forEach((btn,i)=>{
+    btn.classList.toggle('sel',i+1===val);
+  });
+}
+
+function saveWeighIn(){
+  const weight=parseFloat(document.getElementById('wi_weight')?.value)||null;
+  const bodyfat=parseFloat(document.getElementById('wi_bodyfat')?.value)||null;
+  const waist=parseFloat(document.getElementById('wi_waist')?.value)||null;
+  const notes=document.getElementById('wi_notes')?.value||'';
+  const feel=weighFeelState||null;
+  const lean=weight&&bodyfat?Math.round(weight*(1-bodyfat/100)*10)/10:null;
+  const data={weight,bodyfat,waist,lean,feel,notes,loggedAt:new Date().toISOString()};
+  saveLog({weighin:data},viewDate);
+  // Update header in-place
+  const meta=document.querySelector('#weighBlock .weigh-meta');
+  if(meta) meta.textContent=`${weight?weight+'kg · ':''}${bodyfat?bodyfat+'% BF · ':''}${waist?waist+'cm waist':''}`.replace(/ · $/,'');
+  const ico=document.querySelector('#weighBlock .weigh-head > span:last-child');
+  if(ico) ico.textContent='✓';
+  // Update lean mass calc
+  const leanEl=document.getElementById('wi_lean');
+  if(leanEl&&lean) leanEl.textContent=lean+'kg';
+  toast('Weigh-in saved ✓');
+}
+
+// Update lean mass on input change
+function updateLeanMass(){
+  const w=parseFloat(document.getElementById('wi_weight')?.value)||0;
+  const bf=parseFloat(document.getElementById('wi_bodyfat')?.value)||0;
+  const lean=document.getElementById('wi_lean');
+  if(lean) lean.textContent=w&&bf?Math.round(w*(1-bf/100)*10)/10+'kg':'—';
+}
+
 // ── NAP LOG ───────────────────────────────────────────────
 function renderNapLog(){
   const log=getLog(viewDate);
@@ -2247,7 +2359,6 @@ function renderBlocks(){
       ],
       training:[
         {id:'workout',label:'Workout',     icon:'🏋️'},
-        {id:'prac',   label:'Practices',   icon:'🧘'},
         {id:'corr',   label:'Correctives', icon:'⚙️'},
       ],
       afternoon:[
@@ -2296,8 +2407,10 @@ function renderBlocks(){
     // Build panes
     const panes={};
 
-    // Log pane
-    if(isMorning) panes['log']=renderInlineSymptoms(bd.id)+renderRoutineCard(bd.id);
+    // Log pane — morning: symptoms + routine card + Sunday weigh-in
+    const isSunday=new Date(viewDate).getDay()===0;
+    const weighInHtml=isMorning&&isSunday?renderWeighIn():'';
+    if(isMorning) panes['log']=renderInlineSymptoms(bd.id)+renderRoutineCard(bd.id)+weighInHtml;
     if(isEvening) panes['log']=renderInlineSymptoms(bd.id)+renderRoutineCard(bd.id);
 
     // Supps pane — for afternoon, also include nap log at top
@@ -2828,7 +2941,12 @@ function openSession(id){
     <span class="chip bl">${w.venue}</span>
     ${hevyData?'<span class="chip" style="border-color:rgba(46,204,113,.4);color:var(--t-green)">✓ Hevy synced</span>':''}`;
 
-  let body='';
+  const sessionNotesKey=`sessnotes:${viewDate}:${id}`;
+  const sessionNotes=DB.get(sessionNotesKey)||'';
+  let body='<div class="note-area" style="margin-bottom:4px"><p class="note-lbl">Session notes</p>'
+    +'<textarea id="sessNotes" rows="2" placeholder="How the session felt, anything to flag…"'
+    +' onchange="DB.set(\'sessnotes:'+viewDate+':'+id+'\',this.value)">'+sessionNotes+'</textarea>';
+  body+='</div>';
 
   if(hevyData&&isGym){
     // THREE-COLUMN VIEW: Protocol | Actual (Hevy) | Next week
@@ -3459,9 +3577,78 @@ function renderLogContent(date){
       </div>`;
     }
   }
-  // Notes
-  if(log.mNote){html+=`<div class="slabel">Morning Notes</div><div class="note-display">${log.mNote}</div>`}
+  // Weigh-in (Sundays)
+  if(log.weighin&&(log.weighin.weight||log.weighin.bodyfat)){
+    const wi=log.weighin;
+    const feelLabels=['Poor','Below avg','Average','Good','Excellent'];
+    html+=`<div class="slabel">Weigh-In ⚖️</div>
+    <div class="metric-grid">
+      ${wi.weight?`<div class="metric-card"><p class="mc-lbl">Weight</p><p class="mc-val">${wi.weight}</p><p class="mc-unit">kg</p></div>`:''}
+      ${wi.bodyfat?`<div class="metric-card"><p class="mc-lbl">Body fat</p><p class="mc-val" style="color:var(--t-blue)">${wi.bodyfat}</p><p class="mc-unit">%</p></div>`:''}
+      ${wi.lean?`<div class="metric-card"><p class="mc-lbl">Lean mass</p><p class="mc-val" style="color:var(--t-green)">${wi.lean}</p><p class="mc-unit">kg</p></div>`:''}
+      ${wi.waist?`<div class="metric-card"><p class="mc-lbl">Waist</p><p class="mc-val">${wi.waist}</p><p class="mc-unit">cm</p></div>`:''}
+    </div>
+    ${wi.feel?`<div class="sym-summary" style="padding:8px 14px;margin-top:-4px"><div class="sym-sum-row"><span class="sym-sum-lbl">Physical feel</span><span class="sym-sum-val" style="width:auto">${feelLabels[(wi.feel||1)-1]}</span></div></div>`:''}
+    ${wi.notes?`<p style="font-size:12px;color:var(--muted);padding:4px 14px;font-style:italic">${wi.notes}</p>`:''}`;
+  }
   if(log.eNote){html+=`<div class="slabel">Evening Notes</div><div class="note-display">${log.eNote}</div>`}
+
+  // Training completed
+  const sessionDone=DB.get('sessionDone:'+date);
+  const workouts=DB.get('workouts')||[];
+  if(sessionDone&&sessionDone.workoutId){
+    const w=workouts.find(x=>x.id===sessionDone.workoutId);
+    const sessNotes=DB.get(`sessnotes:${date}:${sessionDone.workoutId}`)||'';
+    const hevyData=DB.get(`hevy:${date}:${sessionDone.workoutId}`);
+    html+=`<div class="slabel">Training</div>
+    <div class="sym-summary" style="padding:10px 14px">
+      <div class="sym-sum-row"><span class="sym-sum-lbl">${w?w.icon+' '+w.name:'Session'}</span><span class="sym-sum-val" style="width:auto;color:var(--t-green)">✓ Done</span></div>
+      ${hevyData?`<div class="sym-sum-row"><span class="sym-sum-lbl">Hevy synced</span><span class="sym-sum-val" style="width:auto">${(hevyData.exercises||[]).length} exercises</span></div>`:''}
+      ${sessNotes?`<p style="font-size:12px;color:var(--muted);margin-top:6px;font-style:italic">${sessNotes}</p>`:''}
+    </div>`;
+    // Show Hevy sets if available
+    if(hevyData&&hevyData.exercises){
+      html+=`<div class="slabel" style="margin-top:-4px">Hevy Data</div>
+      <div class="sym-summary" style="padding:10px 14px">
+        ${(hevyData.exercises||[]).map(ex=>`
+          <div style="margin-bottom:8px">
+            <p style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px">${ex.title}</p>
+            ${(ex.sets||[]).map((s,i)=>`<p style="font-size:11px;color:var(--muted);line-height:1.6">S${i+1}: ${s.weight_kg?s.weight_kg+'kg':'BW'} × ${s.reps||'—'} reps${s.rpe?' · RPE '+s.rpe:''}</p>`).join('')}
+          </div>`).join('')}
+      </div>`;
+    }
+  }
+
+  // Correctives completed
+  const corrGroups=DB.get('corrGroups')||[];
+  const completedCorr=corrGroups.filter(g=>{
+    if(!g.active||!g.exercises) return false;
+    const corrId='cg_'+(sessionDone?.workoutId?'training':'morning')+'_'+g.name.replace(/\s+/g,'_');
+    // Check any block
+    for(const bid of['morning','training','afternoon']){
+      const cid='cg_'+bid+'_'+g.name.replace(/\s+/g,'_');
+      const cChecks=DB.get(`corr:${date}:${g.name}:${bid}`)||{};
+      const doneCount=g.exercises.filter((_,i)=>cChecks['ex_'+i]).length;
+      if(doneCount>0) return true;
+    }
+    return false;
+  });
+  if(completedCorr.length){
+    html+=`<div class="slabel">Correctives Done</div>
+    <div class="sym-summary" style="padding:10px 14px">
+      ${completedCorr.map(g=>{
+        let doneCount=0,total=g.exercises.length;
+        for(const bid of['morning','training','afternoon']){
+          const cChecks=DB.get(`corr:${date}:${g.name}:${bid}`)||{};
+          doneCount=Math.max(doneCount,g.exercises.filter((_,i)=>cChecks['ex_'+i]).length);
+        }
+        const notes=DB.get(`corrnotes:${date}:cg_morning_${g.name.replace(/\s+/g,'_')}`)||
+                    DB.get(`corrnotes:${date}:cg_training_${g.name.replace(/\s+/g,'_')}`)||'';
+        return`<div class="sym-sum-row"><span class="sym-sum-lbl">${g.name}</span><span class="sym-sum-val" style="width:auto">${doneCount}/${total}</span></div>
+          ${notes?`<p style="font-size:11px;color:var(--muted);font-style:italic;margin:-4px 0 6px">${notes}</p>`:''}`;
+      }).join('')}
+    </div>`;
+  }
 
   cont.innerHTML=html;
 }
@@ -3611,8 +3798,151 @@ function renderProgContent(){
       }).join('')}
     </div>
   </div>`;
+
+  // Weigh-in trend (last 4 Sundays)
+  const sundays=[];
+  const today=new Date();
+  for(let i=0;i<28;i++){
+    const d=new Date(today);d.setDate(d.getDate()-i);
+    if(d.getDay()===0){
+      const k=d.toISOString().slice(0,10);
+      const log=DB.get('log:'+k)||{};
+      if(log.weighin&&log.weighin.weight) sundays.push({date:k,wi:log.weighin});
+      if(sundays.length>=4) break;
+    }
+  }
+  if(sundays.length){
+    html+=`<div class="slabel">Body Composition Trend</div>
+    <div class="sym-summary" style="padding:10px 14px">
+      <div style="display:grid;grid-template-columns:auto 1fr 1fr 1fr 1fr;gap:6px 12px;align-items:center">
+        <div></div>
+        ${sundays.map(s=>`<div style="font-size:10px;font-family:var(--fm);color:var(--muted);text-align:center">${s.date.slice(5)}</div>`).join('')}
+        ${['Weight (kg)','Body fat %','Waist (cm)','Lean (kg)'].map((lbl,li)=>{
+          const keys=['weight','bodyfat','waist','lean'];
+          const k=keys[li];
+          return`<div style="font-size:11px;color:var(--muted)">${lbl}</div>
+          ${sundays.map((s,i)=>{
+            const val=s.wi[k];
+            const prev=sundays[i+1]?.wi[k];
+            const diff=val&&prev?Math.round((val-prev)*10)/10:null;
+            const col=diff===null?'var(--text)':diff<0?'var(--t-green)':diff>0?'var(--t-red)':'var(--muted)';
+            return`<div style="font-size:13px;font-weight:600;color:${col};text-align:center">${val||'—'}${diff!==null?`<span style="font-size:10px;opacity:.7">${diff>0?'+':''}${diff}</span>`:''}</div>`;
+          }).join('')}`;
+        }).join('')}
+      </div>
+    </div>`;
+  }
+
+  // Weekly AI Review
+  const reviewKey=`weeklyrreview:w${progWeek}`;
+  const savedReview=DB.get(reviewKey);
+  html+=`<div class="slabel">Weekly AI Review</div>
+  <div class="ai-review-block" id="aiReviewBlock">
+    ${savedReview?`
+      <div class="ai-review-content" id="aiReviewContent">${savedReview.replace(/\n/g,'<br>')}</div>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button class="sym-save-btn" onclick="generateWeeklyReview(${progWeek})">🔄 Regenerate</button>
+      </div>`:`
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Get an AI analysis of Week ${progWeek} — what went well, what didn't, and what to adjust.</p>
+      <button class="sym-save-btn" onclick="generateWeeklyReview(${progWeek})">✨ Generate Week ${progWeek} Review</button>
+    `}
+    <div id="aiReviewLoading" style="display:none;padding:16px;text-align:center;color:var(--muted);font-size:13px">
+      <span style="animation:spin 1s linear infinite;display:inline-block">⏳</span> Analysing your week…
+    </div>
+  </div>`;
+
   document.getElementById('progContent').innerHTML=html;
 }
+// ── WEEKLY AI REVIEW ─────────────────────────────────────
+async function generateWeeklyReview(weekNum){
+  const loading=document.getElementById('aiReviewLoading');
+  const content=document.getElementById('aiReviewContent');
+  const block=document.getElementById('aiReviewBlock');
+  if(loading) loading.style.display='block';
+  if(content) content.style.display='none';
+
+  // Gather week data
+  const meta=getMeta();
+  const startDate=new Date(meta.startDate||DB.today());
+  startDate.setDate(startDate.getDate()+(weekNum-1)*7);
+  const dates=[];
+  for(let i=0;i<7;i++){const d=new Date(startDate);d.setDate(d.getDate()+i);dates.push(d.toISOString().slice(0,10));}
+
+  // Collect all week data
+  const weekData={week:weekNum,dates,sessions:[],hrv:[],symptoms:[],naps:[],notes:[]};
+  const workouts=DB.get('workouts')||[];
+
+  dates.forEach(date=>{
+    const log=DB.get('log:'+date)||{};
+    if(log.hrv) weekData.hrv.push({date,hrv:log.hrv,rhr:log.rhr,bedtime:log.bedtime,waketime:log.waketime});
+    if(log.mfog||log.menergy) weekData.symptoms.push({date,morning:{fog:log.mfog,headache:log.mhead,energy:log.menergy,sleep:log.msleep,tension:log.mtension,anxiety:log.manxiety},evening:{mood:log.emood,energy:log.eenergy,tension:log.etension,anxiety:log.eanxiety}});
+    if(log.nap&&log.nap.duration) weekData.naps.push({date,duration:log.nap.duration,feel:log.nap.feel});
+    if(log.mNote) weekData.notes.push({date,type:'morning',note:log.mNote});
+    if(log.eNote) weekData.notes.push({date,type:'evening',note:log.eNote});
+    const sessionDone=DB.get('sessionDone:'+date);
+    if(sessionDone){
+      const w=workouts.find(x=>x.id===sessionDone.workoutId);
+      const sessNotes=DB.get(`sessnotes:${date}:${sessionDone.workoutId}`)||'';
+      const hevyData=DB.get(`hevy:${date}:${sessionDone.workoutId}`);
+      const z2=DB.get(`cardio:${date}:w4`);
+      const sprint=DB.get(`cardio:${date}:w3`);
+      weekData.sessions.push({date,workout:w?w.name:'Session',notes:sessNotes,hevy:hevyData?{exercises:(hevyData.exercises||[]).length}:null,zone2:z2,sprint});
+    }
+  });
+
+  const avgHRV=weekData.hrv.length?Math.round(weekData.hrv.reduce((a,b)=>a+b.hrv,0)/weekData.hrv.length):null;
+
+  const prompt=`You are a performance and health coach reviewing Nelson's training week. Nelson is a 50-year-old Swiss-based Portuguese man on extended sick leave, recovering from 25 years of HPA axis dysregulation, chronic fatigue, brain fog, and autonomic dysfunction. His primary goal is root cause resolution alongside building strength, mobility, and calisthenics (targeting muscle-up long-term).
+
+Here is his Week ${weekNum} data:
+${JSON.stringify(weekData,null,2)}
+
+Average HRV this week: ${avgHRV||'not logged'} ms (threshold: 33ms)
+
+Write a concise weekly review covering:
+1. **What went well** — sessions completed, symptoms improving, good HRV days, protocol adherence
+2. **What needs attention** — missed sessions, poor symptom days, low HRV trends, patterns to watch
+3. **One specific adjustment** for next week — concrete and actionable
+
+Keep it direct, specific to his data, and under 200 words. Reference actual numbers where available. Do not be generic. Tone: frank coach, not cheerleader.`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        messages:[{role:'user',content:prompt}]
+      })
+    });
+    const data=await res.json();
+    const text=(data.content||[]).map(b=>b.text||'').join('');
+    if(text){
+      // Save review
+      DB.set(`weeklyrreview:w${weekNum}`,text);
+      // Render
+      if(block){
+        block.innerHTML=`
+          <div class="ai-review-content" id="aiReviewContent">${text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')}</div>
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <button class="sym-save-btn" onclick="generateWeeklyReview(${weekNum})">🔄 Regenerate</button>
+          </div>
+          <div id="aiReviewLoading" style="display:none"></div>`;
+      }
+    }
+  } catch(e){
+    console.error('AI review error:',e);
+    if(loading) loading.style.display='none';
+    if(block){
+      const err=document.createElement('p');
+      err.style.cssText='color:var(--t-red);font-size:13px;padding:8px 0';
+      err.textContent='Review failed — check connection and try again.';
+      block.appendChild(err);
+    }
+  }
+}
+
 function buildWeekChart(logs,key,color,days){
   const vals=logs.map(l=>l[key]||0);
   const max=Math.max(...vals,1);
@@ -3660,6 +3990,8 @@ function renderCorrGroupFromLib(groupName,blockId,isAct){
     <input class="corr-time-inp" type="text" placeholder="e.g. 12 min"
       value="${savedTime}" onchange="DB.set('${timeKey}',this.value)" onclick="event.stopPropagation()">
   </div>`;
+  const notesKey=`corrnotes:${viewDate}:${corrId}`;
+  const savedNotes=DB.get(notesKey)||'';
   return`<div class="corr-group" id="${corrId}">
     <div class="corr-head" onclick="toggleCorrGroup('${corrId}')">
       <div class="corr-ico ${allDone?'all-done':''}" style="${allDone?'':'border:1.5px solid var(--t-blue)'}">${allDone?'✓':'⚙'}</div>
@@ -3669,7 +4001,12 @@ function renderCorrGroupFromLib(groupName,blockId,isAct){
       </div>
       <span class="corr-chev">▼</span>
     </div>
-    <div class="corr-body">${subItems}${timeField}</div>
+    <div class="corr-body">${subItems}${timeField}
+      <div class="note-area" style="padding:0 0 8px">
+        <p class="note-lbl">Notes</p>
+        <textarea id="cnotes_${corrId}" rows="2" placeholder="How it felt, what to adjust…" onchange="DB.set('${notesKey}',this.value)">${savedNotes}</textarea>
+      </div>
+    </div>
   </div>`;
 }
 
