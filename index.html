@@ -792,7 +792,7 @@ input[type=range].sym-inline::-webkit-slider-thumb{
 .bst-badge{
   display:inline-block;min-width:16px;height:16px;border-radius:8px;
   background:rgba(232,168,56,.2);color:var(--accent);
-  font-size:9px;text-align:center;line-height:16px;
+  font-size:11px;text-align:center;line-height:16px;
   margin-left:4px;padding:0 4px;font-weight:600;
 }
 .bst-pane{display:none}
@@ -830,11 +830,34 @@ input[type=range].sym-inline::-webkit-slider-thumb{
 .reorder-toggle{
   display:flex;align-items:center;justify-content:flex-end;
   padding:5px 14px;border-top:1px solid var(--border);
-  font-family:var(--fm);font-size:10px;color:var(--muted);
+  font-family:var(--fm);font-size:12px;color:var(--muted);
   cursor:pointer;gap:6px;
 }
 .reorder-toggle:active{opacity:.7}
 .reorder-toggle.active{color:var(--accent)}
+.must-do-task{background:rgba(232,168,56,.04);border-left:2px solid rgba(232,168,56,.4)}
+.must-star{color:var(--accent);font-size:12px;margin-right:2px}
+/* Optional extras floating button */
+.extras-fab{
+  position:fixed;bottom:80px;right:16px;z-index:200;
+  width:48px;height:48px;border-radius:50%;
+  background:var(--surf);border:1.5px solid var(--border);
+  color:var(--text);font-size:22px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 12px rgba(0,0,0,.4);transition:transform .15s;
+}
+.extras-fab:active{transform:scale(.92)}
+.extras-item{
+  display:flex;align-items:center;gap:12px;padding:12px 16px;
+  border-bottom:1px solid var(--border);cursor:pointer;
+}
+.extras-item:last-child{border-bottom:none}
+.extras-chk{
+  width:22px;height:22px;border-radius:6px;border:1.5px solid var(--border);
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  font-size:12px;transition:all .2s;
+}
+.extras-chk.ck{background:var(--t-green);border-color:var(--t-green);color:#fff}
 .weigh-block{
   background:rgba(232,168,56,.05);border:1px solid rgba(232,168,56,.2);
   border-radius:var(--r);margin:0;
@@ -936,7 +959,7 @@ input[type=range].sym-inline::-webkit-slider-thumb{
 }
 .routine-card-head:active{opacity:.8}
 .routine-badge{
-  font-family:var(--fm);font-size:9px;letter-spacing:.15em;
+  font-family:var(--fm);font-size:11px;letter-spacing:.15em;
   text-transform:uppercase;padding:3px 9px;border-radius:20px;flex-shrink:0;
 }
 .rb-full{background:rgba(46,204,113,.12);color:var(--t-green)}
@@ -1104,6 +1127,16 @@ input[type=range].sym-inline::-webkit-slider-thumb{
 
     <div class="scroll" style="margin-top:10px">
       <div class="si" id="blocks"></div>
+      <button class="extras-fab" id="extrasFab" onclick="openExtras()">＋</button>
+    </div>
+  </div>
+
+  <!-- Extras Modal -->
+  <div class="modal-ov" id="mExtras" onclick="if(event.target===this)this.classList.remove('open')">
+    <div class="sheet">
+      <div class="sh"></div>
+      <p class="sheet-title">➕ Optional Activities</p>
+      <div class="sheet-body" id="extrasBody"></div>
     </div>
   </div>
 
@@ -1150,6 +1183,7 @@ input[type=range].sym-inline::-webkit-slider-thumb{
       <div class="lt" data-tab="work" onclick="libTab('work')">Workouts</div>
       <div class="lt" data-tab="corr" onclick="libTab('corr')">Correctives</div>
       <div class="lt" data-tab="sym" onclick="libTab('sym')">Symptoms</div>
+      <div class="lt" data-tab="extras" onclick="libTab('extras')">Extras</div>
     </div>
     <div id="libSupp" class="lib-tab-content on"><div class="lib-list" id="libSuppList"></div><button class="lib-add-btn" onclick="libNew('supp')">＋ Add Supplement</button></div>
     <div id="libPrac" class="lib-tab-content"><div class="lib-list" id="libPracList"></div><button class="lib-add-btn" onclick="libNew('prac')">＋ Add Practice</button></div>
@@ -1158,6 +1192,7 @@ input[type=range].sym-inline::-webkit-slider-thumb{
     <div id="libWork" class="lib-tab-content"><div class="lib-list" id="libWorkList"></div><button class="lib-add-btn" onclick="libNew('work')">＋ Add Workout</button></div>
     <div id="libCorr" class="lib-tab-content"><div class="lib-list" id="libCorrList"></div><button class="lib-add-btn" onclick="libNew('corr')">＋ Add Corrective Group</button></div>
     <div id="libSym" class="lib-tab-content"><div class="lib-list" id="libSymList"></div><button class="lib-add-btn" onclick="libNew('sym')">＋ Add Symptom</button></div>
+    <div id="libExtras" class="lib-tab-content"><div class="lib-list" id="libExtrasList"></div><button class="lib-add-btn" onclick="libNew('extras')">＋ Add Optional Activity</button></div>
   </div>
 
   <!-- ══════════════════════════════════════════════════════
@@ -1249,14 +1284,6 @@ input[type=range].sym-inline::-webkit-slider-thumb{
   <!-- ══════════════════════════════════════════════════════
        GTG FLOATING BUTTON
   ══════════════════════════════════════════════════════ -->
-  <div class="gtg-strip" id="gtgStrip">
-    <button class="gtg-btn" onclick="openGTG()">
-      <span style="font-size:16px">⚡</span>
-      <span class="gtg-lbl">GTG — Log a pass</span>
-      <span class="gtg-cnt" id="gtgTotal">0 passes today</span>
-    </button>
-  </div>
-
   <!-- ══════════════════════════════════════════════════════
        BOTTOM NAV
   ══════════════════════════════════════════════════════ -->
@@ -1426,30 +1453,30 @@ const SEED={
   ],
   practices:[
     {id:'p1',timeOfDay:'morning',name:'90/90 Breathing',category:'breathing',duration:'5 min',sets:'1',reps:'',phase:'always',instructions:'Lie on back, knees bent, feet flat. Exhale fully — feel ribs drop to floor. Inhale through nose expanding posterior ribcage. Build posterior expansion. Every session starts here.',video1:'https://www.youtube.com/results?search_query=90+90+breathing+postural+restoration',video2:'',active:true},
-    {id:'p2',timeOfDay:'training',name:'Thoracic Rolling',category:'fascia',duration:'90 sec',sets:'1',reps:'',phase:'always',instructions:'Place roller under mid-back. Segment by segment from T4 to T9. Arms crossed or hands behind head. Exhale on each tight spot. Never roll the neck or lumbar.',video1:'https://www.youtube.com/results?search_query=thoracic+spine+foam+rolling',video2:'',active:true},
-    {id:'p3',timeOfDay:'morning',name:'Serratus Wall Slide',category:'corrective',duration:'3 min',sets:'2',reps:'10',phase:'always',instructions:'Stand facing wall, forearms flat on surface. Slide arms up keeping ribs DOWN. Serratus anterior activation. Direct fix for forward shoulder and scapular winging.',video1:'https://www.youtube.com/results?search_query=serratus+wall+slide',video2:'',active:true},
-    {id:'p4',timeOfDay:'training',name:'Prone T-Raise',category:'corrective',duration:'3 min',sets:'3',reps:'12',phase:'always',instructions:'Lie face down. Arms at 90° from body, thumbs up. Squeeze mid-traps and lift arms. Hold 2 seconds at top. Forehead on mat.',video1:'https://www.youtube.com/results?search_query=prone+T+raise+mid+trap',video2:'',active:true},
-    {id:'p5',timeOfDay:'training',name:'Prone Y-Raise',category:'corrective',duration:'3 min',sets:'3',reps:'12',phase:'always',instructions:'Lie face down. Arms in Y shape overhead. Depress scapula before lifting. Lower traps. Hold 2 sec at top.',video1:'https://www.youtube.com/results?search_query=prone+Y+raise+lower+trap',video2:'',active:true},
+    {id:'p2',timeOfDay:'training',name:'Thoracic Rolling',category:'fascia',duration:'90 sec',sets:'1',reps:'',phase:'always',instructions:'Place roller under mid-back. Segment by segment from T4 to T9. Arms crossed or hands behind head. Exhale on each tight spot. Never roll the neck or lumbar.',video1:'https://www.youtube.com/results?search_query=thoracic+spine+foam+rolling',video2:'',active:false},
+    {id:'p3',timeOfDay:'morning',name:'Serratus Wall Slide',category:'corrective',duration:'3 min',sets:'2',reps:'10',phase:'always',instructions:'Stand facing wall, forearms flat on surface. Slide arms up keeping ribs DOWN. Serratus anterior activation. Direct fix for forward shoulder and scapular winging.',video1:'https://www.youtube.com/results?search_query=serratus+wall+slide',video2:'',active:false},
+    {id:'p4',timeOfDay:'training',name:'Prone T-Raise',category:'corrective',duration:'3 min',sets:'3',reps:'12',phase:'always',instructions:'Lie face down. Arms at 90° from body, thumbs up. Squeeze mid-traps and lift arms. Hold 2 seconds at top. Forehead on mat.',video1:'https://www.youtube.com/results?search_query=prone+T+raise+mid+trap',video2:'',active:false},
+    {id:'p5',timeOfDay:'training',name:'Prone Y-Raise',category:'corrective',duration:'3 min',sets:'3',reps:'12',phase:'always',instructions:'Lie face down. Arms in Y shape overhead. Depress scapula before lifting. Lower traps. Hold 2 sec at top.',video1:'https://www.youtube.com/results?search_query=prone+Y+raise+lower+trap',video2:'',active:false},
     {id:'p6',timeOfDay:'afternoon',name:'Jefferson Curl',category:'mobility',duration:'3 min',sets:'3',reps:'5',phase:'W3+',instructions:'Stand on platform holding weight. Chin to chest. Roll down vertebra by vertebra — feel each segment separately. Not a hamstring stretch. Start 5kg, add only when every segment moves independently.',video1:'https://www.youtube.com/results?search_query=jefferson+curl+tutorial+GMB',video2:'https://www.youtube.com/results?search_query=jefferson+curl+beginners',active:true},
-    {id:'p7',timeOfDay:'afternoon',name:'Hip Flexor Stretch (kneeling)',category:'mobility',duration:'3 min',sets:'1',reps:'90s each side',phase:'always',instructions:'Kneeling lunge. Posterior pelvic tilt at bottom — actively tuck pelvis. Feel stretch in front of rear hip, not lower back. Anterior pelvic tilt correction — daily.',video1:'https://www.youtube.com/results?search_query=kneeling+hip+flexor+stretch+posterior+tilt',video2:'',active:true},
-    {id:'p9',timeOfDay:'any time',name:'Cervical Retraction (chin tuck)',category:'corrective',duration:'2 min',sets:'2',reps:'10',phase:'always',instructions:'Ears over shoulders. Draw chin straight back — not down. 2-second hold at end range. Forward head correction. Frequency is the medicine.',video1:'https://www.youtube.com/results?search_query=chin+tuck+forward+head+posture+correction',video2:'',active:true},
-    {id:'p10',timeOfDay:'evening',name:'Dragon Pose (Yin)',category:'yoga',duration:'5 min',sets:'1',reps:'2–3 min/side',phase:'always',instructions:'Low lunge, back knee on ground. Let gravity do the work. Relax jaw, relax belly. Cervical tension releases when hip flexors release. Use props freely.',video1:'https://www.youtube.com/results?search_query=dragon+pose+yin+yoga',video2:'',active:true},
-    {id:'p11',timeOfDay:'evening',name:'Supported Fish Pose (Yin)',category:'yoga',duration:'4 min',sets:'1',reps:'3–4 min',phase:'always',instructions:'Bolster or rolled blanket under thoracic spine. Allow chest and shoulders to open passively. Arms out to sides. Undoes the kyphotic posture of the day.',video1:'https://www.youtube.com/results?search_query=supported+fish+pose+yin+yoga',video2:'',active:true},
-    {id:'p12',timeOfDay:'evening',name:'Supine Twist (Yin)',category:'yoga',duration:'4 min',sets:'1',reps:'2 min/side',phase:'always',instructions:'Knees dropped to one side, gaze opposite. Thoracic rotation + glymphatic drainage. Completely passive — no muscular effort.',video1:'https://www.youtube.com/results?search_query=supine+twist+yin+yoga',video2:'',active:true},
-    {id:'p13',timeOfDay:'evening',name:'Bhramari Humming (Bee Breath)',category:'breathing',duration:'5 min',sets:'1',reps:'10 rounds',phase:'always',instructions:'Sit comfortably. Inhale through nose. On exhale hum loudly — feel vibration in skull and chest. Directly stimulates vagus nerve. Preferred over 4-7-8 for your NS profile.',video1:'https://www.youtube.com/results?search_query=bhramari+pranayama+technique',video2:'',active:true},
-    {id:'p14',timeOfDay:'evening',name:'Legs Up the Wall',category:'meditation',duration:'8 min',sets:'1',reps:'5–10 min',phase:'always',instructions:'Lie on back, legs vertical up wall, hips close. Arms relaxed. PHONE AWAY. Parasympathetic position — feet above heart drives venous return. Mandatory from Week 2.',video1:'https://www.youtube.com/results?search_query=legs+up+the+wall+benefits',video2:'',active:true},
-    {id:'p15',timeOfDay:'evening',name:'Bear Crawl (Animal Flow)',category:'flow',duration:'2 min',sets:'1',reps:'30s fwd/back',phase:'always',instructions:'Wrists under shoulders, knees hover 1 inch off floor. Contralateral movement — right hand with left knee. Neutral spine. Move slowly.',video1:'https://www.youtube.com/results?search_query=bear+crawl+animal+flow+tutorial',video2:'',active:true},
-    {id:'p16',timeOfDay:'evening',name:'Crab Reach',category:'flow',duration:'2 min',sets:'1',reps:'6/side',phase:'always',instructions:'Hips up in crab position, reach opposite arm overhead. Opens thoracic and hip flexors simultaneously. Slow and controlled.',video1:'https://www.youtube.com/results?search_query=crab+reach+animal+flow',video2:'',active:true},
-    {id:'p17',timeOfDay:'afternoon',name:'Hip 90/90 Transitions',category:'mobility',duration:'3 min',sets:'1',reps:'8 slow reps',phase:'always',instructions:'Rotate from one 90/90 position to the other. Internal + external rotation. No hands on floor by W3. Feel each transition.',video1:'https://www.youtube.com/results?search_query=hip+90+90+transitions+mobility',video2:'',active:true},
-    {id:'p18',timeOfDay:'evening',name:'Spinal Wave (standing)',category:'flow',duration:'2 min',sets:'1',reps:'8 reps',phase:'always',instructions:'Head leads, roll down segment by segment, back up. This is spinal articulation — not a stretch. Each vertebra moves separately.',video1:'https://www.youtube.com/results?search_query=spinal+wave+articulation',video2:'',active:true},
+    {id:'p7',timeOfDay:'afternoon',name:'Hip Flexor Stretch (kneeling)',category:'mobility',duration:'3 min',sets:'1',reps:'90s each side',phase:'always',instructions:'Kneeling lunge. Posterior pelvic tilt at bottom — actively tuck pelvis. Feel stretch in front of rear hip, not lower back. Anterior pelvic tilt correction — daily.',video1:'https://www.youtube.com/results?search_query=kneeling+hip+flexor+stretch+posterior+tilt',video2:'',active:false},
+    {id:'p9',timeOfDay:'any time',name:'Cervical Retraction (chin tuck)',category:'corrective',duration:'2 min',sets:'2',reps:'10',phase:'always',instructions:'Ears over shoulders. Draw chin straight back — not down. 2-second hold at end range. Forward head correction. Frequency is the medicine.',video1:'https://www.youtube.com/results?search_query=chin+tuck+forward+head+posture+correction',video2:'',active:false},
+    {id:'p10',timeOfDay:'evening',name:'Dragon Pose (Yin)',category:'yoga',duration:'5 min',sets:'1',reps:'2–3 min/side',phase:'always',instructions:'Low lunge, back knee on ground. Let gravity do the work. Relax jaw, relax belly. Cervical tension releases when hip flexors release. Use props freely.',video1:'https://www.youtube.com/results?search_query=dragon+pose+yin+yoga',video2:'',active:false},
+    {id:'p11',timeOfDay:'evening',name:'Supported Fish Pose (Yin)',category:'yoga',duration:'4 min',sets:'1',reps:'3–4 min',phase:'always',instructions:'Bolster or rolled blanket under thoracic spine. Allow chest and shoulders to open passively. Arms out to sides. Undoes the kyphotic posture of the day.',video1:'https://www.youtube.com/results?search_query=supported+fish+pose+yin+yoga',video2:'',active:false},
+    {id:'p12',timeOfDay:'evening',name:'Supine Twist (Yin)',category:'yoga',duration:'4 min',sets:'1',reps:'2 min/side',phase:'always',instructions:'Knees dropped to one side, gaze opposite. Thoracic rotation + glymphatic drainage. Completely passive — no muscular effort.',video1:'https://www.youtube.com/results?search_query=supine+twist+yin+yoga',video2:'',active:false},
+    {id:'p13',timeOfDay:'evening',name:'Bhramari Humming (Bee Breath)',category:'breathing',duration:'5 min',sets:'1',reps:'10 rounds',phase:'always',instructions:'Sit comfortably. Inhale through nose. On exhale hum loudly — feel vibration in skull and chest. Directly stimulates vagus nerve. Preferred over 4-7-8 for your NS profile.',video1:'https://www.youtube.com/results?search_query=bhramari+pranayama+technique',video2:'',active:false},
+    {id:'p14',timeOfDay:'evening',name:'Legs Up the Wall',category:'meditation',duration:'8 min',sets:'1',reps:'5–10 min',phase:'always',instructions:'Lie on back, legs vertical up wall, hips close. Arms relaxed. PHONE AWAY. Parasympathetic position — feet above heart drives venous return. Mandatory from Week 2.',video1:'https://www.youtube.com/results?search_query=legs+up+the+wall+benefits',video2:'',active:false},
+    {id:'p15',timeOfDay:'evening',name:'Bear Crawl (Animal Flow)',category:'flow',duration:'2 min',sets:'1',reps:'30s fwd/back',phase:'always',instructions:'Wrists under shoulders, knees hover 1 inch off floor. Contralateral movement — right hand with left knee. Neutral spine. Move slowly.',video1:'https://www.youtube.com/results?search_query=bear+crawl+animal+flow+tutorial',video2:'',active:false},
+    {id:'p16',timeOfDay:'evening',name:'Crab Reach',category:'flow',duration:'2 min',sets:'1',reps:'6/side',phase:'always',instructions:'Hips up in crab position, reach opposite arm overhead. Opens thoracic and hip flexors simultaneously. Slow and controlled.',video1:'https://www.youtube.com/results?search_query=crab+reach+animal+flow',video2:'',active:false},
+    {id:'p17',timeOfDay:'afternoon',name:'Hip 90/90 Transitions',category:'mobility',duration:'3 min',sets:'1',reps:'8 slow reps',phase:'always',instructions:'Rotate from one 90/90 position to the other. Internal + external rotation. No hands on floor by W3. Feel each transition.',video1:'https://www.youtube.com/results?search_query=hip+90+90+transitions+mobility',video2:'',active:false},
+    {id:'p18',timeOfDay:'evening',name:'Spinal Wave (standing)',category:'flow',duration:'2 min',sets:'1',reps:'8 reps',phase:'always',instructions:'Head leads, roll down segment by segment, back up. This is spinal articulation — not a stretch. Each vertebra moves separately.',video1:'https://www.youtube.com/results?search_query=spinal+wave+articulation',video2:'',active:false},
     {id:'p19',timeOfDay:'evening',name:'Suboccipital Self-Massage',category:'fascia',duration:'4 min',sets:'1',reps:'3–5 min',phase:'always',instructions:'Light skin-level strokes ONLY — ear toward clavicle direction. NEVER press firm on congested cervical nodes. Index and middle fingers, feather-light pressure.',video1:'https://www.youtube.com/results?search_query=suboccipital+massage+lymphatic',video2:'',active:true},
     {id:'p20',timeOfDay:'afternoon',name:'World\'s Greatest Stretch',category:'mobility',duration:'5 min',sets:'1',reps:'5/side',phase:'always',instructions:'Lunge position — same-side hand inside front foot. Rotate opposite arm to ceiling. Hip flexor + thoracic rotation + hamstring. All three spinal zones.',video1:'https://www.youtube.com/results?search_query=worlds+greatest+stretch+tutorial',video2:'',active:true},
     {id:'p21',timeOfDay:'training',name:'Broad Jump',category:'power',duration:'8 min',sets:'4',reps:'3',phase:'always',instructions:'Max distance each rep. Full arm swing. Land soft — absorb with whole leg. Stand fully tall before next rep. No rebounding. Maximum power, not conditioning.',video1:'https://www.youtube.com/results?search_query=broad+jump+technique',video2:'',active:true},
     {id:'p22',timeOfDay:'training',name:'KB Swing',category:'power',duration:'5 min',sets:'3',reps:'10',phase:'always',instructions:'Hip snap — not a squat. Explosive drive at the top. Control the float. This is power training, not cardio. Full reset between sets.',video1:'https://www.youtube.com/results?search_query=kettlebell+swing+technique+hip+hinge',video2:'',active:true},
-    {id:'p23',timeOfDay:'morning',name:'Glute Bridge',category:'corrective',duration:'3 min',sets:'2',reps:'15',phase:'always',instructions:'Lie on back, knees bent. Drive hips up, squeeze glutes hard at top. Hold 1 second. Lazy glutes feed anterior pelvic tilt — do this before every Zone 2 session.',video1:'https://www.youtube.com/results?search_query=glute+bridge+form+activation',video2:'',active:true},
-    {id:'p24',timeOfDay:'morning',name:'Clamshell',category:'corrective',duration:'3 min',sets:'2',reps:'15/side',phase:'always',instructions:'Side-lying, knees bent, band just above knees. Rotate top knee open like a clamshell. Hip abduction — glute medius activation. Essential before Zone 2.',video1:'https://www.youtube.com/results?search_query=clamshell+exercise+glute+med',video2:'',active:true},
+    {id:'p23',timeOfDay:'morning',name:'Glute Bridge',category:'corrective',duration:'3 min',sets:'2',reps:'15',phase:'always',instructions:'Lie on back, knees bent. Drive hips up, squeeze glutes hard at top. Hold 1 second. Lazy glutes feed anterior pelvic tilt — do this before every Zone 2 session.',video1:'https://www.youtube.com/results?search_query=glute+bridge+form+activation',video2:'',active:false},
+    {id:'p24',timeOfDay:'morning',name:'Clamshell',category:'corrective',duration:'3 min',sets:'2',reps:'15/side',phase:'always',instructions:'Side-lying, knees bent, band just above knees. Rotate top knee open like a clamshell. Hip abduction — glute medius activation. Essential before Zone 2.',video1:'https://www.youtube.com/results?search_query=clamshell+exercise+glute+med',video2:'',active:false},
     {id:'p25',timeOfDay:'morning',name:'Nadi Shodana (Alternate Nostril)',category:'breathing',duration:'5 min',sets:'1',reps:'5 rounds',phase:'always',instructions:'Alternate nostril breathing. Right thumb closes right nostril, inhale left. Close left, exhale right. Inhale right. Close right, exhale left. One round. Balances NS hemispheres.',video1:'https://www.youtube.com/results?search_query=nadi+shodana+pranayama+tutorial',video2:'',active:true},
-    {id:'p26',timeOfDay:'training',name:'Band Shoulder CARs',category:'corrective',duration:'3 min',sets:'2',reps:'5/side',phase:'always',instructions:'Light resistance band. Controlled Articular Rotation — full shoulder circle under tension. Slow, deliberate. Every degree of range maintained.',video1:'https://www.youtube.com/results?search_query=shoulder+CARs+controlled+articular+rotation',video2:'',active:true},
+    {id:'p26',timeOfDay:'training',name:'Band Shoulder CARs',category:'corrective',duration:'3 min',sets:'2',reps:'5/side',phase:'always',instructions:'Light resistance band. Controlled Articular Rotation — full shoulder circle under tension. Slow, deliberate. Every degree of range maintained.',video1:'https://www.youtube.com/results?search_query=shoulder+CARs+controlled+articular+rotation',video2:'',active:false},
     {id:'r1',timeOfDay:'morning',name:'Morning Routine — Full',category:'routine',duration:'25 min',phase:'always',hrv_gate:'full',hrv_threshold:33,steps:[
       {id:'mf1',name:'Diaphragmatic Reset',duration:'3 min',cues:'Supine, knees bent, feet flat. One hand chest, one belly. Exhale fully through mouth, ribs drop down and in. Inhale through nose — belly rises, chest stays still. 5s in / 8s out, nasal exhale. 15 breaths. Every exhale press low back gently into floor.'},
       {id:'mf2',name:'90/90 Hip Flexor + Psoas Release',duration:'3 min',cues:'Low lunge, back knee down. Posterior pelvic tilt — tuck tailbone under, squeeze back glute, don\'t let ribcage flare. Hold the tuck, breathe into front of hip. 5 deep breaths per side, exhale into stretch. The tuck is the whole point.'},
@@ -1487,23 +1514,24 @@ const SEED={
     ],instructions:'HRV <33. Fast evening decompression — 15 min.',active:true},
   ],
   directives:[
-    {id:'d1',timeOfDay:'morning',name:'Contrast Shower',category:'recovery',description:'Hot 2–3 min → Cold 30–60 sec → Hot 1 min → Cold 30–60 sec. End COLD. Morning only. Trains autonomic switching. Never cold at night — disrupts melatonin.',frequency:'daily',active:true},
-    {id:'d2',timeOfDay:'morning',name:'Abhyanga (Warm Sesame Oil)',category:'ayurveda',description:'Warm sesame oil. Long strokes on limbs toward heart. Circular on joints. Scalp optional. 5–10 min before shower. Vata-pacifying — calms NS, lubricates joints, stimulates lymphatic flow.',frequency:'daily',active:true},
-    {id:'d3',timeOfDay:'evening',name:'Digital Sunset',category:'sleep',description:'No screens from 21:00. Blue light suppresses melatonin and delays glymphatic onset.',frequency:'daily',active:true},
-    {id:'d4',timeOfDay:'evening',name:'Sleep Position',category:'sleep',description:'Left side preferred. Neutral cervical pillow. Room 17–19°C. Blackout curtains or sleep mask. Left lateral enhances glymphatic clearance.',frequency:'daily',active:true},
-    {id:'d5',timeOfDay:'morning',name:'Warm Water on Waking',category:'ayurveda',description:'1–3 glasses warm water before anything else. Activates digestive fire (Agni). Flushes overnight metabolic waste.',frequency:'daily',active:true},
+    {id:'d1',mustDo:true,timeOfDay:'morning',name:'Contrast Shower',category:'recovery',description:'Hot 2–3 min → Cold 30–60 sec → Hot 1 min → Cold 30–60 sec. End COLD. Morning only. Trains autonomic switching. Never cold at night — disrupts melatonin.',frequency:'daily',active:false},
+    {id:'d2',mustDo:true,timeOfDay:'morning',name:'Morning Self-Massage (Light)',category:'ayurveda',description:'5 min. Warm sesame oil on face, neck, scalp, and ears only. Circular on temples and behind ears. Long downward strokes on neck toward heart. Activates lymphatics and grounds the morning without full sedation. Warm shower after.',frequency:'daily',active:true},
+    {id:'d11',mustDo:true,timeOfDay:'evening',name:'Abhyanga — Full (Evening)',category:'ayurveda',description:'Full 15-min Abhyanga 60–90 min before bed. Warm sesame oil, full body sequence: scalp → face → neck → arms → chest → abdomen (clockwise) → back → legs → feet. Long strokes toward heart on limbs. Circular on joints. Leave 5–10 min before warm shower. The sleepiness you feel is the parasympathetic mechanism working — this is the highest-leverage pre-sleep intervention for your pattern. Classical Ayurveda recommends evening Abhyanga for Vata imbalance and insomnia.',frequency:'daily',active:true},
+    {id:'d3',mustDo:true,timeOfDay:'evening',name:'Digital Sunset',category:'sleep',description:'No screens from 21:00. Blue light suppresses melatonin and delays glymphatic onset.',frequency:'daily',active:true},
+    {id:'d4',mustDo:true,timeOfDay:'evening',name:'Sleep Position',category:'sleep',description:'Left side preferred. Neutral cervical pillow. Room 17–19°C. Blackout curtains or sleep mask. Left lateral enhances glymphatic clearance.',frequency:'daily',active:true},
+    {id:'d5',mustDo:true,timeOfDay:'morning',name:'Warm Water on Waking',category:'ayurveda',description:'1–3 glasses warm water before anything else. Activates digestive fire (Agni). Flushes overnight metabolic waste.',frequency:'daily',active:true},
     {id:'d6',timeOfDay:'afternoon',name:'Dietary Nitrates',category:'nutrition',description:'Beetroot, rocket, spinach, celery daily. Supports nitric oxide production. Eat raw or lightly cooked.',frequency:'daily',active:true},
-    {id:'d7',timeOfDay:'any time',name:'Dairy Elimination',category:'nutrition',description:'93% probability dairy is implicated based on Paleo remission analysis. Casein primary suspect. Highest-value dietary variable.',frequency:'daily',active:true},
+    {id:'d7',mustDo:true,timeOfDay:'any time',name:'Dairy Elimination',category:'nutrition',description:'93% probability dairy is implicated based on Paleo remission analysis. Casein primary suspect. Highest-value dietary variable.',frequency:'daily',active:true},
     {id:'d8',timeOfDay:'evening',name:'Hot Bath or Sauna',category:'recovery',description:'38–40°C bath or 80°C sauna, 15–20 min. Evening only — 60–90 min before bed. Increases NO, drives glymphatic drainage, relaxes cervical musculature.',frequency:'weekly',active:true},
     {id:'d9',timeOfDay:'any time',name:'Professional Massage',category:'recovery',description:'Deep tissue or sports massage. Traps, cervical, thoracic, suboccipital. 60 min. Monthly maintenance.',frequency:'monthly',active:true},
-    {id:'d10',timeOfDay:'morning',name:'Tongue Scraping',category:'ayurveda',description:'Copper scraper. On waking, before water. Removes Ama accumulated overnight. Stimulates digestion reflex.',frequency:'daily',active:true},
+    {id:'d10',mustDo:true,timeOfDay:'morning',name:'Tongue Scraping',category:'ayurveda',description:'Copper scraper. On waking, before water. Removes Ama accumulated overnight. Stimulates digestion reflex.',frequency:'daily',active:true},
   ],
   gtgItems:[
-    {id:'g1',name:'Chin-Up Negative',targetPasses:4,instructions:'Jump to top, 5-sec controlled descent. Always sub-max — stop 2 reps before failure.',video1:'https://www.youtube.com/results?search_query=chin+up+negative+eccentric',video2:'',active:true},
-    {id:'g2',name:'Push-Up (Archer or Standard)',targetPasses:4,instructions:'Ribs DOWN throughout. Elbows 45°. Slow return. Stop 2–3 reps before failure. Never to failure.',video1:'https://www.youtube.com/results?search_query=archer+push+up+tutorial',video2:'',active:true},
-    {id:'g4',name:'Chin Tuck',targetPasses:5,instructions:'Ears over shoulders. Draw chin back. 2-second hold. Do at your desk. Frequency is the medicine.',video1:'https://www.youtube.com/results?search_query=chin+tuck+posture+correction',video2:'',active:true},
-    {id:'g5',name:'Band Pullapart',targetPasses:4,instructions:'Retract and depress scapula fully. 1-second pause at full pull. Instant posture reset.',video1:'https://www.youtube.com/results?search_query=band+pull+apart+scapula',video2:'',active:true},
-    {id:'g6',name:'Hip Flexor Lunge',targetPasses:3,instructions:'Rear knee down. Posterior pelvic tilt. 30 seconds per side. Daily pelvic correction.',video1:'https://www.youtube.com/results?search_query=kneeling+hip+flexor+stretch',video2:'',active:true},
+    {id:'g1',name:'Chin-Up Negative',targetPasses:4,repsPerPass:3,instructions:'Jump to top, 5-sec controlled descent. Always sub-max — stop 2 reps before failure.',video1:'https://www.youtube.com/results?search_query=chin+up+negative+eccentric',video2:'',active:true},
+    {id:'g2',name:'Push-Up (Archer or Standard)',targetPasses:4,repsPerPass:5,instructions:'Ribs DOWN throughout. Elbows 45°. Slow return. Stop 2–3 reps before failure. Never to failure.',video1:'https://www.youtube.com/results?search_query=archer+push+up+tutorial',video2:'',active:true},
+    {id:'g4',name:'Chin Tuck',targetPasses:5,repsPerPass:10,instructions:'Ears over shoulders. Draw chin back. 2-second hold. Do at your desk. Frequency is the medicine.',video1:'https://www.youtube.com/results?search_query=chin+tuck+posture+correction',video2:'',active:true},
+    {id:'g5',name:'Band Pullapart',targetPasses:4,repsPerPass:15,instructions:'Retract and depress scapula fully. 1-second pause at full pull. Instant posture reset.',video1:'https://www.youtube.com/results?search_query=band+pull+apart+scapula',video2:'',active:true},
+    {id:'g6',name:'Hip Flexor Lunge',targetPasses:3,repsPerPass:1,instructions:'Rear knee down. Posterior pelvic tilt. 30 seconds per side. Daily pelvic correction.',video1:'https://www.youtube.com/results?search_query=kneeling+hip+flexor+stretch',video2:'',active:true},
   ],
   workouts:[
     {id:'w1',name:'Upper Strength',icon:'🏋️',rpe:'7–8',duration:'45–50 min',venue:'Gym',
@@ -1585,7 +1613,7 @@ const SEED={
   ]
 };
 
-const APP_SCHEMA_VERSION=30; // bump this when library seed data changes
+const APP_SCHEMA_VERSION=33; // bump this when library seed data changes
 
 function seedIfEmpty(){
   const storedVersion=DB.get('schemaVersion')||0;
@@ -1616,7 +1644,7 @@ function seedIfEmpty(){
     {id:'cg1',name:'Morning Correctives',blockId:'morning',active:true,exercises:[
       {name:'Glute Bridge',type:'main',sets:'2',reps:'15',load:'BW',rest:'20s',rpe:'5',notes:'Squeeze 1 sec at top. Activates glutes before the day begins.'},
       {name:'Clamshell',type:'main',sets:'2',reps:'15/side',load:'Light band',rest:'20s',rpe:'5',notes:'Hip abduction. Glute medius activation.'},
-      {name:'Nadi Shodana (Alternate Nostril)',type:'core',sets:'1',reps:'5 rounds',load:'BW',rest:'—',rpe:'—',notes:'Balances NS hemispheres. 3 min.'},
+      
       {name:'Cervical Retraction (chin tuck)',type:'core',sets:'2',reps:'10',load:'BW',rest:'20s',rpe:'—',notes:'Ears over shoulders. Draw chin back. 2-sec hold.'},
     ]},
     {id:'cg7',name:'Pre-Upper Gym',blockId:'training',active:true,exercises:[
@@ -1641,16 +1669,22 @@ function seedIfEmpty(){
       {name:'Leg Swings',type:'corrective',sets:'1',reps:'10/side',load:'BW',rest:'—',rpe:'—',notes:'Front/back and lateral. Joint prep before Zone 2.'},
     ]},
     {id:'cg4',name:'Post-Zone2 Correctives',blockId:'training',active:true,exercises:[
-      {name:'World\'s Greatest Stretch',type:'corrective',sets:'1',reps:'4/side',load:'BW',rest:'15s',rpe:'—',notes:'Warm tissue absorbs this better post-cardio.'},
-      {name:'Hip Flexor Stretch (kneeling)',type:'corrective',sets:'1',reps:'60s/side',load:'BW',rest:'—',rpe:'—',notes:'Posterior pelvic tilt at bottom.'},
-      {name:'Cervical Retraction',type:'corrective',sets:'3',reps:'10',load:'BW',rest:'20s',rpe:'—',notes:'Forward head correction after Zone 2 posture.'},
+      {name:'World\'s Greatest Stretch',type:'corrective',sets:'1',reps:'4/side',load:'BW',rest:'15s',rpe:'—',notes:'All three spinal zones. Warm tissue absorbs this far better post-cardio.'},
+      {name:'Hip Flexor Stretch (kneeling)',type:'corrective',sets:'1',reps:'60s/side',load:'BW',rest:'—',rpe:'—',notes:'Posterior pelvic tilt at bottom. Anterior pelvic tilt correction — warm tissue after cardio.'},
+      {name:'Hip 90/90 Transitions',type:'corrective',sets:'1',reps:'8/side',load:'BW',rest:'—',rpe:'—',notes:'Internal and external rotation of the hip. Slow and deliberate. Best done when warm.'},
+      {name:'Jefferson Curl',type:'corrective',sets:'2',reps:'5',load:'5kg',rest:'45s',rpe:'—',notes:'W3+ only. Segmental articulation — not a hamstring stretch. Warm tissue essential.'},
+      {name:'Cervical Retraction',type:'corrective',sets:'3',reps:'10',load:'BW',rest:'20s',rpe:'—',notes:'Forward head correction. 2-sec hold at end range.'},
     ]},
-    {id:'cg5',name:'Afternoon Correctives',blockId:'afternoon',active:true,exercises:[
+    {id:'cg5',name:'Afternoon Correctives',blockId:'afternoon',active:false,exercises:[
       {name:'Cervical Retraction (chin tuck)',type:'corrective',sets:'2',reps:'10',load:'BW',rest:'20s',rpe:'—',notes:'Desk reset. Frequency is the medicine.'},
       {name:'Hip Flexor Stretch (kneeling)',type:'corrective',sets:'1',reps:'60s/side',load:'BW',rest:'—',rpe:'—',notes:'Anterior pelvic tilt correction mid-day.'},
       {name:'Jefferson Curl',type:'corrective',sets:'2',reps:'5',load:'5kg',rest:'45s',rpe:'—',notes:'W3+ only. Segmental articulation.'},
     ]},
   ]);
+  // Seed optionalExtras from the OPTIONAL_EXTRAS constant
+  if(!DB.get('optionalExtras')||needsLibraryUpdate){
+    DB.set('optionalExtras', OPTIONAL_EXTRAS.map(ex=>({...ex, active:true})));
+  }
   // Write schema version — next load won't re-seed unless version bumps again
   if(needsLibraryUpdate) DB.set('schemaVersion',APP_SCHEMA_VERSION);
 }
@@ -2363,11 +2397,11 @@ function renderBlocks(){
       ],
       training:[
         {id:'workout',label:'Workout',     icon:'🏋️'},
+        {id:'gtg',    label:'GTG',          icon:'⚡'},
         {id:'corr',   label:'Correctives', icon:'⚙️'},
       ],
       afternoon:[
         {id:'supps', label:'Supps',        icon:'💊'},
-        {id:'prac',  label:'Practices',    icon:'🧘'},
         {id:'corr',  label:'Correctives',  icon:'⚙️'},
       ],
       evening:[
@@ -2389,12 +2423,15 @@ function renderBlocks(){
     function renderTaskItem(id,isSupp=false){
       const item=getItem(id);if(!item)return'';
       const ck=!!checks[id];
-      // Supplements never show the amber dot — always plain empty until ticked
       const cur=!isSupp&&isAct&&!ck;
+      const isMustDo=!!item.mustDo;
       const dur=item.duration||(item.sets&&item.reps?`${item.sets}×${item.reps}`:'')|| item.dose||(item.timing?item.timing.split('—')[0].trim():'');
-      return`<div class="task" data-id="${id}" data-bid="${bd.id}" onclick="tap('${id}','${bd.id}')">
+      return`<div class="task${isMustDo?' must-do-task':''}" data-id="${id}" data-bid="${bd.id}" onclick="tap('${id}','${bd.id}')">
         <div class="tchk ${ck?'ck':cur?'cur':''}">${ck?'✓':''}</div>
-        <div class="ti"><p class="tn ${ck?'dk':''}">${item.name}</p><p class="tm">${item.category||item.timing||''}</p></div>
+        <div class="ti">
+          <p class="tn ${ck?'dk':''}">${isMustDo?'<span class="must-star">★</span> ':''}${item.name}</p>
+          <p class="tm">${item.category||item.timing||''}</p>
+        </div>
         <div class="tr">
           <span class="tdur">${dur}</span>
           <span class="tib" onclick="event.stopPropagation();showDetail('${id}')">ⓘ</span>
@@ -2407,6 +2444,12 @@ function renderBlocks(){
     }
 
     function countDone(ids){return ids.filter(id=>checks[id]).length;}
+
+    function sortMustDosFirst(ids){
+      const mustDos=ids.filter(id=>getItem(id)?.mustDo);
+      const rest=ids.filter(id=>!getItem(id)?.mustDo);
+      return[...mustDos,...rest];
+    }
 
     // Build panes
     const panes={};
@@ -2423,10 +2466,41 @@ function renderBlocks(){
     panes['supps']=napHtml+suppHtml;
 
     // Practices pane
-    const pracHtml=pracIds.map(renderTaskItem).join('')||otherIds.map(renderTaskItem).join('')||'<p style="padding:16px;font-size:13px;color:var(--muted);font-style:italic;text-align:center">No practices for this block</p>';
+    const pracHtml=sortMustDosFirst(pracIds).map(renderTaskItem).join('')||sortMustDosFirst(otherIds).map(renderTaskItem).join('')||'<p style="padding:16px;font-size:13px;color:var(--muted);font-style:italic;text-align:center">No practices for this block</p>';
     panes['prac']=pracHtml;
 
-    // Correctives pane — assigned groups from TPL + full picker for training
+    // GTG pane (training only)
+    if(isTraining){
+      const gtgItems=DB.get('gtgItems')||[];
+      const activeGtg=gtgItems.filter(g=>g.active);
+      if(activeGtg.length){
+        const gtgDayCounts=DB.get('gtg:'+viewDate)||{};
+        panes['gtg']=`<div style="padding:4px 0">`+activeGtg.map(g=>{
+          const count=gtgDayCounts[g.id]||0;
+          const target=g.targetPasses||3;
+          const reps=g.repsPerPass||5;
+          const pct=Math.min(100,Math.round(count/target*100));
+          const col=pct>=100?'var(--t-green)':pct>=50?'var(--t-yellow)':'var(--muted)';
+          const done=pct>=100;
+          return`<div style="padding:10px 14px;border-bottom:1px solid var(--border)">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+              <div style="flex:1">
+                <p style="font-size:13px;font-weight:600;color:var(--text)">${g.name}</p>
+                <p style="font-size:12px;color:var(--accent);font-weight:500;margin-top:2px">${done?'✓ Complete':'Do '+reps+' reps per pass'}</p>
+              </div>
+              <span style="font-family:var(--fm);font-size:13px;color:${col};font-weight:700;min-width:60px;text-align:right">${count}/${target}</span>
+              <button onclick="logGTG('${g.id}',-1)" style="background:var(--card);border:1px solid var(--border);border-radius:6px;width:28px;height:28px;font-size:15px;cursor:pointer;color:var(--text)">−</button>
+              <button onclick="logGTG('${g.id}',1)" style="background:${done?'var(--t-green)':'var(--accent)'};border:none;border-radius:6px;width:28px;height:28px;font-size:15px;cursor:pointer;color:#fff;font-weight:700">+</button>
+            </div>
+            <div style="height:4px;background:var(--border);border-radius:2px">
+              <div style="height:100%;width:${pct}%;background:${col};border-radius:2px;transition:width .3s"></div>
+            </div>
+          </div>`;
+        }).join('')+`</div>`;
+      } else {
+        panes['gtg']='<p style="padding:16px;font-size:13px;color:var(--muted);font-style:italic;text-align:center">No GTG movements in Library</p>';
+      }
+    }
     const assignedCorrTokens=bd.items.filter(id=>id.startsWith('__corrgroup__')||id.startsWith('__corr__')||id.startsWith('__wind__'));
     let corrHtml='';
 
@@ -2456,15 +2530,39 @@ function renderBlocks(){
     // Workout pane
     panes['workout']=workoutToken?renderWQ():'';
 
-    // Build sub-tab bar with badge counts
-    const tabBar=tabs.map((t,i)=>{
+    // Build sub-tab bar — only show tabs that have content
+    function paneHasContent(tabId){
+      const p=panes[tabId];
+      if(!p) return false;
+      // Empty placeholder messages don't count as content
+      if(p.includes('No supplements for this block')) return false;
+      if(p.includes('No practices for this block')) return false;
+      if(p.includes('No correctives for this block')) return false;
+      if(p.includes('No corrective groups')) return false;
+      if(p.includes('No training corrective')) return false;
+      // Log and Workout panes always show
+      if(tabId==='log'||tabId==='workout') return true;
+      // GTG: check if there are active items
+      if(tabId==='gtg') return (DB.get('gtgItems')||[]).some(g=>g.active);
+      // Correctives: only show if there's actual HTML with exercises
+      if(tabId==='corr') return p.length>100&&!p.includes('font-style:italic');
+      return p.trim().length>20;
+    }
+
+    const visibleTabs=tabs.filter(t=>paneHasContent(t.id));
+
+    // If saved sub-tab is no longer visible, default to first visible tab
+    const activeSubTab=visibleTabs.find(t=>t.id===savedSubTab)?savedSubTab:visibleTabs[0]?.id;
+    if(activeSubTab!==savedSubTab) DB.set('subtab:'+bd.id,activeSubTab);
+
+    const tabBar=visibleTabs.map(t=>{
       let cnt='';
       if(t.id==='supps'&&suppIds.length){const d=countDone(suppIds);cnt=`<span class="bst-badge">${d}/${suppIds.length}</span>`;}
       if(t.id==='prac'&&pracIds.length){const d=countDone(pracIds);cnt=`<span class="bst-badge">${d}/${pracIds.length}</span>`;}
-      return`<div class="bst ${savedSubTab===t.id?'on':''}" onclick="switchSubTab('${bd.id}','${t.id}')">${t.label}${cnt}</div>`;
+      return`<div class="bst ${activeSubTab===t.id?'on':''}" onclick="switchSubTab('${bd.id}','${t.id}')">${t.label}${cnt}</div>`;
     }).join('');
 
-    const panesHtml=tabs.map(t=>`<div class="bst-pane ${savedSubTab===t.id?'on':''}" id="pane_${bd.id}_${t.id}">${panes[t.id]||''}</div>`).join('');
+    const panesHtml=visibleTabs.map(t=>`<div class="bst-pane ${activeSubTab===t.id?'on':''}" id="pane_${bd.id}_${t.id}">${panes[t.id]||''}</div>`).join('');
 
     // Tab state
     const savedOpen=tabState[bd.id];
@@ -3260,14 +3358,50 @@ function refreshSubTabBadges(blockId){
     }
   });
 }
+function logGTG(id,delta){
+  const counts=DB.get('gtg:'+viewDate)||{};
+  counts[id]=Math.max(0,(counts[id]||0)+delta);
+  DB.set('gtg:'+viewDate,counts);
+  // Re-render GTG pane in-place
+  const pane=document.getElementById('pane_training_gtg');
+  if(pane){
+    const gtgItems=DB.get('gtgItems')||[];
+    const item=gtgItems.find(g=>g.id===id);
+    if(!item)return;
+    // Update the specific item's count and bar
+    const items=pane.querySelectorAll('[data-gtgid]');
+    // Easier to just re-render the pane
+    const activeGtg=gtgItems.filter(g=>g.active);
+    const gtgDayCounts=DB.get('gtg:'+viewDate)||{};
+    pane.innerHTML=`<div style="padding:4px 0">`+activeGtg.map(g=>{
+      const count=gtgDayCounts[g.id]||0;
+      const target=g.targetPasses||3;
+      const reps=g.repsPerPass||5;
+      const pct=Math.min(100,Math.round(count/target*100));
+      const col=pct>=100?'var(--t-green)':pct>=50?'var(--t-yellow)':'var(--muted)';
+      const done=pct>=100;
+      return`<div style="padding:10px 14px;border-bottom:1px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <div style="flex:1">
+            <p style="font-size:13px;font-weight:600;color:var(--text)">${g.name}</p>
+            <p style="font-size:12px;color:var(--accent);font-weight:500;margin-top:2px">${done?'✓ Complete':'Do '+reps+' reps per pass'}</p>
+          </div>
+          <span style="font-family:var(--fm);font-size:13px;color:${col};font-weight:700;min-width:60px;text-align:right">${count}/${target}</span>
+          <button onclick="logGTG('${g.id}',-1)" style="background:var(--card);border:1px solid var(--border);border-radius:6px;width:28px;height:28px;font-size:15px;cursor:pointer;color:var(--text)">−</button>
+          <button onclick="logGTG('${g.id}',1)" style="background:${done?'var(--t-green)':'var(--accent)'};border:none;border-radius:6px;width:28px;height:28px;font-size:15px;cursor:pointer;color:#fff;font-weight:700">+</button>
+        </div>
+        <div style="height:4px;background:var(--border);border-radius:2px">
+          <div style="height:100%;width:${pct}%;background:${col};border-radius:2px;transition:width .3s"></div>
+        </div>
+      </div>`;
+    }).join('')+`</div>`;
+  }
+  updateRing();
+}
+
 function updateGTGStrip(){
-  const counts=getGTG();
-  const total=Object.values(counts).reduce((a,b)=>a+b,0);
-  const el=document.getElementById('gtgTotal');
-  if(el)el.textContent=total===1?'1 pass today':`${total} passes today`;
-  const strip=document.getElementById('gtgStrip');
-  const onToday=document.getElementById('sToday').classList.contains('on');
-  if(strip)strip.style.display=onToday?'block':'none';
+  // GTG strip removed — GTG now lives in Training block tab
+  // Keep function to avoid errors from existing calls
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -3435,7 +3569,7 @@ function showGTGDetail(id){
   document.getElementById('mGTG').classList.remove('open');
   document.getElementById('dCat').textContent='GTG — Grease the Groove';
   document.getElementById('dTtl').textContent=item.name;
-  document.getElementById('dChips').innerHTML=`<span class="chip hi">Target: ${item.targetPasses}/day</span><span class="chip">Always sub-max</span>`;
+  document.getElementById('dChips').innerHTML=`<span class="chip hi">${item.repsPerPass||'—'} reps × ${item.repsPerPass||'—'} reps × ${item.targetPasses||3}/day</span><span class="chip">Always sub-max</span>`;
   let b=`<div><p class="d-slabel">Instructions</p><p class="d-instr">${item.instructions}</p></div>`;
   if(item.video1)b+=`<div><p class="d-slabel">Video</p><a class="vid-link" href="${item.video1}" target="_blank"><span class="vid-ico">▶</span><span class="vid-txt">Reference →</span></a></div>`;
   b+=`<button class="mark-done-btn" onclick="closeDetail()">Close</button>`;
@@ -3596,6 +3730,17 @@ function renderLogContent(date){
     ${wi.notes?`<p style="font-size:12px;color:var(--muted);padding:4px 14px;font-style:italic">${wi.notes}</p>`:''}`;
   }
   if(log.eNote){html+=`<div class="slabel">Evening Notes</div><div class="note-display">${log.eNote}</div>`}
+
+  // Optional extras
+  const extrasLog=DB.get('extras:'+date)||{};
+  const allExtras=DB.get('optionalExtras')||OPTIONAL_EXTRAS;
+  const doneExtras=allExtras.filter(ex=>extrasLog[ex.id]&&ex.active!==false);
+  if(doneExtras.length){
+    html+=`<div class="slabel">Optional Activities</div>
+    <div class="sym-summary" style="padding:10px 14px">
+      ${doneExtras.map(ex=>`<div class="sym-sum-row"><span class="sym-sum-lbl">${ex.icon} ${ex.name}</span><span class="sym-sum-val" style="width:auto;color:var(--t-green)">✓</span></div>`).join('')}
+    </div>`;
+  }
 
   // Training completed
   const sessionDone=DB.get('sessionDone:'+date);
@@ -3921,7 +4066,56 @@ function renderProgContent(){
 
   document.getElementById('progContent').innerHTML=html;
 }
-// ── WEEKLY AI REVIEW ─────────────────────────────────────
+// ── OPTIONAL EXTRAS ──────────────────────────────────────
+const OPTIONAL_EXTRAS=[
+  {id:'ox1', name:'Hot Bath / Sauna',    icon:'🛁', category:'recovery',  notes:'38–40°C · 15–20 min · 60–90 min before bed'},
+  {id:'ox2', name:'TRE (Tremoring)',      icon:'🫨', category:'nervous system', notes:'10–15 min post-workout or evening. Neurogenic tremoring for trauma/tension release.'},
+  {id:'ox3', name:'Professional Massage', icon:'💆', category:'recovery',  notes:'Deep tissue or sports. Traps, cervical, thoracic, suboccipital.'},
+  {id:'ox4', name:'Cold Exposure',        icon:'🧊', category:'recovery',  notes:'Cold shower or ice bath. Morning only. 2–3 min.'},
+  {id:'ox5', name:'Sunlight (morning)',   icon:'☀️', category:'circadian', notes:'10–20 min outdoor light within 1 hr of waking. No sunglasses.'},
+  {id:'ox6', name:'Grounding',            icon:'🌿', category:'nervous system', notes:'Barefoot on grass/earth. 15–20 min. Anti-inflammatory.'},
+  {id:'ox7', name:'Breathwork (extended)',icon:'🌬️', category:'breathing',  notes:'Wim Hof, box breathing, or extended Bhramari session. 15–20 min.'},
+  {id:'ox8', name:'Meditation',           icon:'🧘', category:'nervous system', notes:'Guided or silent. 10–20 min. Not during acute anxiety.'},
+  {id:'ox9', name:'Nature Walk',          icon:'🌲', category:'recovery',  notes:'Unstructured. No HR target. Phone away. Restorative, not cardio.'},
+  {id:'ox10',name:'Journalling',          icon:'📓', category:'nervous system', notes:'Morning pages or evening reflection. 5–15 min freeform.'},
+];
+
+function openExtras(){
+  const modal=document.getElementById('mExtras');
+  const body=document.getElementById('extrasBody');
+  if(!modal||!body) return;
+  const done=DB.get('extras:'+viewDate)||{};
+  const extras=(DB.get('optionalExtras')||OPTIONAL_EXTRAS).filter(ex=>ex.active!==false);
+  body.innerHTML=`<p style="font-size:12px;color:var(--muted);margin-bottom:12px">Tap to mark done today — no pressure, no targets.</p>`
+    +extras.map(ex=>{
+      const ck=!!done[ex.id];
+      return`<div class="extras-item" onclick="tapExtra('${ex.id}')">
+        <div class="extras-chk ${ck?'ck':''}" id="exck_${ex.id}">${ck?'✓':''}</div>
+        <div style="flex:1">
+          <p style="font-size:13px;font-weight:500;color:var(--text)">${ex.icon||'✨'} ${ex.name}</p>
+          <p style="font-size:11px;color:var(--muted);margin-top:2px">${ex.notes||ex.category||''}</p>
+        </div>
+      </div>`;
+    }).join('');
+  modal.classList.add('open');
+}
+
+function tapExtra(id){
+  const done=DB.get('extras:'+viewDate)||{};
+  done[id]=!done[id];
+  DB.set('extras:'+viewDate,done);
+  const chk=document.getElementById('exck_'+id);
+  if(chk){chk.className='extras-chk'+(done[id]?' ck':'');chk.textContent=done[id]?'✓':'';}
+}
+
+function hideExtrasFab(){
+  const fab=document.getElementById('extrasFab');
+  if(fab) fab.style.display='none';
+}
+function showExtrasFab(){
+  const fab=document.getElementById('extrasFab');
+  if(fab) fab.style.display='flex';
+}
 async function generateWeeklyReview(weekNum){
   const loading=document.getElementById('aiReviewLoading');
   const content=document.getElementById('aiReviewContent');
@@ -3947,6 +4141,10 @@ async function generateWeeklyReview(weekNum){
     if(log.nap&&log.nap.duration) weekData.naps.push({date,duration:log.nap.duration,feel:log.nap.feel});
     if(log.mNote) weekData.notes.push({date,type:'morning',note:log.mNote});
     if(log.eNote) weekData.notes.push({date,type:'evening',note:log.eNote});
+    // Optional extras
+    const extras=DB.get('extras:'+date)||{};
+    const doneExtras=OPTIONAL_EXTRAS.filter(ex=>extras[ex.id]).map(ex=>ex.name);
+    if(doneExtras.length) weekData.notes.push({date,type:'extras',note:doneExtras.join(', ')});
     const sessionDone=DB.get('sessionDone:'+date);
     if(sessionDone){
       const w=workouts.find(x=>x.id===sessionDone.workoutId);
@@ -3977,7 +4175,11 @@ Keep it direct, specific to his data, and under 200 words. Reference actual numb
   try{
     const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      headers:{
+        'Content-Type':'application/json',
+        'anthropic-dangerous-direct-browser-ipc':'true',
+        'anthropic-version':'2023-06-01'
+      },
       body:JSON.stringify({
         model:'claude-sonnet-4-20250514',
         max_tokens:1000,
@@ -4152,7 +4354,7 @@ const LIB_GROUPS={
     key:'gtgItems',icon:'⚡',cat:'GTG Movement',
     groups:null, // flat list
     nameFn:i=>i.name,
-    metaFn:i=>`Target: ${i.targetPasses} passes/day`,
+    metaFn:i=>`${i.repsPerPass||'—'} reps × ${i.targetPasses||3} passes/day`,
   },
   work:{
     key:'workouts',icon:'🏋️',cat:'Workout',
@@ -4175,6 +4377,12 @@ const LIB_GROUPS={
     ],
     nameFn:i=>i.name,
     metaFn:i=>`${i.session||''} · ${i.direction||''}`,
+  },
+  extras:{
+    key:'optionalExtras',icon:'✨',cat:'Optional Activity',
+    groups:null,
+    nameFn:i=>`${i.icon||''} ${i.name}`,
+    metaFn:i=>`${i.category||''} · ${i.notes?i.notes.slice(0,40)+'…':''}`,
   },
 };
 
@@ -4279,7 +4487,7 @@ function renderLibTab(tab){
 
 // ── LIBRARY DETAIL VIEW ───────────────────────────────────
 function openLibDetail(tab,id){
-  const cfgKey={supp:'supplements',prac:'practices',dir:'directives',gtg:'gtgItems',work:'workouts',corr:'corrGroups',sym:'symptoms'}[tab];
+  const cfgKey={supp:'supplements',prac:'practices',dir:'directives',gtg:'gtgItems',work:'workouts',corr:'corrGroups',sym:'symptoms',extras:'optionalExtras'}[tab];
   const items=DB.get(cfgKey)||[];
   const item=items.find(i=>i.id===id);
   if(!item)return;
@@ -4296,7 +4504,7 @@ function openLibDetail(tab,id){
     supp:`${item.dose||''} ${item.unit||''} · ${item.timing||''}`.trim(),
     prac:`${item.category||''} · ${item.duration||''} · ${item.phase||'always'}`,
     dir:`${item.category||''} · ${item.frequency||''}`,
-    gtg:`Target: ${item.targetPasses||3} passes/day`,
+    gtg:`${item.repsPerPass||'—'} reps × ${item.targetPasses||3} passes/day`,
     work:`${item.venue||''} · ${item.duration||''} · RPE ${item.rpe||''}`
   };
   document.getElementById('ldMeta').textContent=metas[tab]||'';
@@ -4348,7 +4556,7 @@ function openLibDetail(tab,id){
       <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden">
         <div class="lib-detail-field" style="padding:10px 14px">
           <span class="lib-detail-field-lbl">Target passes</span>
-          <span class="lib-detail-field-val">${item.targetPasses||3}/day</span>
+          <span class="lib-detail-field-val">${item.repsPerPass||'—'} reps × ${item.targetPasses||3}/day</span>
         </div>
       </div></div>`;
     if(item.instructions) body+=`<div><p class="lib-detail-section">Instructions</p><p class="lib-detail-text">${item.instructions}</p></div>`;
@@ -4418,6 +4626,15 @@ function openLibDetail(tab,id){
           </div>`).join('')}
       </div>`;
     }
+  }
+
+  else if(tab==='extras'){
+    body+=`<div><p class="lib-detail-section">Details</p>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden">
+        ${[['Icon',item.icon||'✨'],['Category',item.category||'—']].map(([l,v])=>`
+          <div class="lib-detail-field" style="padding:10px 14px"><span class="lib-detail-field-lbl">${l}</span><span class="lib-detail-field-val">${v}</span></div>`).join('')}
+      </div></div>`;
+    if(item.notes) body+=`<div><p class="lib-detail-section">Notes / Cues</p><p class="lib-detail-text">${item.notes}</p></div>`;
   }
 
   else if(tab==='sym'){
@@ -4504,10 +4721,12 @@ function buildLibForm(tab,item){
     fields+=f('Time of Day','timeOfDay',item.timeOfDay||'any time','text',['morning','training','afternoon','evening','any time']);
     fields+=f('Category','category',item.category,'text',['sleep','recovery','nutrition','ayurveda','lifestyle']);
     fields+=f('Frequency','frequency',item.frequency,'text',['daily','weekly','monthly']);
+    fields+=`<div class="form-field"><label class="form-label">Must-Do (daily non-negotiable)</label>
+      <select class="form-input" id="fe_mustDo"><option value="true" ${item.mustDo?'selected':''}>Yes — star and pin to top</option><option value="false" ${!item.mustDo?'selected':''}>No — regular item</option></select></div>`;
     fields+=f('Description','description',item.description,'textarea');
   } else if(tab==='gtg'){
     fields+=f('Name','name',item.name);
-    fields+=f('Target Passes / Day','targetPasses',item.targetPasses,'number');
+    fields+=`<div class="form-row">${f('Target Passes / Day','targetPasses',item.targetPasses,'number')}${f('Reps Per Pass','repsPerPass',item.repsPerPass,'number')}</div>`;
     fields+=f('Instructions','instructions',item.instructions,'textarea');
     fields+=f('Video Link 1','video1',item.video1);
     fields+=f('Video Link 2','video2',item.video2);
@@ -4570,6 +4789,10 @@ function buildLibForm(tab,item){
       </div>
       <button type="button" onclick="addExerciseRow()" style="width:100%;background:transparent;border:1px dashed var(--border);border-radius:var(--rs);padding:9px;font-size:13px;color:var(--muted);cursor:pointer;margin-top:4px">＋ Add Exercise</button>
     </div>`;
+  } else if(tab==='extras'){
+    fields+=`<div class="form-row">${f('Icon (emoji)','icon',item.icon||'✨')}${f('Category','category',item.category,'text',['recovery','nervous system','breathing','circadian','movement'])}</div>`;
+    fields+=f('Name','name',item.name);
+    fields+=f('Notes / Cues','notes',item.notes,'textarea');
   } else if(tab==='sym'){
     fields+=f('Display Name','name',item.name);
     fields+=f('Data Key','key',item.key||'','text');
@@ -4656,7 +4879,7 @@ function toggleLibSw(swId,inputId){
   inp.value=on?'true':'false';
 }
 function saveLibItem(tab,itemId){
-  const cfgKey={supp:'supplements',prac:'practices',dir:'directives',gtg:'gtgItems',work:'workouts',corr:'corrGroups',sym:'symptoms'}[tab];
+  const cfgKey={supp:'supplements',prac:'practices',dir:'directives',gtg:'gtgItems',work:'workouts',corr:'corrGroups',sym:'symptoms',extras:'optionalExtras'}[tab];
   const items=DB.get(cfgKey)||[];
   const idx=items.findIndex(i=>i.id===itemId);
   const fv=id=>{const el=document.getElementById('lf_'+id);return el?el.value:''};
@@ -4671,10 +4894,11 @@ function saveLibItem(tab,itemId){
     if(orig&&orig.hrv_gate) updated.hrv_gate=orig.hrv_gate;
     if(orig&&orig.hrv_threshold) updated.hrv_threshold=orig.hrv_threshold;
   }
-  else if(tab==='dir') updated={id:itemId,name:fv('name'),timeOfDay:fv('timeOfDay')||'any time',category:fv('category'),frequency:fv('frequency'),description:fv('description'),active:fv('active')!=='false'};
-  else if(tab==='gtg') updated={id:itemId,name:fv('name'),targetPasses:parseInt(fv('targetPasses'))||3,instructions:fv('instructions'),video1:fv('video1'),video2:fv('video2'),active:fv('active')!=='false'};
+  else if(tab==='dir') updated={id:itemId,name:fv('name'),timeOfDay:fv('timeOfDay')||'any time',category:fv('category'),frequency:fv('frequency'),description:fv('description'),mustDo:document.getElementById('fe_mustDo')?.value==='true',active:fv('active')!=='false'};
+  else if(tab==='gtg') updated={id:itemId,name:fv('name'),targetPasses:parseInt(fv('targetPasses'))||3,repsPerPass:parseInt(fv('repsPerPass'))||5,instructions:fv('instructions'),video1:fv('video1'),video2:fv('video2'),active:fv('active')!=='false'};
   else if(tab==='work') updated={id:itemId,name:fv('name'),icon:fv('icon'),rpe:fv('rpe'),duration:fv('duration'),venue:fv('venue'),keyLifts:fv('keyLifts'),description:fv('description'),hevyLink:fv('hevyLink'),exercises:readExerciseList(),active:fv('active')!=='false'};
   else if(tab==='corr') updated={id:itemId,name:fv('name'),blockId:fv('blockId')||'morning',exercises:readExerciseList(),active:fv('active')!=='false'};
+  else if(tab==='extras') updated={id:itemId,name:fv('name'),icon:fv('icon')||'✨',category:fv('category'),notes:fv('notes'),active:fv('active')!=='false'};
   else if(tab==='sym')  updated={id:itemId,name:fv('name'),key:fv('key'),session:fv('session')||'morning',direction:fv('direction')||'bad-high',description:fv('description'),active:fv('active')!=='false'};
   if(idx>=0)items[idx]=updated;else items.push(updated);
   DB.set(cfgKey,items);
@@ -4684,7 +4908,7 @@ function saveLibItem(tab,itemId){
   toast('Saved ✓');
 }
 function archLibItem(tab,id){
-  const cfgKey={supp:'supplements',prac:'practices',dir:'directives',gtg:'gtgItems',work:'workouts',corr:'corrGroups',sym:'symptoms'}[tab];
+  const cfgKey={supp:'supplements',prac:'practices',dir:'directives',gtg:'gtgItems',work:'workouts',corr:'corrGroups',sym:'symptoms',extras:'optionalExtras'}[tab];
   const items=DB.get(cfgKey)||[];
   const i=items.find(x=>x.id===id);
   if(i){i.active=false;DB.set(cfgKey,items);}
@@ -4816,7 +5040,8 @@ function goTo(name){
   document.getElementById('s'+name).classList.add('on');
   document.getElementById('nb'+name).classList.add('on');
   updateGTGStrip();
-  if(name==='Today'){viewDate=DB.today();}
+  if(name==='Today'){viewDate=DB.today();showExtrasFab();}
+  else hideExtrasFab();
   if(name==='Log')initLogScreen();
   if(name==='Progress')initProgress();
   if(name==='Library')initLibrary();
