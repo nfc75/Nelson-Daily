@@ -608,7 +608,7 @@ select.form-input{cursor:pointer}
   border:1.5px solid var(--t-purple);display:flex;align-items:center;
   justify-content:center;font-size:13px;color:var(--t-purple);margin-top:1px;
 }
-.sym-block-ico.logged{background:var(--t-purple);border-color:var(--t-purple);color:#fff}
+.sym-block-ico.logged{background:var(--t-green);border-color:var(--t-green);color:#fff}
 .sym-block-name{font-size:13px;font-weight:600;color:var(--text);flex:1}
 .sym-block-status{font-size:13px;color:var(--muted)}
 .sym-block-chev{font-size:13px;color:var(--muted);transition:transform .25s;flex-shrink:0}
@@ -837,6 +837,16 @@ input[type=range].sym-inline::-webkit-slider-thumb{
 .reorder-toggle.active{color:var(--accent)}
 .must-do-task{background:rgba(232,168,56,.04);border-left:2px solid rgba(232,168,56,.4)}
 .must-star{color:var(--accent);font-size:12px;margin-right:2px}
+.tag-picker{display:flex;flex-wrap:wrap;gap:8px;padding:4px 0}
+.tag-pill{
+  padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;
+  border:1.5px solid var(--border);color:var(--muted);
+  transition:all .15s;user-select:none;
+}
+.tag-pill.sel{
+  background:rgba(232,168,56,.15);border-color:var(--accent);
+  color:var(--accent);font-weight:500;
+}
 /* Optional extras floating button */
 .extras-fab{
   position:fixed;bottom:80px;right:16px;z-index:200;
@@ -1178,7 +1188,6 @@ input[type=range].sym-inline::-webkit-slider-thumb{
     <div class="lib-tabs">
       <div class="lt on" data-tab="supp" onclick="libTab('supp')">Supps</div>
       <div class="lt" data-tab="prac" onclick="libTab('prac')">Practices</div>
-      <div class="lt" data-tab="dir" onclick="libTab('dir')">Directives</div>
       <div class="lt" data-tab="gtg" onclick="libTab('gtg')">GTG</div>
       <div class="lt" data-tab="work" onclick="libTab('work')">Workouts</div>
       <div class="lt" data-tab="corr" onclick="libTab('corr')">Correctives</div>
@@ -1187,7 +1196,6 @@ input[type=range].sym-inline::-webkit-slider-thumb{
     </div>
     <div id="libSupp" class="lib-tab-content on"><div class="lib-list" id="libSuppList"></div><button class="lib-add-btn" onclick="libNew('supp')">＋ Add Supplement</button></div>
     <div id="libPrac" class="lib-tab-content"><div class="lib-list" id="libPracList"></div><button class="lib-add-btn" onclick="libNew('prac')">＋ Add Practice</button></div>
-    <div id="libDir" class="lib-tab-content"><div class="lib-list" id="libDirList"></div><button class="lib-add-btn" onclick="libNew('dir')">＋ Add Directive</button></div>
     <div id="libGtg" class="lib-tab-content"><div class="lib-list" id="libGtgList"></div><button class="lib-add-btn" onclick="libNew('gtg')">＋ Add GTG Movement</button></div>
     <div id="libWork" class="lib-tab-content"><div class="lib-list" id="libWorkList"></div><button class="lib-add-btn" onclick="libNew('work')">＋ Add Workout</button></div>
     <div id="libCorr" class="lib-tab-content"><div class="lib-list" id="libCorrList"></div><button class="lib-add-btn" onclick="libNew('corr')">＋ Add Corrective Group</button></div>
@@ -1512,25 +1520,29 @@ const SEED={
       {id:'ee4',name:'Supported Fish',duration:'2 min',cues:'Same towel setup.'},
       {id:'ee5',name:'Closing Breath + Jaw Release',duration:'4 min',cues:'4s in / 8s out, 10 rounds. End with conscious jaw, tongue, and forehead release.'},
     ],instructions:'HRV <33. Fast evening decompression — 15 min.',active:true},
+
+    {id:'d2',timeOfDay:'morning',name:'Morning Self-Massage (Light)',category:'directive',mustDo:true,duration:'5 min',phase:'always',instructions:'Warm sesame oil on face, neck, scalp, and ears only. Circular on temples and behind ears. Long downward strokes on neck toward heart. Activates lymphatics and grounds the morning without full sedation. Warm shower after.',video1:'',video2:'',active:true},
+    {id:'d5',timeOfDay:'morning',name:'Warm Water on Waking',category:'directive',mustDo:true,duration:'2 min',phase:'always',instructions:'Large glass of warm water. First thing before food, coffee or supplements. Activates gut motility and flushes overnight metabolic waste.',video1:'',video2:'',active:true},
+    {id:'d10',timeOfDay:'morning',name:'Tongue Scraping',category:'directive',mustDo:true,duration:'1 min',phase:'always',instructions:'Copper or stainless tongue scraper. 7–14 gentle strokes from back to tip. Removes overnight Ama. Rinse scraper between strokes.',video1:'',video2:'',active:true},
+    {id:'d7',timeOfDay:'morning',name:'Dairy Elimination',category:'directive',mustDo:true,duration:'',phase:'always',instructions:'No dairy of any kind. The Paleo clear-window remission occurred without dairy — casein probability elevated. Check all labels.',video1:'',video2:'',active:true},
+    {id:'d3',timeOfDay:'evening',name:'Digital Sunset',category:'directive',mustDo:true,duration:'',phase:'always',instructions:'No screens 60–90 min before sleep. Blue light blocks melatonin onset and delays glymphatic activation. Non-negotiable for your brain fog picture.',video1:'',video2:'',active:true},
+    {id:'d4',timeOfDay:'evening',name:'Sleep Position',category:'directive',mustDo:true,duration:'',phase:'always',instructions:'Side sleeping preferred. Avoid prone (face down) — mechanically obstructs cervical lymphatic outflow and correlates with worse morning symptoms.',video1:'',video2:'',active:true},
+    {id:'d11',timeOfDay:'evening',name:'Abhyanga — Full (Evening)',category:'directive',mustDo:true,duration:'15 min',phase:'always',instructions:'Full 15-min Abhyanga 60–90 min before bed. Warm sesame oil, full body sequence: scalp → face → neck → arms → chest → abdomen (clockwise) → back → legs → feet. Long strokes toward heart on limbs. Circular on joints. Leave 5–10 min before warm shower. The sleepiness is the mechanism working.',video1:'',video2:'',active:true},
+    {id:'d2',timeOfDay:'morning',name:'Morning Self-Massage (Light)',category:'directive',mustDo:true,duration:'5 min',phase:'always',instructions:'Warm sesame oil on face, neck, scalp, and ears only. Circular on temples and behind ears. Long downward strokes on neck toward heart. Activates lymphatics and grounds the morning without full sedation. Warm shower after.',video1:'',video2:'',active:true},
+    {id:'d5',timeOfDay:'morning',name:'Warm Water on Waking',category:'directive',mustDo:true,duration:'2 min',phase:'always',instructions:'Large glass of warm water. First thing before food, coffee or supplements. Activates gut motility and flushes overnight metabolic waste.',video1:'',video2:'',active:true},
+    {id:'d10',timeOfDay:'morning',name:'Tongue Scraping',category:'directive',mustDo:true,duration:'1 min',phase:'always',instructions:'Copper or stainless tongue scraper. 7–14 gentle strokes from back to tip. Removes overnight Ama. Rinse scraper between strokes.',video1:'',video2:'',active:true},
+    {id:'d7',timeOfDay:'morning',name:'Dairy Elimination',category:'directive',mustDo:true,duration:'',phase:'always',instructions:'No dairy of any kind. The Paleo clear-window remission occurred without dairy — casein probability elevated. Check all labels.',video1:'',video2:'',active:true},
+    {id:'d3',timeOfDay:'evening',name:'Digital Sunset',category:'directive',mustDo:true,duration:'',phase:'always',instructions:'No screens 60–90 min before sleep. Blue light blocks melatonin onset and delays glymphatic activation. Non-negotiable for your brain fog picture.',video1:'',video2:'',active:true},
+    {id:'d4',timeOfDay:'evening',name:'Sleep Position',category:'directive',mustDo:true,duration:'',phase:'always',instructions:'Side sleeping preferred. Avoid prone (face down) — mechanically obstructs cervical lymphatic outflow and correlates with worse morning symptoms.',video1:'',video2:'',active:true},
+    {id:'d11',timeOfDay:'evening',name:'Abhyanga — Full (Evening)',category:'directive',mustDo:true,duration:'15 min',phase:'always',instructions:'Full 15-min Abhyanga 60–90 min before bed. Warm sesame oil, full body sequence: scalp → face → neck → arms → chest → abdomen (clockwise) → back → legs → feet. Long strokes toward heart on limbs. Circular on joints. Leave 5–10 min before warm shower. The sleepiness is the mechanism working.',video1:'',video2:'',active:true},
   ],
-  directives:[
-    {id:'d1',mustDo:true,timeOfDay:'morning',name:'Contrast Shower',category:'recovery',description:'Hot 2–3 min → Cold 30–60 sec → Hot 1 min → Cold 30–60 sec. End COLD. Morning only. Trains autonomic switching. Never cold at night — disrupts melatonin.',frequency:'daily',active:false},
-    {id:'d2',mustDo:true,timeOfDay:'morning',name:'Morning Self-Massage (Light)',category:'ayurveda',description:'5 min. Warm sesame oil on face, neck, scalp, and ears only. Circular on temples and behind ears. Long downward strokes on neck toward heart. Activates lymphatics and grounds the morning without full sedation. Warm shower after.',frequency:'daily',active:true},
-    {id:'d11',mustDo:true,timeOfDay:'evening',name:'Abhyanga — Full (Evening)',category:'ayurveda',description:'Full 15-min Abhyanga 60–90 min before bed. Warm sesame oil, full body sequence: scalp → face → neck → arms → chest → abdomen (clockwise) → back → legs → feet. Long strokes toward heart on limbs. Circular on joints. Leave 5–10 min before warm shower. The sleepiness you feel is the parasympathetic mechanism working — this is the highest-leverage pre-sleep intervention for your pattern. Classical Ayurveda recommends evening Abhyanga for Vata imbalance and insomnia.',frequency:'daily',active:true},
-    {id:'d3',mustDo:true,timeOfDay:'evening',name:'Digital Sunset',category:'sleep',description:'No screens from 21:00. Blue light suppresses melatonin and delays glymphatic onset.',frequency:'daily',active:true},
-    {id:'d4',mustDo:true,timeOfDay:'evening',name:'Sleep Position',category:'sleep',description:'Left side preferred. Neutral cervical pillow. Room 17–19°C. Blackout curtains or sleep mask. Left lateral enhances glymphatic clearance.',frequency:'daily',active:true},
-    {id:'d5',mustDo:true,timeOfDay:'morning',name:'Warm Water on Waking',category:'ayurveda',description:'1–3 glasses warm water before anything else. Activates digestive fire (Agni). Flushes overnight metabolic waste.',frequency:'daily',active:true},
-    {id:'d6',timeOfDay:'afternoon',name:'Dietary Nitrates',category:'nutrition',description:'Beetroot, rocket, spinach, celery daily. Supports nitric oxide production. Eat raw or lightly cooked.',frequency:'daily',active:true},
-    {id:'d7',mustDo:true,timeOfDay:'any time',name:'Dairy Elimination',category:'nutrition',description:'93% probability dairy is implicated based on Paleo remission analysis. Casein primary suspect. Highest-value dietary variable.',frequency:'daily',active:true},
-    {id:'d8',timeOfDay:'evening',name:'Hot Bath or Sauna',category:'recovery',description:'38–40°C bath or 80°C sauna, 15–20 min. Evening only — 60–90 min before bed. Increases NO, drives glymphatic drainage, relaxes cervical musculature.',frequency:'weekly',active:true},
-    {id:'d9',timeOfDay:'any time',name:'Professional Massage',category:'recovery',description:'Deep tissue or sports massage. Traps, cervical, thoracic, suboccipital. 60 min. Monthly maintenance.',frequency:'monthly',active:true},
-    {id:'d10',mustDo:true,timeOfDay:'morning',name:'Tongue Scraping',category:'ayurveda',description:'Copper scraper. On waking, before water. Removes Ama accumulated overnight. Stimulates digestion reflex.',frequency:'daily',active:true},
-  ],
+  directives:[],
   gtgItems:[
     {id:'g1',name:'Chin-Up Negative',targetPasses:4,repsPerPass:3,instructions:'Jump to top, 5-sec controlled descent. Always sub-max — stop 2 reps before failure.',video1:'https://www.youtube.com/results?search_query=chin+up+negative+eccentric',video2:'',active:true},
     {id:'g2',name:'Push-Up (Archer or Standard)',targetPasses:4,repsPerPass:5,instructions:'Ribs DOWN throughout. Elbows 45°. Slow return. Stop 2–3 reps before failure. Never to failure.',video1:'https://www.youtube.com/results?search_query=archer+push+up+tutorial',video2:'',active:true},
     {id:'g4',name:'Chin Tuck',targetPasses:5,repsPerPass:10,instructions:'Ears over shoulders. Draw chin back. 2-second hold. Do at your desk. Frequency is the medicine.',video1:'https://www.youtube.com/results?search_query=chin+tuck+posture+correction',video2:'',active:true},
     {id:'g5',name:'Band Pullapart',targetPasses:4,repsPerPass:15,instructions:'Retract and depress scapula fully. 1-second pause at full pull. Instant posture reset.',video1:'https://www.youtube.com/results?search_query=band+pull+apart+scapula',video2:'',active:true},
+    {id:'g7',name:'Single-Leg Glute Bridge Hold — Left',targetPasses:1,repsPerPass:1,instructions:'Weekly metric. Left leg only. Bridge up, hold with pelvis level. Log duration in seconds. Target: 45s without hip drop within 6 weeks. Also film from behind on Tacx NEO at 4 weeks.',video1:'',video2:'',active:true},
     {id:'g6',name:'Hip Flexor Lunge',targetPasses:3,repsPerPass:1,instructions:'Rear knee down. Posterior pelvic tilt. 30 seconds per side. Daily pelvic correction.',video1:'https://www.youtube.com/results?search_query=kneeling+hip+flexor+stretch',video2:'',active:true},
   ],
   workouts:[
@@ -1613,7 +1625,7 @@ const SEED={
   ]
 };
 
-const APP_SCHEMA_VERSION=33; // bump this when library seed data changes
+const APP_SCHEMA_VERSION=37; // bump this when library seed data changes
 
 function seedIfEmpty(){
   const storedVersion=DB.get('schemaVersion')||0;
@@ -1623,12 +1635,43 @@ function seedIfEmpty(){
   if(!DB.get('meta')) DB.set('meta',{currentWeek:1,startDate:DB.today(),name:'Nelson'});
 
   // Library data: re-seed if schema version has bumped
-  if(!DB.get('supplements')||needsLibraryUpdate) DB.set('supplements',SEED.supplements);
-  if(!DB.get('practices')  ||needsLibraryUpdate) DB.set('practices',  SEED.practices);
-  if(!DB.get('directives') ||needsLibraryUpdate) DB.set('directives', SEED.directives);
-  if(!DB.get('gtgItems')   ||needsLibraryUpdate) DB.set('gtgItems',   SEED.gtgItems);
-  if(!DB.get('workouts')   ||needsLibraryUpdate) DB.set('workouts',   SEED.workouts);
-  if(!DB.get('symptoms')   ||needsLibraryUpdate) DB.set('symptoms',[
+  // Smart library merge — preserve user edits, only add/update new seed items
+  // Strategy: seed items that exist (same id) keep user's version; genuinely new ids get added
+  function mergeLibrary(seedItems, storedKey){
+    const existing=DB.get(storedKey)||[];
+    if(!existing.length) return seedItems; // first run — use seed as-is
+    const existingIds=new Set(existing.map(i=>i.id));
+    // Keep all existing items (user may have edited them)
+    const merged=[...existing];
+    // Add any seed items that don't exist yet (new items added in this version)
+    seedItems.forEach(seedItem=>{
+      if(!existingIds.has(seedItem.id)){
+        merged.push(seedItem);
+      }
+    });
+    // For existing items: apply only structural changes from seed (not name/active/user fields)
+    // Specifically: update 'exercises' in corrGroups if seed has more exercises than stored
+    // This handles cases where we add exercises to a group the user hasn't edited
+    return merged;
+  }
+
+  // Helper: always ensure seed items exist, regardless of schema version
+  function ensureSeedItems(seedItems, storedKey){
+    const stored=DB.get(storedKey);
+    if(!stored) return DB.set(storedKey, seedItems);
+    const storedIds=new Set(stored.map(i=>i.id));
+    const missing=seedItems.filter(i=>!storedIds.has(i.id));
+    if(missing.length||needsLibraryUpdate){
+      DB.set(storedKey, mergeLibrary(seedItems, storedKey));
+    }
+  }
+
+  ensureSeedItems(SEED.supplements,  'supplements');
+  ensureSeedItems(SEED.practices,    'practices');
+  ensureSeedItems(SEED.directives,   'directives');
+  ensureSeedItems(SEED.gtgItems,     'gtgItems');
+  ensureSeedItems(SEED.workouts,     'workouts');
+  const symptomSeed=[
     {id:'sy1',name:'Brain fog',key:'mfog',session:'morning',direction:'bad-high',description:'Mental clarity on waking. High = severe fog.',active:true},
     {id:'sy2',name:'Headache',key:'mhead',session:'morning',direction:'bad-high',description:'Head pressure or headache intensity.',active:true},
     {id:'sy3',name:'Energy',key:'menergy',session:'morning',direction:'good-high',description:'Energy level on waking.',active:true},
@@ -1639,12 +1682,16 @@ function seedIfEmpty(){
     {id:'sy8',name:'Energy',key:'eenergy',session:'evening',direction:'good-high',description:'Energy level at end of day.',active:true},
     {id:'sy9',name:'Neck/shoulder',key:'etension',session:'evening',direction:'bad-high',description:'Neck and shoulder tension in the evening.',active:true},
     {id:'sy10',name:'Anxiety',key:'eanxiety',session:'evening',direction:'bad-high',description:'Anxiety or mental tension in the evening.',active:true},
-  ]);
-  if(!DB.get('corrGroups')||needsLibraryUpdate) DB.set('corrGroups',[
+  ];
+  ensureSeedItems(symptomSeed, 'symptoms');
+  const corrGroupsSeed=[
     {id:'cg1',name:'Morning Correctives',blockId:'morning',active:true,exercises:[
       {name:'Glute Bridge',type:'main',sets:'2',reps:'15',load:'BW',rest:'20s',rpe:'5',notes:'Squeeze 1 sec at top. Activates glutes before the day begins.'},
       {name:'Clamshell',type:'main',sets:'2',reps:'15/side',load:'Light band',rest:'20s',rpe:'5',notes:'Hip abduction. Glute medius activation.'},
-      
+      {name:'Banded Clamshell — Left Focus',type:'corrective',sets:'4',reps:'3×20L / 1×10R',load:'Medium band',rest:'20s',rpe:'5',notes:'Band above knees. 2s pause at top. Foot flexed, pelvis stacked — if you feel TFL (front of hip) recruiting, reset.'},
+      {name:'Side-Lying Hip Abduction — Left Focus',type:'corrective',sets:'4',reps:'3×15L / 1×10R',load:'BW',rest:'20s',rpe:'5',notes:'Foot flexed, toe slightly down. 2s pause at top. No hip flexor compensation — feel it in the side of the glute only.'},
+      {name:'90/90 Hip Internal Rotation — Left',type:'corrective',sets:'1',reps:'2 min left only',load:'BW',rest:'—',rpe:'—',notes:'Left side only. Breathe into stretch, let knee drop with gravity on each exhale. Do not force.'},
+      {name:'Left QL Side Bend — Wall',type:'corrective',sets:'1',reps:'90s',load:'BW',rest:'—',rpe:'—',notes:'Side-on to wall, right hip leaning in, left arm overhead. Push left hip outward away from wall. Feel left lower back/waist.'},
       {name:'Cervical Retraction (chin tuck)',type:'core',sets:'2',reps:'10',load:'BW',rest:'20s',rpe:'—',notes:'Ears over shoulders. Draw chin back. 2-sec hold.'},
     ]},
     {id:'cg7',name:'Pre-Upper Gym',blockId:'training',active:true,exercises:[
@@ -1658,6 +1705,8 @@ function seedIfEmpty(){
       {name:'Glute Bridge',type:'corrective',sets:'2',reps:'15',load:'BW',rest:'20s',rpe:'5',notes:'Squeeze 1 sec at top. Glute activation before squat patterns.'},
       {name:'Hip Flexor Stretch (kneeling)',type:'corrective',sets:'1',reps:'60s/side',load:'BW',rest:'—',rpe:'—',notes:'Posterior pelvic tilt at bottom. Mandatory before Zercher.'},
       {name:'Goblet Squat (groove)',type:'corrective',sets:'2',reps:'8',load:'16kg KB',rest:'30s',rpe:'5',notes:'Pattern only — not a strength set. Own the bottom position.'},
+      {name:'Single-Leg Glute Bridge — Left Focus',type:'corrective',sets:'6',reps:'4×10L / 2×10R',load:'BW',rest:'20s',rpe:'6',notes:'Drive through heel. Controlled descent. Progress: 45s hold left without hip drop = problem addressed. Log weekly hold time.'},
+      {name:'Copenhagen Adductor Plank',type:'corrective',sets:'3',reps:'10s each side',load:'BW',rest:'30s',rpe:'6',notes:'Top leg on bench, bottom leg hanging free. Progress: 10s → 20s → 30s over weeks. Counters left knee-in pattern.'},
     ]},
     {id:'cg9',name:'Post-Gym Reset',blockId:'training',active:true,exercises:[
       {name:'Thoracic Rolling',type:'corrective',sets:'1',reps:'90s',load:'Roller',rest:'—',rpe:'—',notes:'T4–T9 only. Never lumbar or neck.'},
@@ -1667,6 +1716,9 @@ function seedIfEmpty(){
       {name:'Glute Bridge',type:'corrective',sets:'2',reps:'15',load:'BW',rest:'20s',rpe:'5',notes:'Squeeze 1 sec. Activates glutes before cardio — mandatory before Zone 2.'},
       {name:'Clamshell',type:'corrective',sets:'2',reps:'15/side',load:'Light band',rest:'20s',rpe:'5',notes:'Hip abduction. Glute medius. Band just above knees.'},
       {name:'Leg Swings',type:'corrective',sets:'1',reps:'10/side',load:'BW',rest:'—',rpe:'—',notes:'Front/back and lateral. Joint prep before Zone 2.'},
+      {name:'Banded Lateral Walks',type:'corrective',sets:'1',reps:'20 steps each way',load:'Medium band',rest:'—',rpe:'5',notes:'Band above knees. No trunk sway — movement is pure hip, not waist.'},
+      {name:'Single-Leg Glute Bridge — Left',type:'corrective',sets:'1',reps:'10 slow',load:'BW',rest:'—',rpe:'5',notes:'Before clipping in. Drive through heel.'},
+      {name:'Hip Circles (quadruped)',type:'corrective',sets:'1',reps:'10 circles/side',load:'BW',rest:'—',rpe:'—',notes:'Full range, controlled. Note difference between left and right.'},
     ]},
     {id:'cg4',name:'Post-Zone2 Correctives',blockId:'training',active:true,exercises:[
       {name:'World\'s Greatest Stretch',type:'corrective',sets:'1',reps:'4/side',load:'BW',rest:'15s',rpe:'—',notes:'All three spinal zones. Warm tissue absorbs this far better post-cardio.'},
@@ -1680,10 +1732,32 @@ function seedIfEmpty(){
       {name:'Hip Flexor Stretch (kneeling)',type:'corrective',sets:'1',reps:'60s/side',load:'BW',rest:'—',rpe:'—',notes:'Anterior pelvic tilt correction mid-day.'},
       {name:'Jefferson Curl',type:'corrective',sets:'2',reps:'5',load:'5kg',rest:'45s',rpe:'—',notes:'W3+ only. Segmental articulation.'},
     ]},
-  ]);
+  ];
+  ensureSeedItems(corrGroupsSeed, 'corrGroups');
+  // corrGroups handled by ensureSeedItems below
+
   // Seed optionalExtras from the OPTIONAL_EXTRAS constant
-  if(!DB.get('optionalExtras')||needsLibraryUpdate){
-    DB.set('optionalExtras', OPTIONAL_EXTRAS.map(ex=>({...ex, active:true})));
+  const extrasSeed=OPTIONAL_EXTRAS.map(ex=>({...ex,active:true}));
+  ensureSeedItems(extrasSeed, 'optionalExtras');
+  // optionalExtras handled by ensureSeedItems below
+
+  // Migrate old directives into practices (one-time, safe to repeat)
+  const oldDirs=DB.get('directives')||[];
+  if(oldDirs.length){
+    const pracs=DB.get('practices')||[];
+    const pracIds=new Set(pracs.map(p=>p.id));
+    const toAdd=oldDirs.filter(d=>!pracIds.has(d.id)&&d.active!==false).map(d=>({
+      ...d, category:'directive', mustDo:true,
+      timeOfDay:d.timeOfDay||'morning',
+      duration:d.duration||'',
+      phase:'always', instructions:d.description||'',
+      video1:'',video2:''
+    }));
+    if(toAdd.length){
+      DB.set('practices',[...pracs,...toAdd]);
+      console.log('Migrated '+toAdd.length+' directives to practices');
+    }
+    DB.set('directives',[]); // clear old key
   }
   // Write schema version — next load won't re-seed unless version bumps again
   if(needsLibraryUpdate) DB.set('schemaVersion',APP_SCHEMA_VERSION);
@@ -1711,6 +1785,11 @@ function getSuppsForBlock(blockId){
   const supps=DB.get('supplements')||[];
   return supps.filter(s=>{
     if(!s.active) return false;
+    // Support timings array (multi time of day)
+    if(s.timings&&Array.isArray(s.timings)&&s.timings.length){
+      return s.timings.includes(blockId);
+    }
+    // Fallback: single timing string mapped through TIMING_BLOCK
     const t=(s.timing||'').toLowerCase();
     const mapped=TIMING_BLOCK[t]||'morning';
     return mapped===blockId;
@@ -1731,6 +1810,15 @@ function getPracticesForBlock(blockId){
 }
 
 function getDirectivesForBlock(blockId){
+  // Directives now live in practices with category:'directive'
+  // This function retained for TPL compatibility but delegates to practices
+  return getPracticesForBlock(blockId).filter(id=>{
+    const item=getItem(id);
+    return item&&item.category==='directive';
+  });
+}
+
+function getDirectivesForBlock(blockId){
   const dirs=DB.get('directives')||[];
   return dirs.filter(d=>{
     if(!d.active) return false;
@@ -1747,40 +1835,40 @@ function getDirectivesForBlock(blockId){
 // Dynamic tokens: __supps__, __practices__, __directives__, __corrgroup__
 const TPL={
   0:{label:'Lower Strength',sub:'Gym · 55–60 min',
-    morning:['__practices__morning','__directives__morning','__supps__morning'],
+    morning:['__practices__morning','__supps__morning'],
     training:['__corrgroup__Pre-Lower Gym','__workout__','__corrgroup__Post-Gym Reset'],
-    afternoon:['__supps__afternoon','__practices__afternoon','__directives__afternoon'],
-    evening:['__supps__evening','__directives__evening','__practices__evening',WINDDOWN_TOKEN]},
+    afternoon:['__supps__afternoon','__practices__afternoon'],
+    evening:['__supps__evening','__practices__evening',WINDDOWN_TOKEN]},
   1:{label:'Home Power + Mobility',sub:'Home · 45–50 min',
-    morning:['__practices__morning','__directives__morning','__supps__morning'],
+    morning:['__practices__morning','__supps__morning'],
     training:['p21','p22'],
-    afternoon:['__supps__afternoon','__practices__afternoon','__directives__afternoon'],
-    evening:['__supps__evening','__directives__evening','__practices__evening',WINDDOWN_TOKEN]},
+    afternoon:['__supps__afternoon','__practices__afternoon'],
+    evening:['__supps__evening','__practices__evening',WINDDOWN_TOKEN]},
   2:{label:'Sprint Session',sub:'Bike or run · 25–30 min',
-    morning:['__practices__morning','__directives__morning','__supps__morning'],
+    morning:['__practices__morning','__supps__morning'],
     training:['__workout__'],
-    afternoon:['__supps__afternoon','__practices__afternoon','__directives__afternoon'],
-    evening:['__supps__evening','__directives__evening','__practices__evening',WINDDOWN_TOKEN]},
+    afternoon:['__supps__afternoon','__practices__afternoon'],
+    evening:['__supps__evening','__practices__evening',WINDDOWN_TOKEN]},
   3:{label:'Zone 2 + Mobility',sub:'Home · 55–65 min',
-    morning:['__practices__morning','__directives__morning','__supps__morning'],
+    morning:['__practices__morning','__supps__morning'],
     training:['__workout__'],
-    afternoon:['__supps__afternoon','__practices__afternoon','__directives__afternoon'],
-    evening:['__supps__evening','__directives__evening','__practices__evening',WINDDOWN_TOKEN]},
+    afternoon:['__supps__afternoon','__practices__afternoon'],
+    evening:['__supps__evening','__practices__evening',WINDDOWN_TOKEN]},
   4:{label:'Upper Skill + Strength',sub:'Gym · 60–65 min',
-    morning:['__practices__morning','__directives__morning','__supps__morning'],
+    morning:['__practices__morning','__supps__morning'],
     training:['__corrgroup__Pre-Upper Gym','__workout__','__corrgroup__Post-Gym Reset'],
-    afternoon:['__supps__afternoon','__practices__afternoon','__directives__afternoon'],
-    evening:['__supps__evening','__directives__evening','__practices__evening',WINDDOWN_TOKEN]},
+    afternoon:['__supps__afternoon','__practices__afternoon'],
+    evening:['__supps__evening','__practices__evening',WINDDOWN_TOKEN]},
   5:{label:'Zone 2 + Power',sub:'Home · 55–65 min',
-    morning:['__practices__morning','__directives__morning','__supps__morning'],
+    morning:['__practices__morning','__supps__morning'],
     training:['__workout__'],
-    afternoon:['__supps__afternoon','__practices__afternoon','__directives__afternoon'],
-    evening:['__supps__evening','__directives__evening','__practices__evening',WINDDOWN_TOKEN]},
+    afternoon:['__supps__afternoon','__practices__afternoon'],
+    evening:['__supps__evening','__practices__evening',WINDDOWN_TOKEN]},
   6:{label:'Upper Strength',sub:'Gym · 60–65 min',
-    morning:['__practices__morning','__directives__morning','__supps__morning'],
+    morning:['__practices__morning','__supps__morning'],
     training:['__corrgroup__Pre-Upper Gym','__workout__','__corrgroup__Post-Gym Reset'],
-    afternoon:['__supps__afternoon','__practices__afternoon','__directives__afternoon'],
-    evening:['__supps__evening','__directives__evening','__practices__evening',WINDDOWN_TOKEN]}
+    afternoon:['__supps__afternoon','__practices__afternoon'],
+    evening:['__supps__evening','__practices__evening',WINDDOWN_TOKEN]}
 };
 
 // ─── HELPERS ──────────────────────────────────────────────
@@ -2425,7 +2513,8 @@ function renderBlocks(){
       const ck=!!checks[id];
       const cur=!isSupp&&isAct&&!ck;
       const isMustDo=!!item.mustDo;
-      const dur=item.duration||(item.sets&&item.reps?`${item.sets}×${item.reps}`:'')|| item.dose||(item.timing?item.timing.split('—')[0].trim():'');
+      const doseStr=item.dose?(item.dose+(item.unit?' '+item.unit:'')):null;
+      const dur=item.duration||(item.sets&&item.reps?`${item.sets}×${item.reps}`:'')|| doseStr||(item.timing?item.timing.split('—')[0].trim():'');
       return`<div class="task${isMustDo?' must-do-task':''}" data-id="${id}" data-bid="${bd.id}" onclick="tap('${id}','${bd.id}')">
         <div class="tchk ${ck?'ck':cur?'cur':''}">${ck?'✓':''}</div>
         <div class="ti">
@@ -2568,12 +2657,22 @@ function renderBlocks(){
     const savedOpen=tabState[bd.id];
     const shouldOpen=savedOpen!==undefined?savedOpen:false;
 
+    // Dynamic subtitle from actual active content
+    const subParts=[];
+    if(workoutToken){const dow=new Date().getDay();subParts.push(TPL[dow]?.label||'Workout');}
+    if(suppIds.length) subParts.push('Supplements');
+    if(pracIds.length) subParts.push(pracIds.length===1?(getItem(pracIds[0])?.name||'Practice'):'Practices');
+    const hasMornCorr=bd.id==='morning'&&(DB.get('corrGroups')||[]).some(g=>g.name==='Morning Correctives'&&g.active&&g.exercises?.length);
+    if(assignedCorrTokens.length||hasMornCorr) subParts.push('Correctives');
+    if(panes['gtg']&&panes['gtg'].length>50) subParts.push('GTG');
+    const dynamicSub=subParts.slice(0,4).join(' · ')||'—';
+
     const el=document.createElement('div');
     el.className=`blk${allDone?' done':isAct?' act':''}${shouldOpen?' open':''}`;
     el.dataset.bid=bd.id;
     el.innerHTML=`<div class="blk-h" onclick="toggleBlk('${bd.id}')">
       <div class="blk-ico ${bd.cls}">${bd.icon}</div>
-      <div class="blk-meta"><p class="blk-name">${bd.name}</p><p class="blk-sub">${bd.sub}</p></div>
+      <div class="blk-meta"><p class="blk-name">${bd.name}</p><p class="blk-sub">${dynamicSub}</p></div>
       ${badge}
       <span class="chev">${shouldOpen?'▲':'▼'}</span>
     </div>
@@ -2719,9 +2818,14 @@ function countBlockItems(blockId){
   const items=expandItems(tpl[blockId]||[],blockId);
   let total=0,done=0;
 
-  // Count TPL-assigned corrective groups
   items.forEach(id=>{
-    if(id==='__workout__') return;
+    // Workout counts as 1 item — done when session is marked complete
+    if(id==='__workout__'){
+      total++;
+      const sessionDone=DB.get('sessionDone:'+viewDate);
+      if(sessionDone) done++;
+      return;
+    }
     if(id.startsWith('__corr__')||id.startsWith('__wind__')){
       const parts=id.split('__');const groupName=parts[2];
       const itemIds=parts[3]?parts[3].split(','):[];
@@ -2743,7 +2847,7 @@ function countBlockItems(blockId){
     }
   });
 
-  // Count morning correctives (from Library directly, not TPL)
+  // Morning correctives from Library
   if(blockId==='morning'){
     const groups=DB.get('corrGroups')||[];
     const grp=groups.find(g=>g.name==='Morning Correctives'&&g.active);
@@ -2753,14 +2857,16 @@ function countBlockItems(blockId){
       done+=grp.exercises.filter((_,i)=>cChecks['ex_'+i]).length;
     }
   }
-  // Count afternoon correctives
-  if(blockId==='afternoon'){
-    const groups=DB.get('corrGroups')||[];
-    const grp=groups.find(g=>g.name==='Afternoon Correctives'&&g.active);
-    if(grp&&grp.exercises){
-      const cChecks=getCorrChecks('Afternoon Correctives',blockId,viewDate);
-      total+=grp.exercises.length;
-      done+=grp.exercises.filter((_,i)=>cChecks['ex_'+i]).length;
+
+  // GTG — counts toward training block total if active
+  if(blockId==='training'){
+    const gtgItems=(DB.get('gtgItems')||[]).filter(g=>g.active);
+    if(gtgItems.length){
+      const gtgCounts=DB.get('gtg:'+viewDate)||{};
+      gtgItems.forEach(g=>{
+        total++;
+        if((gtgCounts[g.id]||0)>=(g.targetPasses||3)) done++;
+      });
     }
   }
 
@@ -2823,6 +2929,13 @@ function renderInlineSymptoms(blockId){
   const isEve=blockId==='evening';
   if(!isMorning&&!isEve) return '';
 
+  // Get symptoms for this session from Library (support sessions array and legacy session string)
+  const allSymptoms=(DB.get('symptoms')||[]).filter(s=>{
+    if(!s.active) return false;
+    const sessions=s.sessions||(s.session?[s.session]:[]);
+    return sessions.includes(isMorning?'morning':'evening');
+  });
+
   const logged=isMorning?!!log.morningLogged:!!log.eveningLogged;
   const statusText=logged?'Logged ✓':'Not logged yet';
 
@@ -2857,7 +2970,7 @@ function renderInlineSymptoms(blockId){
       <div class="sym-block-head" onclick="toggleSymBlock('symblock_morning')">
         <div class="sym-block-ico ${logged?'logged':''}">${logged?'✓':'📊'}</div>
         <span class="sym-block-name">Morning Symptoms</span>
-        <span class="sym-block-status">${statusText}</span>
+        <span class="sym-block-status" style="${logged?'color:var(--t-green)':''}">${statusText}</span>
         <span class="sym-block-chev">▼</span>
       </div>
       <div class="sym-block-body">
@@ -2880,7 +2993,7 @@ function renderInlineSymptoms(blockId){
       <div class="sym-block-head" onclick="toggleSymBlock('symblock_evening')">
         <div class="sym-block-ico ${logged?'logged':''}">${logged?'✓':'🌙'}</div>
         <span class="sym-block-name">Evening Check-In</span>
-        <span class="sym-block-status">${statusText}</span>
+        <span class="sym-block-status" style="${logged?'color:var(--t-green)':''}">${statusText}</span>
         <span class="sym-block-chev">▼</span>
       </div>
       <div class="sym-block-body">
@@ -2920,6 +3033,11 @@ function saveMorningSympInline(){
     morningLogged:true,morningTime:new Date().toISOString()
   };
   saveLog(data,viewDate);
+  // Update header in-place
+  const mIco=document.querySelector('#symblock_morning .sym-block-ico');
+  const mStatus=document.querySelector('#symblock_morning .sym-block-status');
+  if(mIco){mIco.className='sym-block-ico logged';mIco.textContent='✓';}
+  if(mStatus){mStatus.textContent='Logged ✓';mStatus.style.color='var(--t-green)';}
   if(hrv){const hChip=document.getElementById('hDisplay');if(hChip){hChip.textContent=hrv;hChip.closest('.sc')?.classList.add('logged');}}
   const btn=document.getElementById('mSymSaveBtn');
   if(btn){btn.textContent='✓ Saved';btn.classList.add('saved');setTimeout(()=>{btn.textContent='Save Morning Log';btn.classList.remove('saved')},2000);}
@@ -2938,6 +3056,11 @@ function saveEveSympInline(){
     eveningLogged:true,eveningTime:new Date().toISOString()
   };
   saveLog(data,viewDate);
+  // Update header in-place
+  const eIco=document.querySelector('#symblock_evening .sym-block-ico');
+  const eStatus=document.querySelector('#symblock_evening .sym-block-status');
+  if(eIco){eIco.className='sym-block-ico logged';eIco.textContent='✓';}
+  if(eStatus){eStatus.textContent='Logged ✓';eStatus.style.color='var(--t-green)';}
   const btn=document.getElementById('eSymSaveBtn');
   if(btn){btn.textContent='✓ Saved';btn.classList.add('saved');setTimeout(()=>{btn.textContent='Save Evening Check-In';btn.classList.remove('saved')},2000);}
   renderLogPrompts();
@@ -3656,7 +3779,12 @@ function renderLogContent(date){
       html+=`<div class="metric-card"><p class="mc-lbl">HRV</p><p class="mc-val">${log.hrv}</p><p class="mc-unit">ms RMSSD</p><p class="mc-trend ${tClass}">${tText}</p></div>`;
     }
     if(log.rhr){
-      html+=`<div class="metric-card"><p class="mc-lbl">Resting HR</p><p class="mc-val" style="color:var(--t-blue)">${log.rhr}</p><p class="mc-unit">bpm</p></div>`;
+      const prevRHR=getPrevRHR(date);
+      const rhrDiff=prevRHR?log.rhr-prevRHR:null;
+      // For RHR: lower is better, so down=green, up=red (opposite of HRV)
+      const rhrTClass=rhrDiff===null?'tr-fl':rhrDiff<0?'tr-up':'tr-dn';
+      const rhrTText=rhrDiff===null?'—':rhrDiff<0?`↓ ${rhrDiff} vs prev`:`↑ +${rhrDiff} vs prev`;
+      html+=`<div class="metric-card"><p class="mc-lbl">Resting HR</p><p class="mc-val" style="color:var(--t-blue)">${log.rhr}</p><p class="mc-unit">bpm</p><p class="mc-trend ${rhrTClass}">${rhrTText}</p></div>`;
     }
     html+=`</div>`;
   }
@@ -3831,6 +3959,13 @@ function getPrevHRV(date){
   const k=d.toISOString().slice(0,10);
   const log=DB.get('log:'+k);
   return log&&log.hrv?log.hrv:null;
+}
+
+function getPrevRHR(date){
+  const d=new Date(date);d.setDate(d.getDate()-1);
+  const k=d.toISOString().slice(0,10);
+  const log=DB.get('log:'+k);
+  return log&&log.rhr?log.rhr:null;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -4181,17 +4316,18 @@ Keep it direct, specific to his data, and under 200 words. Reference actual numb
         'anthropic-version':'2023-06-01'
       },
       body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
+        model:'claude-sonnet-4-6',
         max_tokens:1000,
         messages:[{role:'user',content:prompt}]
       })
     });
     const data=await res.json();
+    if(data.error){
+      throw new Error(data.error.message||JSON.stringify(data.error));
+    }
     const text=(data.content||[]).map(b=>b.text||'').join('');
     if(text){
-      // Save review
       DB.set(`weeklyrreview:w${weekNum}`,text);
-      // Render
       if(block){
         block.innerHTML=`
           <div class="ai-review-content" id="aiReviewContent">${text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')}</div>
@@ -4207,7 +4343,7 @@ Keep it direct, specific to his data, and under 200 words. Reference actual numb
     if(block){
       const err=document.createElement('p');
       err.style.cssText='color:var(--t-red);font-size:13px;padding:8px 0';
-      err.textContent='Review failed — check connection and try again.';
+      err.textContent='Review failed: '+(e.message||'check connection and try again.');
       block.appendChild(err);
     }
   }
@@ -4317,38 +4453,27 @@ const LIB_GROUPS={
   supp:{
     key:'supplements',icon:'💊',cat:'Supplement',
     groups:[
-      {id:'morning',  label:'Morning',    match:i=>['on waking — first','morning','morning with breakfast','as directed — refrigerated'].includes((i.timing||'').toLowerCase())},
-      {id:'afternoon',label:'Afternoon',  match:i=>['lunch with food','largest fat meal'].includes((i.timing||'').toLowerCase())},
-      {id:'evening',  label:'Evening',    match:i=>['dinner with fatty meal','as needed','as prescribed','30 min before sleep'].includes((i.timing||'').toLowerCase())},
-      {id:'other',    label:'Other',      match:i=>true},
+      {id:'morning',  label:'Morning',   match:i=>(i.timings||[]).includes('morning')},
+      {id:'afternoon',label:'Afternoon', match:i=>(i.timings||[]).includes('afternoon')},
+      {id:'evening',  label:'Evening',   match:i=>(i.timings||[]).includes('evening')},
+      {id:'other',    label:'Other',     match:i=>true},
     ],
     nameFn:i=>i.name,
-    metaFn:i=>`${i.dose||''} ${i.unit||''} · ${i.timing||''}`.trim(),
+    metaFn:i=>`${i.dose||''}${i.unit?' '+i.unit:''}${(i.timings||[]).length?' · '+(i.timings||[]).join(', '):''}`.trim(),
   },
   prac:{
     key:'practices',icon:'🧘',cat:'Practice',
     groups:[
-      {id:'routine',  label:'Routines',   match:i=>i.category==='routine'},
-      {id:'morning',  label:'Morning',    match:i=>(i.timeOfDay||'').toLowerCase()==='morning'&&i.category!=='routine'},
-      {id:'training', label:'Training',   match:i=>(i.timeOfDay||'').toLowerCase()==='training'},
-      {id:'afternoon',label:'Afternoon',  match:i=>(i.timeOfDay||'').toLowerCase()==='afternoon'},
-      {id:'evening',  label:'Evening',    match:i=>(i.timeOfDay||'').toLowerCase()==='evening'&&i.category!=='routine'},
-      {id:'anytime',  label:'Any Time',   match:i=>true},
+      {id:'directive',label:'★ Must-Dos',  match:i=>i.category==='directive'},
+      {id:'routine',  label:'Routines',    match:i=>i.category==='routine'},
+      {id:'morning',  label:'Morning',     match:i=>(i.timeOfDay||'').toLowerCase()==='morning'&&i.category!=='routine'&&i.category!=='directive'},
+      {id:'training', label:'Training',    match:i=>(i.timeOfDay||'').toLowerCase()==='training'},
+      {id:'afternoon',label:'Afternoon',   match:i=>(i.timeOfDay||'').toLowerCase()==='afternoon'},
+      {id:'evening',  label:'Evening',     match:i=>(i.timeOfDay||'').toLowerCase()==='evening'&&i.category!=='routine'&&i.category!=='directive'},
+      {id:'anytime',  label:'Any Time',    match:i=>true},
     ],
     nameFn:i=>i.name,
     metaFn:i=>`${i.category||''} · ${i.duration||''}`.replace(/^ · | · $/,''),
-  },
-  dir:{
-    key:'directives',icon:'📋',cat:'Directive',
-    groups:[
-      {id:'morning',  label:'Morning',   match:i=>(i.timeOfDay||'').toLowerCase()==='morning'},
-      {id:'training', label:'Training',  match:i=>(i.timeOfDay||'').toLowerCase()==='training'},
-      {id:'afternoon',label:'Afternoon', match:i=>(i.timeOfDay||'').toLowerCase()==='afternoon'},
-      {id:'evening',  label:'Evening',   match:i=>(i.timeOfDay||'').toLowerCase()==='evening'},
-      {id:'anytime',  label:'Any Time',  match:i=>true},
-    ],
-    nameFn:i=>i.name,
-    metaFn:i=>`${i.category||''} · ${i.frequency||''}`.replace(/^ · | · $/,''),
   },
   gtg:{
     key:'gtgItems',icon:'⚡',cat:'GTG Movement',
@@ -4371,12 +4496,15 @@ const LIB_GROUPS={
   sym:{
     key:'symptoms',icon:'📊',cat:'Symptom',
     groups:[
-      {id:'morning',label:'Morning',match:i=>i.session==='morning'},
-      {id:'evening',label:'Evening',match:i=>i.session==='evening'},
-      {id:'other',  label:'Other',  match:i=>true},
+      {id:'morning',label:'Morning', match:i=>{const s=i.sessions||(i.session?[i.session]:[]);return s.includes('morning');}},
+      {id:'evening',label:'Evening', match:i=>{const s=i.sessions||(i.session?[i.session]:[]);return s.includes('evening');}},
+      {id:'other',  label:'Other',   match:i=>true},
     ],
     nameFn:i=>i.name,
-    metaFn:i=>`${i.session||''} · ${i.direction||''}`,
+    metaFn:i=>{
+      const s=i.sessions||(i.session?[i.session]:[]);
+      return`${s.join(' + ')} · ${i.direction||''}`;
+    },
   },
   extras:{
     key:'optionalExtras',icon:'✨',cat:'Optional Activity',
@@ -4437,7 +4565,8 @@ function libTouchEnd(e,origIdx,tab){
 }
 
 function makeDraggableItem(tab,i,idx){
-  return`<div class="lib-item" draggable="true"
+  const isArchived=i.active===false;
+  return`<div class="lib-item${isArchived?' lib-item-archived':''}" draggable="true"
     ondragstart="libDragStart(event,${idx},'${tab}')"
     ondragover="libDragOver(event)"
     ondrop="libDrop(event,${idx},'${tab}')"
@@ -4446,9 +4575,9 @@ function makeDraggableItem(tab,i,idx){
     ontouchmove="libTouchMove(event)"
     ontouchend="libTouchEnd(event,${idx},'${tab}')">
     <span class="drag-handle" onclick="event.stopPropagation()">⠿</span>
-    <div class="lib-item-ico" style="background:rgba(232,168,56,.1)">${LIB_GROUPS[tab].icon}</div>
+    <div class="lib-item-ico" style="background:rgba(232,168,56,${isArchived?'.04':'.1'})">${LIB_GROUPS[tab].icon}</div>
     <div class="lib-item-info" onclick="libEdit('${tab}','${i.id}')">
-      <p class="lib-item-name">${LIB_GROUPS[tab].nameFn(i)}</p>
+      <p class="lib-item-name" style="${isArchived?'color:var(--muted)':''}">${LIB_GROUPS[tab].nameFn(i)}</p>
       <p class="lib-item-meta">${LIB_GROUPS[tab].metaFn(i)}</p>
     </div>
     <span class="lib-item-badge ${i.active?'active':'arch'}" onclick="libEdit('${tab}','${i.id}')">${i.active?'Active':'Archived'}</span>
@@ -4463,17 +4592,35 @@ function renderLibTab(tab){
   if(!el)return;
   const items=DB.get(cfg.key)||[];
 
+  const activeItems=items.filter(i=>i.active!==false);
+  const archivedItems=items.filter(i=>i.active===false);
+
+  function renderArchivedSection(archived){
+    if(!archived.length) return '';
+    return`<div class="lib-group-header" style="margin-top:8px;cursor:pointer" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+      <span class="lib-group-label" style="color:var(--muted)">Archived (${archived.length})</span>
+      <div class="lib-group-line"></div>
+      <span class="lib-group-count">▼</span>
+    </div>
+    <div style="display:none">
+      ${archived.map(i=>makeDraggableItem(tab,i,items.indexOf(i))).join('')}
+    </div>`;
+  }
+
   if(!cfg.groups){
-    el.innerHTML=items.map((i,idx)=>makeDraggableItem(tab,i,idx)).join('');
+    const html=activeItems.map(i=>makeDraggableItem(tab,i,items.indexOf(i))).join('')
+      +renderArchivedSection(archivedItems);
+    el.innerHTML=html||'<p class="lib-empty-group">No items yet. Tap + to add.</p>';
     return;
   }
 
   const assigned=new Set();
   let html='';
   cfg.groups.forEach(grp=>{
-    const grpItems=items.filter(i=>!assigned.has(i.id)&&grp.match(i));
+    if(grp.id==='other') return; // handle "other" after all named groups
+    const grpItems=activeItems.filter(i=>!assigned.has(i.id)&&grp.match(i));
     grpItems.forEach(i=>assigned.add(i.id));
-    if(!grpItems.length)return;
+    if(!grpItems.length) return;
     html+=`<div class="lib-group-header">
       <span class="lib-group-label">${grp.label}</span>
       <div class="lib-group-line"></div>
@@ -4482,12 +4629,24 @@ function renderLibTab(tab){
     html+=grpItems.map(i=>makeDraggableItem(tab,i,items.indexOf(i))).join('');
   });
 
+  // Items not assigned to any named group
+  const unassigned=activeItems.filter(i=>!assigned.has(i.id));
+  if(unassigned.length){
+    html+=`<div class="lib-group-header">
+      <span class="lib-group-label">Other</span>
+      <div class="lib-group-line"></div>
+      <span class="lib-group-count">${unassigned.length}</span>
+    </div>`;
+    html+=unassigned.map(i=>makeDraggableItem(tab,i,items.indexOf(i))).join('');
+  }
+
+  html+=renderArchivedSection(archivedItems);
   el.innerHTML=html||'<p class="lib-empty-group">No items yet. Tap + to add.</p>';
 }
 
 // ── LIBRARY DETAIL VIEW ───────────────────────────────────
 function openLibDetail(tab,id){
-  const cfgKey={supp:'supplements',prac:'practices',dir:'directives',gtg:'gtgItems',work:'workouts',corr:'corrGroups',sym:'symptoms',extras:'optionalExtras'}[tab];
+  const cfgKey={supp:'supplements',prac:'practices',gtg:'gtgItems',work:'workouts',corr:'corrGroups',sym:'symptoms',extras:'optionalExtras'}[tab];
   const items=DB.get(cfgKey)||[];
   const item=items.find(i=>i.id===id);
   if(!item)return;
@@ -4539,7 +4698,7 @@ function openLibDetail(tab,id){
     </div>`;
   }
 
-  else if(tab==='dir'){
+  else if(tab==='___dir_removed___'){
     body+=`<div><p class="lib-detail-section">Details</p>
       <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden">
         ${[['Time of day',item.timeOfDay||'any time'],['Category',item.category||'—'],['Frequency',item.frequency||'—']].map(([l,v])=>`
@@ -4687,13 +4846,21 @@ function buildLibForm(tab,item){
   if(tab==='supp'){
     fields+=f('Name','name',item.name);
     fields+=`<div class="form-row">${f('Dose','dose',item.dose)}${f('Unit','unit',item.unit)}</div>`;
-    fields+=f('Timing','timing',item.timing,'text',['On waking — first','Morning','Morning with breakfast','Lunch with food','Largest fat meal','Dinner with fatty meal','As needed','As prescribed','30 min before sleep']);
+    // Multi-select tag picker for times of day
+    const suppTimings=item.timings||(item.timing?[TIMING_BLOCK[(item.timing||'').toLowerCase()]||'morning']:[]);
+    fields+=`<div class="form-field">
+      <label class="form-label">When to take</label>
+      <div class="tag-picker" id="fe_timings">
+        ${['morning','afternoon','evening'].map(t=>`
+          <div class="tag-pill ${suppTimings.includes(t)?'sel':''}" onclick="toggleTagPill(this,'fe_timings')" data-val="${t}">${t.charAt(0).toUpperCase()+t.slice(1)}</div>`).join('')}
+      </div>
+    </div>`;
     fields+=f('Notes','notes',item.notes,'textarea');
     fields+=`<div class="form-toggle"><div class="toggle-sw ${item.withFood?'on':''}" id="lf_withFood_sw" onclick="toggleLibSw('lf_withFood_sw','lf_withFood')"><div class="toggle-knob"></div></div><input type="hidden" id="lf_withFood" value="${item.withFood?'true':'false'}"><span class="toggle-lbl">Take with food</span></div>`;
   } else if(tab==='prac'){
     fields+=f('Name','name',item.name);
     fields+=f('Time of Day','timeOfDay',item.timeOfDay||'any time','text',['morning','training','afternoon','evening','any time']);
-    fields+=f('Category','category',item.category,'text',['breathing','fascia','corrective','yoga','flow','mobility','meditation','power','routine']);
+    fields+=f('Category','category',item.category,'text',['breathing','fascia','corrective','yoga','flow','mobility','meditation','power','routine','directive']);
     fields+=`<div class="form-row">${f('Duration','duration',item.duration)}${f('Phase','phase',item.phase,'text',['always','W3+','W5+'])}</div>`;
     fields+=`<div class="form-row">${f('Sets','sets',item.sets,'number')}${f('Reps / Duration','reps',item.reps)}</div>`;
     fields+=f('Instructions','instructions',item.instructions,'textarea');
@@ -4716,14 +4883,6 @@ function buildLibForm(tab,item){
     }
     fields+=f('Video Link 1','video1',item.video1);
     fields+=f('Video Link 2','video2',item.video2);
-  } else if(tab==='dir'){
-    fields+=f('Name','name',item.name);
-    fields+=f('Time of Day','timeOfDay',item.timeOfDay||'any time','text',['morning','training','afternoon','evening','any time']);
-    fields+=f('Category','category',item.category,'text',['sleep','recovery','nutrition','ayurveda','lifestyle']);
-    fields+=f('Frequency','frequency',item.frequency,'text',['daily','weekly','monthly']);
-    fields+=`<div class="form-field"><label class="form-label">Must-Do (daily non-negotiable)</label>
-      <select class="form-input" id="fe_mustDo"><option value="true" ${item.mustDo?'selected':''}>Yes — star and pin to top</option><option value="false" ${!item.mustDo?'selected':''}>No — regular item</option></select></div>`;
-    fields+=f('Description','description',item.description,'textarea');
   } else if(tab==='gtg'){
     fields+=f('Name','name',item.name);
     fields+=`<div class="form-row">${f('Target Passes / Day','targetPasses',item.targetPasses,'number')}${f('Reps Per Pass','repsPerPass',item.repsPerPass,'number')}</div>`;
@@ -4796,7 +4955,15 @@ function buildLibForm(tab,item){
   } else if(tab==='sym'){
     fields+=f('Display Name','name',item.name);
     fields+=f('Data Key','key',item.key||'','text');
-    fields+=f('Session','session',item.session||'morning','text',['morning','evening']);
+    // Multi-select session tag picker
+    const symSessions=item.sessions||(item.session?[item.session]:[]);
+    fields+=`<div class="form-field">
+      <label class="form-label">Show in session(s)</label>
+      <div class="tag-picker" id="fe_sessions">
+        ${['morning','evening'].map(s=>`
+          <div class="tag-pill ${symSessions.includes(s)?'sel':''}" onclick="toggleTagPill(this,'fe_sessions')" data-val="${s}">${s.charAt(0).toUpperCase()+s.slice(1)}</div>`).join('')}
+      </div>
+    </div>`;
     fields+=f('Direction','direction',item.direction||'bad-high','text',['bad-high','good-high']);
     fields+=f('Description','description',item.description,'textarea');
   }
@@ -4807,6 +4974,16 @@ function buildLibForm(tab,item){
   </div></div>`;
   return fields;
 }
+function toggleTagPill(el,containerId){
+  el.classList.toggle('sel');
+}
+
+function getTagPillValues(containerId){
+  const container=document.getElementById(containerId);
+  if(!container) return[];
+  return Array.from(container.querySelectorAll('.tag-pill.sel')).map(el=>el.dataset.val);
+}
+
 function addRoutineStepRow(){
   const editor=document.getElementById('exListEditor');
   if(!editor)return;
@@ -4879,12 +5056,15 @@ function toggleLibSw(swId,inputId){
   inp.value=on?'true':'false';
 }
 function saveLibItem(tab,itemId){
-  const cfgKey={supp:'supplements',prac:'practices',dir:'directives',gtg:'gtgItems',work:'workouts',corr:'corrGroups',sym:'symptoms',extras:'optionalExtras'}[tab];
+  const cfgKey={supp:'supplements',prac:'practices',gtg:'gtgItems',work:'workouts',corr:'corrGroups',sym:'symptoms',extras:'optionalExtras'}[tab];
   const items=DB.get(cfgKey)||[];
   const idx=items.findIndex(i=>i.id===itemId);
   const fv=id=>{const el=document.getElementById('lf_'+id);return el?el.value:''};
   let updated={};
-  if(tab==='supp') updated={id:itemId,name:fv('name'),dose:fv('dose'),unit:fv('unit'),timing:fv('timing'),notes:fv('notes'),withFood:fv('withFood')==='true',active:fv('active')!=='false'};
+  if(tab==='supp'){
+    const timings=getTagPillValues('fe_timings');
+    updated={id:itemId,name:fv('name'),dose:fv('dose'),unit:fv('unit'),timing:fv('timing'),timings:timings.length?timings:null,notes:fv('notes'),withFood:fv('withFood')==='true',active:fv('active')!=='false'};
+  }
   else if(tab==='prac'){
     const isRoutine=fv('category')==='routine';
     updated={id:itemId,name:fv('name'),timeOfDay:fv('timeOfDay')||'any time',category:fv('category'),duration:fv('duration'),phase:fv('phase')||'always',sets:fv('sets'),reps:fv('reps'),instructions:fv('instructions'),video1:fv('video1'),video2:fv('video2'),active:fv('active')!=='false'};
@@ -4894,12 +5074,14 @@ function saveLibItem(tab,itemId){
     if(orig&&orig.hrv_gate) updated.hrv_gate=orig.hrv_gate;
     if(orig&&orig.hrv_threshold) updated.hrv_threshold=orig.hrv_threshold;
   }
-  else if(tab==='dir') updated={id:itemId,name:fv('name'),timeOfDay:fv('timeOfDay')||'any time',category:fv('category'),frequency:fv('frequency'),description:fv('description'),mustDo:document.getElementById('fe_mustDo')?.value==='true',active:fv('active')!=='false'};
   else if(tab==='gtg') updated={id:itemId,name:fv('name'),targetPasses:parseInt(fv('targetPasses'))||3,repsPerPass:parseInt(fv('repsPerPass'))||5,instructions:fv('instructions'),video1:fv('video1'),video2:fv('video2'),active:fv('active')!=='false'};
   else if(tab==='work') updated={id:itemId,name:fv('name'),icon:fv('icon'),rpe:fv('rpe'),duration:fv('duration'),venue:fv('venue'),keyLifts:fv('keyLifts'),description:fv('description'),hevyLink:fv('hevyLink'),exercises:readExerciseList(),active:fv('active')!=='false'};
   else if(tab==='corr') updated={id:itemId,name:fv('name'),blockId:fv('blockId')||'morning',exercises:readExerciseList(),active:fv('active')!=='false'};
   else if(tab==='extras') updated={id:itemId,name:fv('name'),icon:fv('icon')||'✨',category:fv('category'),notes:fv('notes'),active:fv('active')!=='false'};
-  else if(tab==='sym')  updated={id:itemId,name:fv('name'),key:fv('key'),session:fv('session')||'morning',direction:fv('direction')||'bad-high',description:fv('description'),active:fv('active')!=='false'};
+  else if(tab==='sym'){
+    const sessions=getTagPillValues('fe_sessions');
+    updated={id:itemId,name:fv('name'),key:fv('key'),session:sessions[0]||'morning',sessions:sessions.length?sessions:['morning'],direction:fv('direction')||'bad-high',description:fv('description'),active:fv('active')!=='false'};
+  }
   if(idx>=0)items[idx]=updated;else items.push(updated);
   DB.set(cfgKey,items);
   document.getElementById('mLibEdit').classList.remove('open');
@@ -4908,7 +5090,7 @@ function saveLibItem(tab,itemId){
   toast('Saved ✓');
 }
 function archLibItem(tab,id){
-  const cfgKey={supp:'supplements',prac:'practices',dir:'directives',gtg:'gtgItems',work:'workouts',corr:'corrGroups',sym:'symptoms',extras:'optionalExtras'}[tab];
+  const cfgKey={supp:'supplements',prac:'practices',gtg:'gtgItems',work:'workouts',corr:'corrGroups',sym:'symptoms',extras:'optionalExtras'}[tab];
   const items=DB.get(cfgKey)||[];
   const i=items.find(x=>x.id===id);
   if(i){i.active=false;DB.set(cfgKey,items);}
@@ -5010,19 +5192,13 @@ function handleImport(e){
 }
 
 function forceReseedLibrary(){
-  if(!confirm('Refresh all library data (workouts, correctives, practices, supplements)?\n\nYour logs, HRV, and symptom history are NOT affected.')) return;
-  // Clear only library keys
-  ['supplements','practices','directives','gtgItems','workouts','corrGroups','symptoms'].forEach(k=>localStorage.removeItem(k));
-  // Force re-seed
+  if(!confirm('Refresh library data?\n\nNew items from this version will be added. Your edits to existing items are preserved.\n\nYour logs and symptom history are NOT affected.')) return;
+  // Force merge by resetting schema version only — mergeLibrary will add new items
   DB.set('schemaVersion',0);
   seedIfEmpty();
-  // Refresh UI
-  renderLibTab('supp');
-  renderLibTab('prac');
-  renderLibTab('corr');
-  renderLibTab('work');
+  renderLibTab('supp');renderLibTab('prac');renderLibTab('corr');renderLibTab('work');
   initToday();
-  toast('Library refreshed ✓');
+  toast('Library refreshed — your edits preserved ✓');
 }
 
 function confirmReset(){
