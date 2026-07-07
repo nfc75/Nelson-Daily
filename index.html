@@ -1538,94 +1538,57 @@ const SEED={
   ],
   directives:[],
   gtgItems:[
-    {id:'g1',name:'Chin-Up Negative',targetPasses:4,repsPerPass:3,instructions:'Jump to top, 5-sec controlled descent. Always sub-max — stop 2 reps before failure.',video1:'https://www.youtube.com/results?search_query=chin+up+negative+eccentric',video2:'',active:true},
-    {id:'g2',name:'Push-Up (Archer or Standard)',targetPasses:4,repsPerPass:5,instructions:'Ribs DOWN throughout. Elbows 45°. Slow return. Stop 2–3 reps before failure. Never to failure.',video1:'https://www.youtube.com/results?search_query=archer+push+up+tutorial',video2:'',active:true},
-    {id:'g4',name:'Chin Tuck',targetPasses:5,repsPerPass:10,instructions:'Ears over shoulders. Draw chin back. 2-second hold. Do at your desk. Frequency is the medicine.',video1:'https://www.youtube.com/results?search_query=chin+tuck+posture+correction',video2:'',active:true},
-    {id:'g5',name:'Band Pullapart',targetPasses:4,repsPerPass:15,instructions:'Retract and depress scapula fully. 1-second pause at full pull. Instant posture reset.',video1:'https://www.youtube.com/results?search_query=band+pull+apart+scapula',video2:'',active:true},
-    {id:'g7',name:'Single-Leg Glute Bridge Hold — Left',targetPasses:1,repsPerPass:1,instructions:'Weekly metric. Left leg only. Bridge up, hold with pelvis level. Log duration in seconds. Target: 45s without hip drop within 6 weeks. Also film from behind on Tacx NEO at 4 weeks.',video1:'',video2:'',active:true},
-    {id:'g6',name:'Hip Flexor Lunge',targetPasses:3,repsPerPass:1,instructions:'Rear knee down. Posterior pelvic tilt. 30 seconds per side. Daily pelvic correction.',video1:'https://www.youtube.com/results?search_query=kneeling+hip+flexor+stretch',video2:'',active:true},
+    {id:'g1',name:'Chin-Up Negative',targetPasses:4,repsPerPass:3,instructions:'Jump to top, 5-sec controlled descent. Stop 2 reps before failure — always sub-max. This is skill practice, not a workout.',video1:'https://www.youtube.com/results?search_query=chin+up+negative+eccentric',video2:'',active:true},
+    {id:'g2',name:'Archer / Standard Push-Up',targetPasses:4,repsPerPass:5,instructions:'Ribs DOWN throughout. Elbows 45°. Slow controlled return. Sub-max every pass.',video1:'https://www.youtube.com/results?search_query=archer+push+up+tutorial',video2:'',active:true},
+    {id:'g3',name:'L-Sit Hold',targetPasses:4,repsPerPass:1,instructions:'Tuck or straddle. Lock out, turn out, straight body. 10–15s per pass. The single most important rib-flare and core skill — frequency compounds this over months.',video1:'https://www.youtube.com/results?search_query=l-sit+progression+tutorial',video2:'',active:true},
+    {id:'g4',name:'Chin Tuck',targetPasses:5,repsPerPass:10,instructions:'Ears over shoulders. Draw chin back. 2-second hold. Do at your desk. Frequency is the medicine.',video1:'',video2:'',active:true},
+    {id:'g5',name:'Band Pullapart',targetPasses:4,repsPerPass:15,instructions:'1-sec pause at full pull. Light band. Instant posture reset. Sub-max.',video1:'https://www.youtube.com/results?search_query=band+pull+apart+technique',video2:'',active:true},
+    {id:'g6',name:'Hip Flexor Lunge',targetPasses:3,repsPerPass:1,instructions:'30s/side. Posterior pelvic tilt at bottom — daily pelvic correction.',video1:'',video2:'',active:true},
+    {id:'g7',name:'Single-Leg Glute Bridge Hold — Left',targetPasses:1,repsPerPass:1,instructions:'Weekly metric. Left leg only. Bridge up, hold with pelvis level. Log duration in seconds. Target: 45s without hip drop within 6 weeks. Film from behind on Tacx NEO at 4 weeks.',video1:'',video2:'',active:true},
   ],
   workouts:[
-    {id:'w1',name:'Upper Strength',icon:'🏋️',rpe:'7–8',duration:'45–50 min',venue:'Gym',
-     keyLifts:'Chin-Up · Dip · DB Press · Row',
-     description:'Superset A: Chin-Up/Dip · Superset B: DB Press/Row · Superset C: Arms · Face Pull',
+    {id:'w1',name:'Session A — Squat / Push',icon:'🏋️',rpe:'7–8',duration:'55–65 min',venue:'Gym',
+     keyLifts:'Zercher Squat · DB Incline Press · Row',
+     description:'Pre-Strength Activation → Zercher priority → Push/Pull → Spinal → Core',
      hevyLink:'',active:true,
      exercises:[
-       {name:'A1 — Weighted Chin-Up',type:'ss',sets:'3',reps:'3',load:'BW +0kg',rest:'60s',rpe:'8',notes:'W1–2: BW + 3-sec pause. W3+: add load. Finish with BW max set.'},
-       {name:'A2 — Parallel Bar Dip',type:'ss',sets:'3',reps:'4',load:'BW +5kg',rest:'90s',rpe:'7',notes:'Upright torso. Rest 90s before next A1.'},
-       {name:'B1 — Neutral Grip DB Press',type:'ss',sets:'3',reps:'5',load:'16kg each',rest:'45s',rpe:'8',notes:'Ribs DOWN. Flared ribs = too heavy.'},
-       {name:'B2 — Chest-Supported Row',type:'ss',sets:'3',reps:'8',load:'RPE 7',rest:'90s',rpe:'7',notes:'Pause 1 sec at top. Zero momentum.'},
-       {name:'C1 — EZ-Bar Curl',type:'ss',sets:'3',reps:'10',load:'12kg',rest:'30s',rpe:'7',notes:'Full supination at top.'},
-       {name:'C2 — Cable Lateral Raise',type:'ss',sets:'3',reps:'15',load:'8–10kg',rest:'30s',rpe:'7',notes:'Slight forward lean. Lead with elbow, not wrist. Slow eccentric — the negative is the medicine.'},
-       {name:'C3 — Face Pull',type:'ss',sets:'3',reps:'15',load:'Light',rest:'30s',rpe:'6',notes:'Elbows HIGH. External rotation. Non-negotiable for left shoulder.'},
-       {name:'C4 — Hammer Curl',type:'ss',sets:'3',reps:'12',load:'10kg',rest:'60s',rpe:'6',notes:'Neutral grip. Rest 60s before next C1.'},
+       {name:'Zercher Squat',type:'main',sets:'4',reps:'3–4',load:'82–85% 1RM',rest:'4 min',rpe:'8',notes:'Priority lift — full rest, full intent. Nalewanyj double-progression: hit top of range 2 sessions → add 5kg, drop to bottom. Discuss 1RM increases with Dr. Amorim (aortic root 39mm).'},
+       {name:'Zercher Squat — Speed Set',type:'main',sets:'1',reps:'3',load:'50%',rest:'3 min',rpe:'—',notes:'Explosive concentric. Reset fully between reps. Teach the nervous system to fire hard.'},
+       {name:'Neutral Grip DB Incline Press',type:'ss',sets:'4',reps:'4',load:'16kg each',rest:'90s',rpe:'8',notes:'Ribs down before every rep. Exhale hard at bottom. Double-progression applies.'},
+       {name:'Chest-Supported Row',type:'ss',sets:'4',reps:'6',load:'35kg',rest:'90s',rpe:'7',notes:'Elbows back, squeeze at top. No momentum.'},
+       {name:'Seated Good Morning',type:'main',sets:'3',reps:'8',load:'20–30kg',rest:'90s',rpe:'—',notes:'Spinal remodelling — not a strength set. 4s descent, neutral spine throughout. Zero Valsalva — breathe throughout.'},
+       {name:'Hollow Body Hold',type:'core',sets:'3',reps:'20–30s',load:'BW',rest:'45s',rpe:'—',notes:'Ribs down throughout. Build toward 30s every session. No arching.'},
      ]},
-    {id:'w2',name:'Lower Strength',icon:'🦵',rpe:'7–8',duration:'55–60 min',venue:'Gym',
-     keyLifts:'Zercher Squat · Leg Press · B-Stance RDL',
-     description:'Zercher (CNS primary) · B-Stance RDL/Leg Press superset · Core · Hanging Core',
+    {id:'w2',name:'Session B — Hinge / Pull',icon:'🏋️',rpe:'7–8',duration:'55–65 min',venue:'Gym',
+     keyLifts:'RDL · Landmine Row · Leg Press',
+     description:'Pre-Strength Activation → RDL priority → Pull/Push → Legs → Plank → Core',
      hevyLink:'',active:true,
      exercises:[
-       {name:'Zercher Squat',type:'main',sets:'4',reps:'3–4',load:'80kg',rest:'4 min',rpe:'8',notes:'Full rest. Heaviest CNS demand. Never add on deload.'},
-       {name:'Zercher Squat — Speed Set',type:'main',sets:'1',reps:'3',load:'50kg',rest:'3 min',rpe:'—',notes:'50% moved explosively.'},
-       {name:'A1 — B-Stance RDL',type:'ss',sets:'3',reps:'8/side',load:'2×16kg DB',rest:'45s',rpe:'7',notes:'Rear foot light touch. 90% load front leg.'},
-       {name:'A2 — Leg Press',type:'ss',sets:'3',reps:'10',load:'150kg',rest:'90s',rpe:'7',notes:'3-sec descent. Rest 90s before next A1.'},
-       {name:'B1 — Dead Bug',type:'core',sets:'3',reps:'6/side',load:'BW',rest:'30s',rpe:'6',notes:'Exhale before every rep. Ribs flat.'},
-       {name:'B2 — Hollow Body Hold',type:'core',sets:'3',reps:'20s',load:'BW',rest:'30s',rpe:'—',notes:'Build to 30s by W4.'},
-       {name:'B3 — Copenhagen Plank',type:'core',sets:'3',reps:'20s/side',load:'BW',rest:'45s',rpe:'—',notes:'Float by W3.'},
+       {name:'Romanian Deadlift (DB)',type:'main',sets:'4',reps:'6–8',load:'Progressive',rest:'90s',rpe:'8',notes:'Stop the set immediately if back rounds — zero exceptions. Double-progression applies.'},
+       {name:'Landmine Row',type:'ss',sets:'4',reps:'8',load:'56–60kg',rest:'60s',rpe:'7',notes:'Pull explosively, control the return.'},
+       {name:'Single Arm Cable Chest Press',type:'ss',sets:'3',reps:'10',load:'12–15kg',rest:'60s',rpe:'8',notes:'Single arm forces core stability — brace hard. Left shoulder: RPE 6 max if it flares.'},
+       {name:'Leg Press',type:'main',sets:'3',reps:'8',load:'150kg+',rest:'2 min',rpe:'7',notes:'Push this every week — safe high-volume leg work. Progressive load.'},
+       {name:'Copenhagen Plank',type:'core',sets:'3',reps:'20–30s/side',load:'BW',rest:'45s',rpe:'—',notes:'Bottom knee down to start, progress to knee up. Adductor-glute synergy, counters left knee-in.'},
+       {name:'Dead Bug (slow)',type:'core',sets:'3',reps:'6/side',load:'BW',rest:'45s',rpe:'6',notes:'Exhale before each rep, ribs flat throughout. Slow and controlled.'},
      ]},
-    {id:'w3',name:'Sprint Session',icon:'⚡',rpe:'9–10',duration:'25–30 min',venue:'Bike or run',
-     keyLifts:'6–8 × 15 sec all-out',
-     description:'Short warm-up → All-out sprints → Brief cool-down',
+    {id:'w3',name:'Sprint / Power Finisher',icon:'⚡',rpe:'10',duration:'20–25 min',venue:'Outdoors / Bike',
+     keyLifts:'Hill Sprint or Broad Jump',
+     description:'Done fresh — before Zone 2 or standalone. Maximal intent every rep or skip it.',
      hevyLink:'',active:true,
      exercises:[
-       {name:'Easy bike or jog — Warm-up',type:'main',sets:'1',reps:'5 min',load:'—',rest:'—',rpe:'4',notes:'Nasal breathing. Get blood moving before sprints.'},
-       {name:'Sprint — All-out effort',type:'main',sets:'6–8',reps:'15 sec',load:'MAX',rest:'90s',rpe:'9–10',notes:'HR below 120 before each rep. Bike: max watts. Run: 90–95% effort. Rest is non-negotiable.'},
-       {name:'Easy walk / spin — Cool-down',type:'main',sets:'1',reps:'3 min',load:'—',rest:'—',rpe:'3',notes:'HR back below 100 before finishing.'},
+       {name:'Hill Sprint (or Broad Jump)',type:'main',sets:'6–8',reps:'10–15s (or ×3)',load:'MAX',rest:'3–4 min',rpe:'10',notes:'Maximal intent every rep or do not bother. Full recovery between reps — this is not conditioning. Zone 2 alone will not make you faster. This is the missing piece.'},
      ]},
-    {id:'w4',name:'Zone 2',icon:'🚴',rpe:'5–6',duration:'50–65 min',venue:'Bike or run',
+    {id:'w4',name:'Zone 2',icon:'🚴',rpe:'5–6',duration:'45–65 min',venue:'Bike or run',
      keyLifts:'120–128 bpm · 100–115W',
-     description:'Zone 2 nasal breathing — build toward 60 min by W5',
+     description:'Bookended by Bike Pre + Bike Post — non-negotiable every ride.',
      hevyLink:'',active:true,
      exercises:[
-       {name:'Zone 2 Bike or Run',type:'skill',sets:'1',reps:'35–50 min',load:'100–115W / 120–128bpm',rest:'—',rpe:'5–6',notes:'100% nasal breathing. Conversational pace. If you lose nasal control, slow down. This is the highest-leverage session of the week.'},
-     ]},
-    {id:'w5',name:'Home Power',icon:'💪',rpe:'6–7',duration:'45–50 min',venue:'Home',
-     keyLifts:'Broad Jump · KB Swing · Correctives',
-     description:'Power → Spinal Reset → Correctives',
-     hevyLink:'',active:true,
-     exercises:[
-       {name:'Broad Jump',type:'main',sets:'4',reps:'3',load:'BW',rest:'60s',rpe:'—',notes:'Max distance. Land soft and tall. No rebounding.'},
-       {name:'KB Swing',type:'main',sets:'3',reps:'10',load:'20–24kg',rest:'60s',rpe:'—',notes:'Explosive hip snap. Power, not cardio.'},
-       {name:'Thoracic Rolling',type:'main',sets:'1',reps:'90s',load:'Roller',rest:'—',rpe:'—',notes:'1 segment at a time.'},
-       {name:'90/90 Breathing',type:'core',sets:'1',reps:'5 min',load:'BW',rest:'—',rpe:'—',notes:'Non-negotiable.'},
-       {name:'Hip Flexor Stretch',type:'main',sets:'1',reps:'90s/side',load:'BW',rest:'—',rpe:'—',notes:'Posterior pelvic tilt. Daily correction.'},
-       {name:'Prone T-Raise',type:'core',sets:'3',reps:'12',load:'BW/2kg',rest:'30s',rpe:'6',notes:'Hold 2 sec at top.'},
-       {name:'Prone Y-Raise',type:'core',sets:'3',reps:'12',load:'BW/2kg',rest:'30s',rpe:'6',notes:'Lower traps. Depress first.'},
-       {name:'Band Shoulder CARs',type:'core',sets:'2',reps:'5/side',load:'Light band',rest:'20s',rpe:'—',notes:'Full shoulder circle.'},
-       {name:'Jefferson Curl',type:'main',sets:'3',reps:'5',load:'5kg',rest:'45s',rpe:'—',notes:'W3+ only.'},
-       {name:'Pallof Press',type:'core',sets:'3',reps:'10/side',load:'Band',rest:'30s',rpe:'6',notes:'Exhale and brace.'},
-     ]},
-    {id:'w6',name:'Upper Skill',icon:'🤸',rpe:'7',duration:'60–65 min',venue:'Gym',
-     keyLifts:'Negatives · Landmine · Bench · Muscle-Up',
-     description:'Chin-Up skill · Press/Row supersets · Bench+Pallof · Muscle-Up · Hanging Core',
-     hevyLink:'',active:true,
-     exercises:[
-       {name:'Negative Chin-Up (5 sec)',type:'skill',sets:'4',reps:'3',load:'BW',rest:'90s',rpe:'7',notes:'Jump up, 5-sec controlled descent.'},
-       {name:'Scapular Pull-Up',type:'skill',sets:'3',reps:'12',load:'BW',rest:'45s',rpe:'6',notes:'Dead hang — depress + retract only.'},
-       {name:'A1 — Single Arm Cable Press',type:'ss',sets:'3',reps:'10/side',load:'12–15kg',rest:'30s',rpe:'7',notes:'Thumb up. Shoulder-safe arc.'},
-       {name:'A2 — Landmine Row',type:'ss',sets:'3',reps:'8',load:'56kg',rest:'60s',rpe:'7',notes:'Explosive pull. Rest 60s before A1.'},
-       {name:'B1 — Lat Pulldown',type:'ss',sets:'3',reps:'8',load:'RPE 7',rest:'30s',rpe:'7',notes:'Wide grip, supinate at bottom.'},
-       {name:'B2 — Landmine Press',type:'ss',sets:'3',reps:'10/side',load:'20kg',rest:'60s',rpe:'7',notes:'Arc pattern. Scapular upward rotation.'},
-       {name:'C1 — Bench Press (ribs-down)',type:'ss',sets:'3',reps:'8',load:'30kg',rest:'30s',rpe:'6',notes:'Feet up. Ribs STAY DOWN.'},
-       {name:'C2 — Pallof Press',type:'ss',sets:'3',reps:'10/side',load:'25kg',rest:'45s',rpe:'6',notes:'Exhale and brace. Anti-rotation.'},
-       {name:'C3 — Cable Lateral Raise',type:'main',sets:'2',reps:'15',load:'8–10kg',rest:'30s',rpe:'6',notes:'Same cue as Upper Strength. Consistent lateral loading both upper days.'},
-       {name:'Muscle-Up Transition (rings)',type:'skill',sets:'3',reps:'3 attempts',load:'BW/band',rest:'60s',rpe:'—',notes:'W1–4: banded. W5–6: full attempt.'},
-       {name:'Ring Support Hold',type:'skill',sets:'3',reps:'15s',load:'BW',rest:'45s',rpe:'—',notes:'Lock out, turn out, straight body.'},
+       {name:'Zone 2 Bike or Run',type:'skill',sets:'1',reps:'35–55 min',load:'100–115W / 120–128bpm',rest:'—',rpe:'5–6',notes:'100% nasal breathing. If you lose nasal control, slow down — do not override it. Bookend with Bike Pre and Bike Post every single ride. Non-negotiable.'},
      ]},
   ]
-};
+}
 
-const APP_SCHEMA_VERSION=37; // bump this when library seed data changes
+const APP_SCHEMA_VERSION=38; // bump this when library seed data changes
 
 function seedIfEmpty(){
   const storedVersion=DB.get('schemaVersion')||0;
@@ -1685,52 +1648,56 @@ function seedIfEmpty(){
   ];
   ensureSeedItems(symptomSeed, 'symptoms');
   const corrGroupsSeed=[
-    {id:'cg1',name:'Morning Correctives',blockId:'morning',active:true,exercises:[
-      {name:'Glute Bridge',type:'main',sets:'2',reps:'15',load:'BW',rest:'20s',rpe:'5',notes:'Squeeze 1 sec at top. Activates glutes before the day begins.'},
-      {name:'Clamshell',type:'main',sets:'2',reps:'15/side',load:'Light band',rest:'20s',rpe:'5',notes:'Hip abduction. Glute medius activation.'},
-      {name:'Banded Clamshell — Left Focus',type:'corrective',sets:'4',reps:'3×20L / 1×10R',load:'Medium band',rest:'20s',rpe:'5',notes:'Band above knees. 2s pause at top. Foot flexed, pelvis stacked — if you feel TFL (front of hip) recruiting, reset.'},
-      {name:'Side-Lying Hip Abduction — Left Focus',type:'corrective',sets:'4',reps:'3×15L / 1×10R',load:'BW',rest:'20s',rpe:'5',notes:'Foot flexed, toe slightly down. 2s pause at top. No hip flexor compensation — feel it in the side of the glute only.'},
-      {name:'90/90 Hip Internal Rotation — Left',type:'corrective',sets:'1',reps:'2 min left only',load:'BW',rest:'—',rpe:'—',notes:'Left side only. Breathe into stretch, let knee drop with gravity on each exhale. Do not force.'},
-      {name:'Left QL Side Bend — Wall',type:'corrective',sets:'1',reps:'90s',load:'BW',rest:'—',rpe:'—',notes:'Side-on to wall, right hip leaning in, left arm overhead. Push left hip outward away from wall. Feel left lower back/waist.'},
-      {name:'Cervical Retraction (chin tuck)',type:'core',sets:'2',reps:'10',load:'BW',rest:'20s',rpe:'—',notes:'Ears over shoulders. Draw chin back. 2-sec hold.'},
+    // ── Morning Joint Prep (daily, before anything else, 12–15 min) ────────
+    {id:'cg1',name:'Morning Joint Prep',blockId:'morning',active:true,exercises:[
+      {name:'Passive Bar Hang',type:'corrective',sets:'2',reps:'30s',load:'BW',rest:'—',rpe:'—',notes:'Full decompression — shoulder, cervical, thoracic. Completely passive, no muscle activation.'},
+      {name:'Active Shoulder Hang',type:'corrective',sets:'2',reps:'20s',load:'BW',rest:'—',rpe:'—',notes:'Scapular depression from dead hang — muscle-up foundation. Active pull-down from dead hang position.'},
+      {name:'Thoracic Extension (roller)',type:'corrective',sets:'1',reps:'8/segment',load:'BW → 5kg plate',rest:'—',rpe:'—',notes:'3 segments T4–T9. Direct kyphosis reversal over months. Never lumbar or cervical.'},
+      {name:'Hip 90/90 Rotation',type:'corrective',sets:'1',reps:'5/side/direction',load:'8–12kg KB',rest:'—',rpe:'—',notes:'Loaded traction — fixes hip rotation → fixes pelvic tilt → fixes spine. The chain starts here.'},
+      {name:'Neck CARs',type:'corrective',sets:'1',reps:'3 circles/direction',load:'BW',rest:'—',rpe:'—',notes:'Own the end range, do not rush. Full circle in both directions.'},
+      {name:'Wrist + Shoulder CARs',type:'corrective',sets:'1',reps:'3 circles/direction each',load:'BW',rest:'—',rpe:'—',notes:'Joint health maintenance. Slow, controlled, end-range ownership.'},
+      {name:'Quadruped Thoracic Rotation',type:'corrective',sets:'1',reps:'8/side',load:'BW',rest:'—',rpe:'5',notes:'Maintains thoracic mobility between loaded sessions. Follow with eyes — rotate from mid-back, not shoulder.'},
+      {name:'Banded Clamshell — Left Focus',type:'corrective',sets:'4',reps:'3×20L / 1×10R',load:'Medium band',rest:'20s',rpe:'5',notes:'Band above knees. 2s pause at top. Foot flexed, pelvis stacked.'},
+      {name:'Side-Lying Hip Abduction — Left Focus',type:'corrective',sets:'4',reps:'3×15L / 1×10R',load:'BW',rest:'20s',rpe:'5',notes:'Foot flexed, toe slightly down. 2s pause. No hip flexor compensation.'},
+      {name:'90/90 Hip IR — Left',type:'corrective',sets:'1',reps:'2 min left only',load:'BW',rest:'—',rpe:'—',notes:'Breathe into stretch, let knee drop with gravity on each exhale. Do not force.'},
+      {name:'Left QL Side Bend — Wall',type:'corrective',sets:'1',reps:'90s',load:'BW',rest:'—',rpe:'—',notes:'Side-on to wall, right hip leaning in, left arm overhead. Push left hip outward.'},
+      {name:'Cervical Retraction',type:'core',sets:'2',reps:'10',load:'BW',rest:'20s',rpe:'—',notes:'Ears over shoulders. Draw chin back. 2-sec hold.'},
     ]},
-    {id:'cg7',name:'Pre-Upper Gym',blockId:'training',active:true,exercises:[
+    // ── Pre-Strength Activation (before every gym session, 5 min) ──────────
+    {id:'cg7',name:'Pre-Strength Activation',blockId:'training',active:true,exercises:[
       {name:'90/90 Breathing',type:'core',sets:'1',reps:'2 min',load:'BW',rest:'—',rpe:'—',notes:'Rib and pelvis reset. Non-negotiable before every gym session.'},
+      {name:'Hip Flexor Stretch (kneeling)',type:'corrective',sets:'1',reps:'60s/side',load:'BW',rest:'—',rpe:'—',notes:'Posterior pelvic tilt at bottom. Direct anterior-tilt correction before loading.'},
       {name:'Serratus Wall Slide',type:'corrective',sets:'2',reps:'10',load:'BW',rest:'20s',rpe:'5',notes:'Ribs DOWN the whole way. Forward shoulder activation.'},
       {name:'Band Shoulder CARs',type:'corrective',sets:'2',reps:'5/side',load:'Light band',rest:'20s',rpe:'—',notes:'Full shoulder circle under tension before loading.'},
-      {name:'Prone W-Raise',type:'corrective',sets:'2',reps:'12',load:'BW',rest:'20s',rpe:'5',notes:'Lower trap activation. Hold 2 sec at top.'},
     ]},
-    {id:'cg8',name:'Pre-Lower Gym',blockId:'training',active:true,exercises:[
-      {name:'90/90 Breathing',type:'core',sets:'1',reps:'2 min',load:'BW',rest:'—',rpe:'—',notes:'Rib and pelvis reset before loading.'},
-      {name:'Glute Bridge',type:'corrective',sets:'2',reps:'15',load:'BW',rest:'20s',rpe:'5',notes:'Squeeze 1 sec at top. Glute activation before squat patterns.'},
-      {name:'Hip Flexor Stretch (kneeling)',type:'corrective',sets:'1',reps:'60s/side',load:'BW',rest:'—',rpe:'—',notes:'Posterior pelvic tilt at bottom. Mandatory before Zercher.'},
-      {name:'Goblet Squat (groove)',type:'corrective',sets:'2',reps:'8',load:'16kg KB',rest:'30s',rpe:'5',notes:'Pattern only — not a strength set. Own the bottom position.'},
-      {name:'Single-Leg Glute Bridge — Left Focus',type:'corrective',sets:'6',reps:'4×10L / 2×10R',load:'BW',rest:'20s',rpe:'6',notes:'Drive through heel. Controlled descent. Progress: 45s hold left without hip drop = problem addressed. Log weekly hold time.'},
-      {name:'Copenhagen Adductor Plank',type:'corrective',sets:'3',reps:'10s each side',load:'BW',rest:'30s',rpe:'6',notes:'Top leg on bench, bottom leg hanging free. Progress: 10s → 20s → 30s over weeks. Counters left knee-in pattern.'},
-    ]},
+    // ── Post-Gym Reset (after every gym session) ───────────────────────────
     {id:'cg9',name:'Post-Gym Reset',blockId:'training',active:true,exercises:[
       {name:'Thoracic Rolling',type:'corrective',sets:'1',reps:'90s',load:'Roller',rest:'—',rpe:'—',notes:'T4–T9 only. Never lumbar or neck.'},
-      {name:'90/90 Breathing',type:'core',sets:'1',reps:'3 min',load:'BW',rest:'—',rpe:'—',notes:'Mandatory post-gym parasympathetic reset. Non-negotiable.'},
+      {name:'90/90 Breathing',type:'core',sets:'1',reps:'3 min',load:'BW',rest:'—',rpe:'—',notes:'Mandatory parasympathetic reset. Non-negotiable after every session.'},
     ]},
-    {id:'cg6',name:'Pre-Zone2 Correctives',blockId:'training',active:true,exercises:[
-      {name:'Glute Bridge',type:'corrective',sets:'2',reps:'15',load:'BW',rest:'20s',rpe:'5',notes:'Squeeze 1 sec. Activates glutes before cardio — mandatory before Zone 2.'},
-      {name:'Clamshell',type:'corrective',sets:'2',reps:'15/side',load:'Light band',rest:'20s',rpe:'5',notes:'Hip abduction. Glute medius. Band just above knees.'},
-      {name:'Leg Swings',type:'corrective',sets:'1',reps:'10/side',load:'BW',rest:'—',rpe:'—',notes:'Front/back and lateral. Joint prep before Zone 2.'},
-      {name:'Banded Lateral Walks',type:'corrective',sets:'1',reps:'20 steps each way',load:'Medium band',rest:'—',rpe:'5',notes:'Band above knees. No trunk sway — movement is pure hip, not waist.'},
-      {name:'Single-Leg Glute Bridge — Left',type:'corrective',sets:'1',reps:'10 slow',load:'BW',rest:'—',rpe:'5',notes:'Before clipping in. Drive through heel.'},
-      {name:'Hip Circles (quadruped)',type:'corrective',sets:'1',reps:'10 circles/side',load:'BW',rest:'—',rpe:'—',notes:'Full range, controlled. Note difference between left and right.'},
+    // ── Bike Pre (before every ride, 5 min — non-negotiable) ───────────────
+    {id:'cg6',name:'Bike Pre',blockId:'training',active:true,exercises:[
+      {name:'Glute Bridge',type:'corrective',sets:'2',reps:'15',load:'BW',rest:'20s',rpe:'5',notes:'Squeeze 1 sec at top — glute activation before the pedal stroke.'},
+      {name:'Clamshell',type:'corrective',sets:'2',reps:'15/side',load:'Light band',rest:'20s',rpe:'5',notes:'Hip abduction — glute medius, left-priority.'},
+      {name:'Leg Swings',type:'corrective',sets:'1',reps:'10/side',load:'BW',rest:'—',rpe:'—',notes:'Front-back and lateral — joint prep.'},
+      {name:'Hip 90/90 Loaded Rotation',type:'corrective',sets:'1',reps:'5/side/direction',load:'8–12kg KB',rest:'—',rpe:'—',notes:'Root-of-the-chain: fixes hip rotation → reduces anterior pelvic tilt → reduces saddle-side compensation.'},
     ]},
-    {id:'cg4',name:'Post-Zone2 Correctives',blockId:'training',active:true,exercises:[
-      {name:'World\'s Greatest Stretch',type:'corrective',sets:'1',reps:'4/side',load:'BW',rest:'15s',rpe:'—',notes:'All three spinal zones. Warm tissue absorbs this far better post-cardio.'},
-      {name:'Hip Flexor Stretch (kneeling)',type:'corrective',sets:'1',reps:'60s/side',load:'BW',rest:'—',rpe:'—',notes:'Posterior pelvic tilt at bottom. Anterior pelvic tilt correction — warm tissue after cardio.'},
-      {name:'Hip 90/90 Transitions',type:'corrective',sets:'1',reps:'8/side',load:'BW',rest:'—',rpe:'—',notes:'Internal and external rotation of the hip. Slow and deliberate. Best done when warm.'},
-      {name:'Jefferson Curl',type:'corrective',sets:'2',reps:'5',load:'5kg',rest:'45s',rpe:'—',notes:'W3+ only. Segmental articulation — not a hamstring stretch. Warm tissue essential.'},
-      {name:'Cervical Retraction',type:'corrective',sets:'3',reps:'10',load:'BW',rest:'20s',rpe:'—',notes:'Forward head correction. 2-sec hold at end range.'},
+    // ── Bike Post (after every ride, 8–10 min) ─────────────────────────────
+    {id:'cg4',name:'Bike Post',blockId:'training',active:true,exercises:[
+      {name:'World\'s Greatest Stretch',type:'corrective',sets:'1',reps:'4/side',load:'BW',rest:'15s',rpe:'—',notes:'All three spinal zones while warm. Tissue absorbs this far better post-cardio.'},
+      {name:'Hip Flexor Stretch (kneeling)',type:'corrective',sets:'1',reps:'60s/side',load:'BW',rest:'—',rpe:'—',notes:'Posterior pelvic tilt at bottom — direct anterior-tilt correction.'},
+      {name:'Hip 90/90 Transitions',type:'corrective',sets:'1',reps:'8/side',load:'BW',rest:'—',rpe:'—',notes:'Slow and deliberate, full internal/external range.'},
+      {name:'Jefferson Curl',type:'corrective',sets:'2',reps:'5',load:'5–8kg',rest:'45s',rpe:'—',notes:'Segmental articulation, not a hamstring stretch. Breathe throughout — zero Valsalva.'},
+      {name:'Cervical Retraction',type:'corrective',sets:'3',reps:'10',load:'BW',rest:'20s',rpe:'—',notes:'2-sec hold at end range — forward head correction.'},
     ]},
+    // ── Pre-Lower Gym additions ────────────────────────────────────────────
+    {id:'cg8',name:'Pre-Lower Gym Extras',blockId:'training',active:true,exercises:[
+      {name:'Single-Leg Glute Bridge — Left Focus',type:'corrective',sets:'6',reps:'4×10L / 2×10R',load:'BW',rest:'20s',rpe:'6',notes:'Drive through heel. Controlled descent. Progress metric: 45s hold left without hip drop = problem addressed.'},
+      {name:'Copenhagen Adductor Plank',type:'corrective',sets:'3',reps:'10s each side',load:'BW',rest:'30s',rpe:'6',notes:'Top leg on bench, bottom leg hanging free. Progress: 10s → 20s → 30s over weeks.'},
+    ]},
+    // ── Afternoon Correctives (archived) ──────────────────────────────────
     {id:'cg5',name:'Afternoon Correctives',blockId:'afternoon',active:false,exercises:[
-      {name:'Cervical Retraction (chin tuck)',type:'corrective',sets:'2',reps:'10',load:'BW',rest:'20s',rpe:'—',notes:'Desk reset. Frequency is the medicine.'},
-      {name:'Hip Flexor Stretch (kneeling)',type:'corrective',sets:'1',reps:'60s/side',load:'BW',rest:'—',rpe:'—',notes:'Anterior pelvic tilt correction mid-day.'},
-      {name:'Jefferson Curl',type:'corrective',sets:'2',reps:'5',load:'5kg',rest:'45s',rpe:'—',notes:'W3+ only. Segmental articulation.'},
+      {name:'Cervical Retraction',type:'corrective',sets:'2',reps:'10',load:'BW',rest:'20s',rpe:'—',notes:'Desk reset.'},
     ]},
   ];
   ensureSeedItems(corrGroupsSeed, 'corrGroups');
@@ -1833,43 +1800,19 @@ function getDirectivesForBlock(blockId){
 
 // ─── SCHEDULE ─────────────────────────────────────────────
 // Dynamic tokens: __supps__, __practices__, __directives__, __corrgroup__
-const TPL={
-  0:{label:'Lower Strength',sub:'Gym · 55–60 min',
-    morning:['__practices__morning','__supps__morning'],
-    training:['__corrgroup__Pre-Lower Gym','__workout__','__corrgroup__Post-Gym Reset'],
-    afternoon:['__supps__afternoon','__practices__afternoon'],
-    evening:['__supps__evening','__practices__evening',WINDDOWN_TOKEN]},
-  1:{label:'Home Power + Mobility',sub:'Home · 45–50 min',
-    morning:['__practices__morning','__supps__morning'],
-    training:['p21','p22'],
-    afternoon:['__supps__afternoon','__practices__afternoon'],
-    evening:['__supps__evening','__practices__evening',WINDDOWN_TOKEN]},
-  2:{label:'Sprint Session',sub:'Bike or run · 25–30 min',
+const TPL={};
+// All days have identical structure — no fixed day assignments
+// User picks workout freely each day
+for(let _d=0;_d<7;_d++){
+  TPL[_d]={
+    label:'Training',
+    sub:'',
     morning:['__practices__morning','__supps__morning'],
     training:['__workout__'],
-    afternoon:['__supps__afternoon','__practices__afternoon'],
-    evening:['__supps__evening','__practices__evening',WINDDOWN_TOKEN]},
-  3:{label:'Zone 2 + Mobility',sub:'Home · 55–65 min',
-    morning:['__practices__morning','__supps__morning'],
-    training:['__workout__'],
-    afternoon:['__supps__afternoon','__practices__afternoon'],
-    evening:['__supps__evening','__practices__evening',WINDDOWN_TOKEN]},
-  4:{label:'Upper Skill + Strength',sub:'Gym · 60–65 min',
-    morning:['__practices__morning','__supps__morning'],
-    training:['__corrgroup__Pre-Upper Gym','__workout__','__corrgroup__Post-Gym Reset'],
-    afternoon:['__supps__afternoon','__practices__afternoon'],
-    evening:['__supps__evening','__practices__evening',WINDDOWN_TOKEN]},
-  5:{label:'Zone 2 + Power',sub:'Home · 55–65 min',
-    morning:['__practices__morning','__supps__morning'],
-    training:['__workout__'],
-    afternoon:['__supps__afternoon','__practices__afternoon'],
-    evening:['__supps__evening','__practices__evening',WINDDOWN_TOKEN]},
-  6:{label:'Upper Strength',sub:'Gym · 60–65 min',
-    morning:['__practices__morning','__supps__morning'],
-    training:['__corrgroup__Pre-Upper Gym','__workout__','__corrgroup__Post-Gym Reset'],
-    afternoon:['__supps__afternoon','__practices__afternoon'],
-    evening:['__supps__evening','__practices__evening',WINDDOWN_TOKEN]}
-};
+    afternoon:['__supps__afternoon'],
+    evening:['__practices__evening','__supps__evening',WINDDOWN_TOKEN]
+  };
+}
 
 // ─── HELPERS ──────────────────────────────────────────────
 function getAllItems(){
@@ -3154,7 +3097,7 @@ function openSession(id){
   const hevyData=getHevyData(viewDate,id);
   const sessionDone=DB.get('sessionDone:'+viewDate);
   const isComplete=sessionDone&&sessionDone.workoutId===id;
-  const GYM_IDS=['w1','w2','w6'];
+  const GYM_IDS=['w1','w2'];
   const isGym=GYM_IDS.includes(id);
   const exes=w.exercises||[];
 
@@ -4073,7 +4016,7 @@ function renderProgContent(){
     const sessionDone=DB.get('sessionDone:'+d);
     if(!sessionDone||!sessionDone.workoutId) return null;
     const wid=sessionDone.workoutId;
-    const GYM_IDS=['w1','w2','w6'];
+    const GYM_IDS=['w1','w2'];
     if(!GYM_IDS.includes(wid)) return null;
     const w=workouts.find(x=>x.id===wid);
     const hevyData=DB.get(`hevy:${d}:${wid}`);
