@@ -453,7 +453,7 @@ textarea::placeholder{color:var(--muted)}
 .lib-tabs::-webkit-scrollbar{display:none}
 .lt{
   flex-shrink:0;padding:10px 14px;text-align:center;cursor:pointer;
-  font-family:var(--fm);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  font-family:var(--fm);font-size:13px;letter-spacing:.08em;text-transform:uppercase;
   color:var(--muted);border-bottom:2px solid transparent;transition:all .2s;
   white-space:nowrap;
 }
@@ -681,7 +681,7 @@ input[type=range].sym-inline::-webkit-slider-thumb{
 .ex-type-core{background:rgba(46,204,113,.12);color:var(--t-green)}
 .ex-card-name{font-size:13px;font-weight:600;color:var(--text);flex:1}
 .ex-table{width:100%;border-collapse:collapse;table-layout:auto}
-.ex-table th{font-family:var(--fm);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:6px 14px;text-align:left;background:rgba(0,0,0,.15)}
+.ex-table th{font-family:var(--fm);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:6px 14px;text-align:left;background:rgba(0,0,0,.15)}
 .ex-table td{font-size:13px;color:var(--text);padding:8px 14px;border-top:1px solid rgba(37,47,63,.5);word-wrap:break-word}
 .ex-table td.load{font-family:var(--fm);font-weight:500;color:var(--accent)}
 .ex-table td.rpe{color:var(--t-blue)}
@@ -751,7 +751,7 @@ input[type=range].sym-inline::-webkit-slider-thumb{
   background:var(--card);border:1px solid var(--border);border-radius:var(--rs);
   padding:10px 12px;
 }
-.sleep-time-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.sleep-time-lbl{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
 .sleep-time-inp{
   background:transparent;border:none;outline:none;
   font-family:var(--fm);font-size:22px;font-weight:600;color:var(--text);
@@ -783,7 +783,7 @@ input[type=range].sym-inline::-webkit-slider-thumb{
 }
 .blk-subtabs::-webkit-scrollbar{display:none}
 .bst{
-  flex-shrink:0;padding:8px 14px;font-family:var(--fm);font-size:11px;
+  flex-shrink:0;padding:8px 14px;font-family:var(--fm);font-size:13px;
   letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
   border-bottom:2px solid transparent;cursor:pointer;
   transition:all .2s;white-space:nowrap;
@@ -792,7 +792,7 @@ input[type=range].sym-inline::-webkit-slider-thumb{
 .bst-badge{
   display:inline-block;min-width:16px;height:16px;border-radius:8px;
   background:rgba(232,168,56,.2);color:var(--accent);
-  font-size:11px;text-align:center;line-height:16px;
+  font-size:13px;text-align:center;line-height:16px;
   margin-left:4px;padding:0 4px;font-weight:600;
 }
 .bst-pane{display:none}
@@ -835,7 +835,8 @@ input[type=range].sym-inline::-webkit-slider-thumb{
 }
 .reorder-toggle:active{opacity:.7}
 .reorder-toggle.active{color:var(--accent)}
-.must-do-task{background:rgba(232,168,56,.04);border-left:2px solid rgba(232,168,56,.4)}
+.sc-card.done-card{border-color:var(--t-green);background:rgba(46,204,113,.08);position:relative}
+.sc-done-badge{position:absolute;top:-7px;right:6px;background:var(--t-green);color:#fff;font-size:12px;font-family:var(--fm);padding:2px 7px;border-radius:8px;font-weight:600}
 .must-star{color:var(--accent);font-size:12px;margin-right:2px}
 .tag-picker{display:flex;flex-wrap:wrap;gap:8px;padding:4px 0}
 .tag-pill{
@@ -969,7 +970,7 @@ input[type=range].sym-inline::-webkit-slider-thumb{
 }
 .routine-card-head:active{opacity:.8}
 .routine-badge{
-  font-family:var(--fm);font-size:11px;letter-spacing:.15em;
+  font-family:var(--fm);font-size:13px;letter-spacing:.15em;
   text-transform:uppercase;padding:3px 9px;border-radius:20px;flex-shrink:0;
 }
 .rb-full{background:rgba(46,204,113,.12);color:var(--t-green)}
@@ -1269,11 +1270,24 @@ input[type=range].sym-inline::-webkit-slider-thumb{
           </div>
         </div>
         <div class="set-section">
+          <p class="set-section-title">Goals & Philosophy</p>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:4px">
+            <p style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px">Goals</p>
+            <p style="font-size:12px;color:var(--text);line-height:1.6;margin-bottom:10px">Stronger · Faster · Greater mobility · Natural spine position over time · Daily nervous system wind-down</p>
+            <p style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px">Philosophy</p>
+            <p style="font-size:12px;color:var(--text);line-height:1.6;margin-bottom:6px">Challenge the body to adapt — never babysit it into staying weak. Nothing on the list is optional. Nothing is done at half-effort.</p>
+            <p style="font-size:12px;color:var(--muted);line-height:1.6">
+              <span style="color:var(--text);font-weight:500">Nalewanyj:</span> minimum effective dose, double-progression on every main lift, no junk volume.<br>
+              <span style="color:var(--text);font-weight:500">Tanner Schuck:</span> daily sub-max GTG skill work compounds over months — consistency beats heroics.<br>
+              <span style="color:var(--text);font-weight:500">Movesmethod:</span> loaded end-range work is capacity-building, not stretching — CARs belong in the programme.<br>
+              <span style="color:var(--text);font-weight:500">Adriene:</span> breath-led wind-down every single night — consistency, not intensity, is the entire point.
+            </p>
+          </div>
           <p class="set-section-title">About</p>
           <div class="set-row">
             <div class="set-row-info">
               <p class="set-row-label">Nelson Protocol</p>
-              <p class="set-row-sub">Version 30 · Built June 2026</p>
+              <p class="set-row-sub">Version 36 · July 2026</p>
             </div>
           </div>
           <div class="set-row">
@@ -1700,7 +1714,29 @@ function seedIfEmpty(){
       {name:'Cervical Retraction',type:'corrective',sets:'2',reps:'10',load:'BW',rest:'20s',rpe:'—',notes:'Desk reset.'},
     ]},
   ];
-  ensureSeedItems(corrGroupsSeed, 'corrGroups');
+  // Force-update corrective groups — if stored name differs from seed, replace with seed version
+  // This handles groups that were renamed (e.g. Pre-Zone2 → Bike Pre)
+  const storedCGs=DB.get('corrGroups')||[];
+  if(storedCGs.length){
+    let changed=false;
+    const seedById=Object.fromEntries(corrGroupsSeed.map(g=>[g.id,g]));
+    const merged=storedCGs.map(g=>{
+      const seed=seedById[g.id];
+      if(seed&&g.name!==seed.name){
+        // Name changed in seed — replace with seed version but preserve active flag if user set it
+        changed=true;
+        return{...seed,active:g.active!==undefined?g.active:seed.active};
+      }
+      return g;
+    });
+    // Add any seed groups not in stored
+    corrGroupsSeed.forEach(sg=>{
+      if(!merged.find(g=>g.id===sg.id)){merged.push(sg);changed=true;}
+    });
+    if(changed) DB.set('corrGroups',merged);
+  } else {
+    DB.set('corrGroups',corrGroupsSeed);
+  }
   // corrGroups handled by ensureSeedItems below
 
   // Seed optionalExtras from the OPTIONAL_EXTRAS constant
@@ -2765,8 +2801,9 @@ function countBlockItems(blockId){
     // Workout counts as 1 item — done when session is marked complete
     if(id==='__workout__'){
       total++;
+      const sessionsDone=DB.get('sessionsDone:'+viewDate)||[];
       const sessionDone=DB.get('sessionDone:'+viewDate);
-      if(sessionDone) done++;
+      if(sessionsDone.length>0||(sessionDone&&sessionDone.workoutId)) done++;
       return;
     }
     if(id.startsWith('__corr__')||id.startsWith('__wind__')){
@@ -2855,13 +2892,19 @@ function updateRing(){
 function renderWQ(){
   const workouts=DB.get('workouts')||[];
   const asgn=getTodayWorkout();
-  let cards=workouts.filter(w=>w.active).map(w=>`
-    <div class="sc-card ${w.id===asgn?'asgn':''}" onclick="assignW('${w.id}')">
+  const sessionsDone=DB.get('sessionsDone:'+viewDate)||[];
+  const sessionDone=DB.get('sessionDone:'+viewDate); // legacy
+  const doneIds=new Set([...sessionsDone.map(s=>s.workoutId),(sessionDone?.workoutId||null)].filter(Boolean));
+  let cards=workouts.filter(w=>w.active).map(w=>{
+    const isDone=doneIds.has(w.id);
+    return`<div class="sc-card ${isDone?'done-card':w.id===asgn?'asgn':''}" onclick="assignW('${w.id}')">
+      ${isDone?'<span class="sc-done-badge">✓ Done</span>':''}
       <p class="sc-n">${w.icon} ${w.name}</p>
       <p class="sc-m">${w.venue} · ${w.duration}</p>
-    </div>`).join('');
+    </div>`;
+  }).join('');
   return `<div class="wq-area">
-    <p class="wq-label">Tap to assign · tap assigned card to view full session</p>
+    <p class="wq-label">Tap to open · tap again to view session · multiple per day supported</p>
     <div class="wq-tray">${cards}</div>
   </div>`;
 }
@@ -3019,20 +3062,27 @@ function toggleECI(id){
 }
 
 function assignW(id){
-  const current=getTodayWorkout();
-  if(current===id){openSession(id);return;}
-  setTodayWorkout(id);renderBlocks();
+  setTodayWorkout(id);
+  openSession(id);
 }
 
 // Mark gym session complete — triggers Hevy auto-fetch
 function completeSession(workoutId){
-  const k='sessionDone:'+viewDate;
-  DB.set(k,{workoutId,completedAt:new Date().toISOString()});
+  // Support multiple sessions per day — store as array
+  const k='sessionsDone:'+viewDate;
+  const existing=DB.get(k)||[];
+  // Update if already exists, otherwise append
+  const idx=existing.findIndex(s=>s.workoutId===workoutId);
+  const entry={workoutId,completedAt:new Date().toISOString()};
+  if(idx>=0) existing[idx]=entry;
+  else existing.push(entry);
+  DB.set(k,existing);
+  // Keep legacy key for backwards compatibility with log/progress screens
+  DB.set('sessionDone:'+viewDate,entry);
   toast('Session complete — fetching Hevy data…');
   const meta=getMeta();
   if(meta.hevyKey){
     fetchHevyLastWorkout(workoutId,meta.hevyKey).then(()=>{
-      // Reopen session sheet with fresh data + progression
       openSession(workoutId);
     });
   } else {
@@ -3095,8 +3145,9 @@ function openSession(id){
   const progKey=`prog:${id}:w${week}`;
   const progOverrides=DB.get(progKey)||{};
   const hevyData=getHevyData(viewDate,id);
-  const sessionDone=DB.get('sessionDone:'+viewDate);
-  const isComplete=sessionDone&&sessionDone.workoutId===id;
+  const sessionsDone=DB.get('sessionsDone:'+viewDate)||[];
+  const sessionDone=DB.get('sessionDone:'+viewDate); // legacy fallback
+  const isComplete=sessionsDone.some(s=>s.workoutId===id)||(sessionDone&&sessionDone.workoutId===id);
   const GYM_IDS=['w1','w2'];
   const isGym=GYM_IDS.includes(id);
   const exes=w.exercises||[];
@@ -3813,30 +3864,33 @@ function renderLogContent(date){
     </div>`;
   }
 
-  // Training completed
-  const sessionDone=DB.get('sessionDone:'+date);
+  // Training completed — all sessions for the day
   const workouts=DB.get('workouts')||[];
-  if(sessionDone&&sessionDone.workoutId){
-    const w=workouts.find(x=>x.id===sessionDone.workoutId);
-    const sessNotes=DB.get(`sessnotes:${date}:${sessionDone.workoutId}`)||'';
-    const hevyData=DB.get(`hevy:${date}:${sessionDone.workoutId}`);
-    html+=`<div class="slabel">Training</div>
-    <div class="sym-summary" style="padding:10px 14px">
-      <div class="sym-sum-row"><span class="sym-sum-lbl">${w?w.icon+' '+w.name:'Session'}</span><span class="sym-sum-val" style="width:auto;color:var(--t-green)">✓ Done</span></div>
-      ${hevyData?`<div class="sym-sum-row"><span class="sym-sum-lbl">Hevy synced</span><span class="sym-sum-val" style="width:auto">${(hevyData.exercises||[]).length} exercises</span></div>`:''}
-      ${sessNotes?`<p style="font-size:12px;color:var(--muted);margin-top:6px;font-style:italic">${sessNotes}</p>`:''}
-    </div>`;
-    // Show Hevy sets if available
-    if(hevyData&&hevyData.exercises){
-      html+=`<div class="slabel" style="margin-top:-4px">Hevy Data</div>
-      <div class="sym-summary" style="padding:10px 14px">
-        ${(hevyData.exercises||[]).map(ex=>`
-          <div style="margin-bottom:8px">
-            <p style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px">${ex.title}</p>
-            ${(ex.sets||[]).map((s,i)=>`<p style="font-size:11px;color:var(--muted);line-height:1.6">S${i+1}: ${s.weight_kg?s.weight_kg+'kg':'BW'} × ${s.reps||'—'} reps${s.rpe?' · RPE '+s.rpe:''}</p>`).join('')}
-          </div>`).join('')}
+  const sessionsDoneLog=DB.get('sessionsDone:'+date)||[];
+  const sessionDone=DB.get('sessionDone:'+date); // legacy
+  const allSessions=[...sessionsDoneLog];
+  if(sessionDone&&!sessionsDoneLog.find(s=>s.workoutId===sessionDone.workoutId)) allSessions.push(sessionDone);
+  if(allSessions.length){
+    html+=`<div class="slabel">Training</div>`;
+    allSessions.forEach(session=>{
+      const w=workouts.find(x=>x.id===session.workoutId);
+      const sessNotes=DB.get(`sessnotes:${date}:${session.workoutId}`)||'';
+      const hevyData=DB.get(`hevy:${date}:${session.workoutId}`);
+      html+=`<div class="sym-summary" style="padding:10px 14px;margin-bottom:4px">
+        <div class="sym-sum-row"><span class="sym-sum-lbl">${w?w.icon+' '+w.name:'Session'}</span><span class="sym-sum-val" style="width:auto;color:var(--t-green)">✓ Done</span></div>
+        ${hevyData?`<div class="sym-sum-row"><span class="sym-sum-lbl">Hevy synced</span><span class="sym-sum-val" style="width:auto">${(hevyData.exercises||[]).length} exercises</span></div>`:''}
+        ${sessNotes?`<p style="font-size:12px;color:var(--muted);margin-top:6px;font-style:italic">${sessNotes}</p>`:''}
       </div>`;
-    }
+      if(hevyData&&hevyData.exercises){
+        html+=`<div class="sym-summary" style="padding:10px 14px;margin-top:-4px;margin-bottom:4px">
+          ${(hevyData.exercises||[]).map(ex=>`
+            <div style="margin-bottom:8px">
+              <p style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px">${ex.title}</p>
+              ${(ex.sets||[]).map((s,i)=>`<p style="font-size:11px;color:var(--muted);line-height:1.6">S${i+1}: ${s.weight_kg?s.weight_kg+'kg':'BW'} × ${s.reps||'—'} reps${s.rpe?' · RPE '+s.rpe:''}</p>`).join('')}
+            </div>`).join('')}
+        </div>`;
+      }
+    });
   }
 
   // Correctives completed
